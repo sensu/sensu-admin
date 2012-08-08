@@ -1,0 +1,33 @@
+- @events.each_with_index do |event,i|
+  %div{:class => "modal hide", :id => "event-#{i}"}
+    %div.modal-header
+      %h3= "#{event.client} -- #{event.check}"
+    %div.modal-body
+      %p= "Output: " + event.output
+      %p= "Occurrences: " + event.occurrences.to_s
+      %p= "Status: " + format_status(event.status)
+      %p= "Occured: " + Time.at(event.issued).to_s
+      %p= "Flapping: " + event.flapping.to_s
+    %div.modal-footer
+      %p Silence check
+      %p Silence client
+      %p Resolve
+
+%table.table.table-striped
+  %thead
+    %th Client
+    %th Check
+    %th Output
+    %th #
+    %th Status 
+    %th Occurred
+      
+  %tbody
+    - @events.each_with_index do |event,i|
+      %tr{:rel => "#event-#{i}"}
+        %td= event.client
+        %td= event.check
+        %td= format_output(event.output)
+        %td= event.occurrences
+        %td= format_status(event.status)
+        %td= time_ago_in_words(Time.at(event.issued)) + " ago"

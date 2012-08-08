@@ -1,0 +1,18 @@
+%table.table.table-striped
+  %thead
+    %th ENV
+    %th Name
+    %th Address
+    %th Subscriptions
+    %th Primary Role
+    %th Last checkin
+      
+  %tbody
+    - Client.all.each do |client|
+      %tr
+        %td= client.environment
+        %td= client.name
+        %td= client.address
+        %td= format_subscriptions(client.subscriptions)
+        %td= client.primary_role
+        %td= time_ago_in_words(Time.at(client.timestamp))
