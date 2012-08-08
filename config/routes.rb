@@ -4,6 +4,7 @@ SensuAdmin::Application.routes.draw do
   resources :clients
   match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
   resources :events
+  resources :stashes
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

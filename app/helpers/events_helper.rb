@@ -11,7 +11,7 @@ module EventsHelper
   end
 
   def format_output(output)
-    maxlen = 100
+    maxlen = 80
     (output.length > maxlen) ? "#{output[0..(maxlen - 3)]}..." : output
   end
 end

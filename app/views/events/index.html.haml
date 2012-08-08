@@ -20,6 +20,8 @@
     %th Output
     %th #
     %th Status 
+    %th ChkSil
+    %th CliSil
     %th Occurred
       
   %tbody
@@ -30,4 +32,6 @@
         %td.console-output{:rel => event.output}= format_output(event.output)
         %td= event.occurrences
         %td= format_status(event.status)
+        %td.console-output{:rel => event.check_silenced}= !event.check_silenced.nil?
+        %td.console-output{:rel => event.client_silenced}= !event.client_silenced.nil?
         %td= time_ago_in_words(Time.at(event.issued)) + " ago"

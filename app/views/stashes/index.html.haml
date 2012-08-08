@@ -1,0 +1,14 @@
+%table.table.table-striped
+  %thead
+    %th Key
+    %th Description
+    %th Owner
+    %th Time
+      
+  %tbody
+    - @stashes.each do |k,v|
+      %tr
+        %td= k
+        %td= v['description']
+        %td= v['owner']
+        %td= time_ago_in_words(Time.at(v['timestamp'])) + " ago"
