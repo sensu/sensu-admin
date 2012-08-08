@@ -2,6 +2,7 @@ SensuAdmin::Application.routes.draw do
   devise_for :users
   resources :users
   resources :clients
+  match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
   resources :events
 
   # The priority is based upon order of creation:

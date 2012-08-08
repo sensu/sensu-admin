@@ -5,3 +5,5 @@ events and clients and can silence events etc.
 
 == Getting Started
 
+rake db:migrate
+rake db:seed

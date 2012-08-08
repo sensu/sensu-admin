@@ -1,6 +1,27 @@
 class Event < ActiveResource::Base
   include ActiveResource::Extend::WithoutExtension
-  self.site = "http://localhost:4567/"
+  self.site = APP_CONFIG['api']
+
+  def resolve
+    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => self.client, :check => self.check }.to_json
+    if post.code == 201
+      true
+    else
+      false
+    end
+  end
+
+  #
+  # This is due to the API not being very Restful and ActiveResource not using .find very well
+  #
+  def self.manual_resolve(client, check)
+    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => client, :check => check }.to_json
+    if post.code == 201
+      true
+    else
+      false
+    end
+  end
 
   def client
     self.attributes['client']

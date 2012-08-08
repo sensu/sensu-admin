@@ -5,3 +5,13 @@
 $ ->
   $('tr').click ->
     $($(this).attr("rel")).modal("show");
+  $('.console-output').qtip({ content: { attr: 'rel' } });
+  clicked = $('.resolve-event').click ->
+    $.post $(this).attr("rel"),
+      (data) ->
+        if data
+          clicked.text("Resolved");
+          clicked.css("color", "green");
+        else
+          clicked.text("Failed to resolve");
+          clicked.css("color", "red");

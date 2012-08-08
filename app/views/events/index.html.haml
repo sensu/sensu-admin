@@ -11,7 +11,7 @@
     %div.modal-footer
       %p Silence check
       %p Silence client
-      %p Resolve
+      %a.resolve-event{:rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
 %table.table.table-striped
   %thead
@@ -27,7 +27,7 @@
       %tr{:rel => "#event-#{i}"}
         %td= event.client
         %td= event.check
-        %td= format_output(event.output)
+        %td.console-output{:rel => event.output}= format_output(event.output)
         %td= event.occurrences
         %td= format_status(event.status)
         %td= time_ago_in_words(Time.at(event.issued)) + " ago"
