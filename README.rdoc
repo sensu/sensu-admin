@@ -7,3 +7,13 @@ events and clients and can silence events etc.
 
 rake db:migrate
 rake db:seed
+
+== TODO
+* Make silencing available from events table
+* Auto-Refresh events table
+* Bring in filter from sensu-dashboard
+* Coloring for events table
+* Audit logging
+* Settings for api, rabbitmq, etc
+* RabbitMQ dashboard, health of everything
+* Sort events by error status (crit, warn, etc)

@@ -10,8 +10,9 @@ class EventsController < ApplicationController
       if stashes.include?("silence/#{event.client}/#{event.check}")
         event.attributes['check_silenced'] = stashes["silence/#{event.client}/#{event.check}"]
       end
+      event.client_attributes = Client.get(event.client).attributes
     end
-    @events = events
+    @events = events.sort!{|x,y| x.status <=> y.status}
   end
 
   def resolve

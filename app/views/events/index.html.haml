@@ -26,6 +26,10 @@
           %tr
             %td Client Silenced
             %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
+          - event.client_attributes.each do |k,v|
+            %tr
+              %td= k
+              %td= v
     %div.modal-footer
       /
       / TODO: This needs to be moved into partials probably
@@ -43,11 +47,12 @@
 
 %table.table.table-striped
   %thead
+    %th Status 
+    %th ENV
     %th Client
     %th Check
     %th Output
     %th #
-    %th Status 
     %th ChkSil
     %th CliSil
     %th Occurred
@@ -55,11 +60,24 @@
   %tbody
     - @events.each_with_index do |event,i|
       %tr{:id => "row-event-#{i}", :rel => "#event-#{i}"}
+        %td
+          / TODO: Make this into a helper that renders using haml_tag
+          - if event.status == 1
+            %span.badge.badge-important
+              = format_status(event.status)
+          - elsif event.status == 2
+            %span.badge.badge-info
+              = format_status(event.status)
+          - else
+            %span.badge.badge-inverse
+              = format_status(event.status)
+        %td= event.client_attributes['environment']
         %td= event.client
         %td= event.check
-        %td.popupx{:title => "Check Output", 'data-content' => event.output}= format_output(event.output)
+        %td.popupx{:title => "Check Output", 'data-content' => event.output}
+          = format_output(event.output)
+            
         %td= event.occurrences
-        %td= format_status(event.status)
         %td.popupx{:rel => "#{event.client}_#{event.check}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(event.check_silenced)}
           - display_silenced(event.check_silenced, event, :check)
         %td.popupx{:rel => "#{event.client}_popup_info", :title => "Client Silence", 'data-content' => silenced_output(event.client_silenced)}
