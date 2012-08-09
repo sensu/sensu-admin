@@ -1,6 +1,6 @@
 class Client < ActiveResource::Base
   include ActiveResource::Extend::WithoutExtension
-  self.site = "http://localhost:4567/"
+  self.site = APP_CONFIG['api']
 
 
   def self.get(client)
