@@ -15,14 +15,21 @@ module EventsHelper
     (output.length > maxlen) ? "#{output[0..(maxlen - 3)]}..." : output
   end
 
-  def silenced_output(data)
-    (data.nil?) ? "Not Silenced" : "#{data['description']} - #{data['owner']} - #{data['timestamp']}"
+  def silenced_output(check, client)
+    # TODO: This should be all haml_tag's
+    output = ""
+    output << "Check silenced by:<br>" unless check.nil?
+    output << "#{check['description']} - #{check['owner']} - #{check['timestamp']}<br>" unless check.nil?
+    output << "Client silenced by:<br>" unless client.nil?
+    output << "#{client['description']} - #{client['owner']} - #{client['timestamp']}<br>" unless client.nil?
+    output << "Not Silenced" if client.nil? && check.nil?
+    output
   end
 
-  def display_silenced(silenced, event, type)
-    volume_display = (silenced.nil? ? "up" : "off")
-    rel = (type == :client ? "#{event.client}_icon_silenced" : "#{event.client}_#{event.check}_icon_silenced")
-    haml_tag(:i, {:class => "icon-volume-#{volume_display}", :rel => rel })
+  def display_silenced(event, i)
+    # If client_silenced is nil, that means its not silenced
+    voldisp = ((event.client_silenced.nil? && event.check_silenced.nil?) ? "up" : "off")
+    haml_tag(:i, {:class => "icon-volume-#{voldisp}", :rel => "icon_silenced_#{i}"})
   end
 
   def is_nil?(obj)

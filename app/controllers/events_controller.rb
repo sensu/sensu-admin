@@ -1,16 +1,20 @@
 class EventsController < ApplicationController
   def index
+
     events = Event.all
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
-    puts "stashes: #{stashes.inspect}"
+    cli = {}
+    Client.all.each do |client|
+      cli[client.attributes['name']] = client.attributes
+    end
     events.each do |event|
       if stashes.include?("silence/#{event.client}")
-        event.attributes['client_silenced'] = stashes["silence/#{event.client}"]
+        event.client_silenced = stashes["silence/#{event.client}"]
       end
       if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.attributes['check_silenced'] = stashes["silence/#{event.client}/#{event.check}"]
+        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
       end
-      event.client_attributes = Client.get(event.client).attributes
+      event.client_attributes = cli[event.client]
     end
     @events = events.sort!{|x,y| x.status <=> y.status}
   end
