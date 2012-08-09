@@ -11,4 +11,4 @@
         %td= k
         %td= v['description']
         %td= v['owner']
-        %td= time_ago_in_words(Time.at(v['timestamp'])) + " ago"
+        %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"

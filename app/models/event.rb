@@ -23,6 +23,16 @@ class Event < ActiveResource::Base
     end
   end
 
+  def self.silence_client(client, description, username)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => username, :timestamp => Time.now }.to_json
+    post.code == 201
+  end
+
+  def self.silence_check(client, check, description, username)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => username, :timestamp => Time.now }.to_json
+    post.code == 201
+  end
+
   def client
     self.attributes['client']
   end

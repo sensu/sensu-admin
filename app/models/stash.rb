@@ -8,7 +8,8 @@ class Stash < ActiveResource::Base
     stash_keys = Stash.all.collect do |stash|
       stash.attributes.keys[0]
     end
-    post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
-    JSON.parse(post.body).to_hash
+    return [] if stash_keys.empty?
+      post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
+      JSON.parse(post.body).to_hash
   end
 end

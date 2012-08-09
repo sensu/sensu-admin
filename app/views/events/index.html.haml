@@ -1,17 +1,53 @@
 - @events.each_with_index do |event,i|
   %div{:class => "modal hide", :id => "event-#{i}"}
     %div.modal-header
-      %h3= "#{event.client} -- #{event.check}"
+      %h3= "Client: #{event.client} Check: #{event.check}"
     %div.modal-body
-      %p= "Output: " + event.output
-      %p= "Occurrences: " + event.occurrences.to_s
-      %p= "Status: " + format_status(event.status)
-      %p= "Occured: " + Time.at(event.issued).to_s
-      %p= "Flapping: " + event.flapping.to_s
+      %table.table.table-striped.table-bordered
+        %tbody
+          %tr
+            %td Output
+            %td= event.output
+          %tr
+            %td Occurrences
+            %td= event.occurrences
+          %tr
+            %td Status
+            %td= format_status(event.status)
+          %tr
+            %td Occured
+            %td= Time.at(event.issued)
+          %tr
+            %td Flapping
+            %td= event.flapping
+          %tr
+            %td Check Silenced
+            %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : event.check_silenced.to_s)
+          %tr
+            %td Client Silenced
+            %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
     %div.modal-footer
-      %p Silence check
-      %p Silence client
-      %a.resolve-event{:rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
+      /
+      / TODO: This needs to be moved into partials
+      /
+      - if event.check_silenced.nil?
+        %input.input-xlarge.silence-input{:id => "input_#{event.client}_#{event.check}", :title => "#{event.client}_#{event.check}", :rel => "Silence Check", :type => "text", :value => "#{(event.check_silenced.nil? ? "" : event.check_silenced['description'])}", :placeholder => "Silence Check Description"}
+        %a.silence-event{:id => "silence_#{event.client}_#{event.check}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/silence"}
+        %a.unsilence-event.hidden{:id => "unsilence_#{event.client}_#{event.check}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+      - else
+        %input.input-xlarge.silence-input.hidden{:id => "input_#{event.client}_#{event.check}", :title => "#{event.client}_#{event.check}", :rel => "Silence Check", :type => "text", :value => "#{(event.check_silenced.nil? ? "" : event.check_silenced['description'])}", :placeholder => "Silence Check Description"}
+        %a.silence-event.hidden{:id => "silence_#{event.client}_#{event.check}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/silence"}
+        %a.unsilence-event{:id => "unsilence_#{event.client}_#{event.check}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+      - if event.client_silenced.nil?
+        %input.input-xlarge.silence-input{:id => "input_#{event.client}", :title => "#{event.client}", :rel => "Silence Client", :type => "text", :value => "#{(event.client_silenced.nil? ? "" : event.client_silenced['description'])}", :placeholder => "Silence Client Description"} 
+        %a.silence-event{:id => "silence_#{event.client}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/silence"}
+        %a.unsilence-event.hidden{:id => "unsilence_#{event.client}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/unsilence"} Unsilence Client
+      - else
+        %input.input-xlarge.silence-input.hidden{:id => "input_#{event.client}", :title => "#{event.client}", :rel => "Silence Client", :type => "text", :value => "#{(event.client_silenced.nil? ? "" : event.client_silenced['description'])}", :placeholder => "Silence Client Description"} 
+        %a.silence-event.hidden{:id => "silence_#{event.client}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/silence"}
+        %a.unsilence-event{:id => "unsilence_#{event.client}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/unsilence"} Unsilence Client
+      %div
+        %a.resolve-event{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
 %table.table.table-striped
   %thead
@@ -26,12 +62,14 @@
       
   %tbody
     - @events.each_with_index do |event,i|
-      %tr{:rel => "#event-#{i}"}
+      %tr{:id => "row-event-#{i}", :rel => "#event-#{i}"}
         %td= event.client
         %td= event.check
-        %td.console-output{:rel => event.output}= format_output(event.output)
+        %td.popupx{:title => "Check Output", 'data-content' => event.output}= format_output(event.output)
         %td= event.occurrences
         %td= format_status(event.status)
-        %td.console-output{:rel => event.check_silenced}= !event.check_silenced.nil?
-        %td.console-output{:rel => event.client_silenced}= !event.client_silenced.nil?
+        %td.popupx{:title => "Check Silence", 'data-content' => silenced_output(event.check_silenced)}
+          - display_silenced(event.check_silenced, event, :check)
+        %td.popupx{:title => "Client Silence", 'data-content' => silenced_output(event.client_silenced)}
+          - display_silenced(event.client_silenced, event, :client)
         %td= time_ago_in_words(Time.at(event.issued)) + " ago"

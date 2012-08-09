@@ -3,15 +3,32 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 $ ->
+  $('.silence-input').keypress ->
+    $('#silence_' + $(this).attr("title")).text($(this).attr("rel"));
   $('tr').click ->
     $($(this).attr("rel")).modal("show");
-  $('.console-output').qtip({ content: { attr: 'rel' } });
-  clicked = $('.resolve-event').click ->
+  $('.popupx').popover();
+  resolve = $('.resolve-event').click ->
+    self = $(this);
     $.post $(this).attr("rel"),
       (data) ->
         if data
-          clicked.text("Resolved");
-          clicked.css("color", "green");
+          $(self).text("Resolved");
+          $($(self).attr("misc")).hide();
+          $(self).css("color", "green");
         else
-          clicked.text("Failed to resolve");
-          clicked.css("color", "red");
+          $(self).text("Failed to resolve");
+          $(self).css("color", "red");
+  $('.silence-event').click ->
+    self = $(this);
+    $.post $(this).attr("rel"), { 'description': $('#input_' + $(this).attr("misc")).val()},
+      (data) ->
+        if data
+          $(self).hide();
+          $('#input_' + $(self).attr("misc")).hide();
+          $('#unsilence_' + $(self).attr("misc")).show();
+          $('td[rel="' + $(self).attr("misc") + '_column_silenced"]').text("true");
+          $('i[rel="' + $(self).attr("misc") + '_icon_silenced"]').attr("class", "icon-volume-off");
+        else
+          $(self).text("Failed to silence");
+          $(self).css("color", "red");

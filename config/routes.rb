@@ -3,6 +3,10 @@ SensuAdmin::Application.routes.draw do
   resources :users
   resources :clients
   match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
+  match 'events/:client/silence' => 'events#silence_client', :via => :post
+  match 'events/:client/:check/silence' => 'events#silence_check', :via => :post
+  match 'events/:client/unsilence' => 'events#unsilence_client', :via => :post
+  match 'events/:client/:check/unsilence' => 'events#unsilence_check', :via => :post
   resources :events
   resources :stashes
 
