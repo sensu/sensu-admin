@@ -1,7 +1,7 @@
 class Client < ActiveResource::Base
   include ActiveResource::Extend::WithoutExtension
   self.site = APP_CONFIG['api']
-
+  self.collection_name = 'clients'
 
   def self.get(client)
     self.collection_name = "client"

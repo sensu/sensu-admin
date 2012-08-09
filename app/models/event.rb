@@ -80,4 +80,8 @@ class Event < ActiveResource::Base
   def check_silenced
     self.attributes['check_silenced']
   end
+
+  def client_attributes
+    self.attributes['client_attributes']
+  end
 end
