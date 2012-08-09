@@ -3,8 +3,9 @@ class Api < ActiveResource::Base
   #self.site = "http://localhost:4567/"
   #self.format = SensuJSONFormatter.new
   #self.collection_name = "info"
+
   def self.status
-    JSON.parse(open("http://localhost:4567/info").read)
+    JSON.parse(open("#{APP_CONFIG['api']}/info").read)
   end
 
   def self.version

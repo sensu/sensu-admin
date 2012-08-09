@@ -13,6 +13,6 @@
         %td= client.environment
         %td= client.name
         %td= client.address
-        %td= format_subscriptions(client.subscriptions)
+        %td.popupx{'data-content' => client.subscriptions}= format_subscriptions(client.subscriptions)
         %td= client.primary_role
         %td= time_ago_in_words(Time.at(client.timestamp))

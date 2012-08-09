@@ -1,6 +1,49 @@
 class Event < ActiveResource::Base
   include ActiveResource::Extend::WithoutExtension
-  self.site = "http://localhost:4567/"
+  self.site = APP_CONFIG['api']
+
+  def resolve
+    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => self.client, :check => self.check }.to_json
+    if post.code == 201
+      true
+    else
+      false
+    end
+  end
+
+  #
+  # This is due to the API not being very Restful and ActiveResource not using .find very well
+  #
+  def self.manual_resolve(client, check)
+    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => client, :check => check }.to_json
+    if post.code == 201
+      true
+    else
+      false
+    end
+  end
+
+  def self.silence_client(client, description, username)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
+    post.code == 201
+  end
+
+  def self.silence_check(client, check, description, username)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
+    post.code == 201
+  end
+
+  def self.unsilence_client(client)
+    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}"
+    puts "unsilence client Post code: #{post.code}"
+    post.code == 204
+  end
+
+  def self.unsilence_check(client, check)
+    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}"
+    puts "unsilence check Post code: #{post.code}"
+    post.code == 204
+  end
 
   def client
     self.attributes['client']
@@ -28,5 +71,13 @@ class Event < ActiveResource::Base
 
   def output
     self.attributes['output']
+  end
+
+  def client_silenced
+    self.attributes['client_silenced']
+  end
+
+  def check_silenced
+    self.attributes['check_silenced']
   end
 end

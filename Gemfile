@@ -13,6 +13,7 @@ gem 'devise'
 #API Gems
 require 'json'
 require 'open-uri'
+require 'rest-client'
 
 #Design gems
 gem 'bootstrap-sass'
