@@ -25,4 +25,5 @@
                 = yield
             %footer
       %center
-        %p= "API Version: #{Api.version} -- Redis: #{Api.redis_health} -- RabbitMQ: #{Api.rabbitmq_health}"
+        - api = Api.status
+        %p= "API Version: #{api['sensu']['version']} -- Redis: #{api['health']['redis']} -- RabbitMQ: #{api['health']['rabbitmq']}"

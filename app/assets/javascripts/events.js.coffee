@@ -6,11 +6,14 @@ $ ->
   $('[hidden="true"]').hide();
   $('[hidden="false"]').show();
   $('.silence-input').keypress ->
-    $('#silence_' + $(this).attr("title")).text($(this).attr("rel"));
-    $('[client_silence=client_silencer_' + $(this).attr("index_id") + ']').text($(this).attr("rel"));
-  $('tr').click ->
-    $($(this).attr("rel")).modal("show");
-  $('.popupx').popover();
+    $('[control="silence_submit_' + $(this).attr("misc") + '"]').show();
+  $('td.moreinfo').click ->
+    $($(this).closest('tr').attr("rel")).modal("show");
+  $('.rowpopup').popover({ 
+    'placement': 'bottom',
+    'template': '<div class="popover"><div class="arrow"></div><div class="popover-inner wide-popover"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+    });
+  $('.columnpopup').popover({'placement': 'left'});
   resolve = $('.resolve-event').click ->
     self = $(this);
     $.post $(this).attr("rel"),
@@ -22,31 +25,33 @@ $ ->
         else
           $(self).text("Failed to resolve");
           $(self).css("color", "red");
+
   $('.silence-event').click ->
+    self = $(this);
+    $("#event-" + $(self).attr("index_id")).modal("hide");
+    $("#modal_" + $(self).attr("misc")).modal("show");
+  $('.silence-submit-event').click ->
     self = $(this);
     $.post $(this).attr("rel"), { 'description': $('#input_' + $(self).attr("misc")).val()},
       (data) ->
         if data
-          $(self).hide();
-          $('#input_' + $(self).attr("misc")).hide();
-          $('#unsilence_' + $(self).attr("misc")).show();
-          $('#silence_' + $(self).attr("misc")).hide();
+          $("#modal_" + $(self).attr("misc")).modal("hide");
+          $('[control="unsilence_' + $(self).attr("misc") + '"]').show();
+          $('[control="silence_' + $(self).attr("misc") + '"]').hide();
           $('td[rel="' + $(self).attr("misc") + '_popup_info"]').attr('data-content', $('#input_' + $(self).attr("misc")).val());
           $('td[rel="' + $(self).attr("misc") + '_column_silenced"]').text($('#input_' + $(self).attr("misc")).val());
-          $('i[rel="' + $(self).attr("misc") + '_icon_silenced"]').attr("class", "icon-volume-off");
+          $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-off");
         else
-          alert("Failed to unsilence...");
-  $('.unsilence-event').click ->
+          alert("Failed to silence...");
+  $('.unsilence-submit-event').click ->
     self = $(this);
     $.post $(this).attr("rel"),
       (data) ->
         if data
-          $(self).hide();
-          $('#input_' + $(self).attr("misc")).show();
-          $('#unsilence_' + $(self).attr("misc")).hide();
-          $('#silence_' + $(self).attr("misc")).show();
+          $('[control="unsilence_' + $(self).attr("misc") + '"]').hide();
+          $('[control="silence_' + $(self).attr("misc") + '"]').show();
           $('td[rel="' + $(self).attr("misc") + '_popup_info"]').attr('data-content', "No");
           $('td[rel="' + $(self).attr("misc") + '_column_silenced"]').text("No");
-          $('i[rel="' + $(self).attr("misc") + '_icon_silenced"]').attr("class", "icon-volume-up");
+          $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-up");
         else
           alert("Failed to unsilence...");
