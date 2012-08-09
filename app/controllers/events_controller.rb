@@ -34,4 +34,18 @@ class EventsController < ApplicationController
       format.json { render :json => resp.to_s }
     end
   end
+
+  def unsilence_client
+    resp = Event.unsilence_client(params[:client])
+    respond_to do |format|
+      format.json { render :json => resp.to_s }
+    end
+  end
+
+  def unsilence_check
+    resp = Event.unsilence_check(params[:client], params[:check])
+    respond_to do |format|
+      format.json { render :json => resp.to_s }
+    end
+  end
 end

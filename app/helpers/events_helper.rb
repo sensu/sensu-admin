@@ -24,4 +24,12 @@ module EventsHelper
     rel = (type == :client ? "#{event.client}_icon_silenced" : "#{event.client}_#{event.check}_icon_silenced")
     haml_tag(:i, {:class => "icon-volume-#{volume_display}", :rel => rel })
   end
+
+  def is_nil?(obj)
+    obj.nil? ? "true" : "false"
+  end
+
+  def not_nil?(obj)
+    obj.nil? ? "false" : "true"
+  end
 end

@@ -1,14 +1,25 @@
+%div.btn-group.pull-right
+  %button.btn.btn-danger.dropdown-toggle{:id => "delete-all-stashes-button", 'data-toggle' => 'dropdown'}
+    Delete All Stashes
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      %a{:id => 'delete-all-stashes', :rel => "#{request.url}/delete_all_stashes", :href => "#"} Yes, Nuke it
+
 %table.table.table-striped
   %thead
     %th Key
     %th Description
     %th Owner
     %th Time
+    %th Action
       
   %tbody
-    - @stashes.each do |k,v|
-      %tr
+    - @stashes.each_with_index do |(k,v), i|
+      %tr{:id => "stash-#{i}"}
         %td= k
         %td= v['description']
         %td= v['owner']
         %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"
+        %td
+          %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "#{request.url}/delete_stash"} Delete

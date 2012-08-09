@@ -12,4 +12,16 @@ class Stash < ActiveResource::Base
       post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
       JSON.parse(post.body).to_hash
   end
+
+  def self.delete_stash(key)
+    post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
+    post.code == 204
+  end
+
+  def self.delete_all_stashes
+    Stash.stashes.keys.each do |key|
+      post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
+    end
+    true
+  end
 end

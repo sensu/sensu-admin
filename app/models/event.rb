@@ -24,13 +24,25 @@ class Event < ActiveResource::Base
   end
 
   def self.silence_client(client, description, username)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => username, :timestamp => Time.now }.to_json
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
     post.code == 201
   end
 
   def self.silence_check(client, check, description, username)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => username, :timestamp => Time.now }.to_json
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
     post.code == 201
+  end
+
+  def self.unsilence_client(client)
+    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}"
+    puts "unsilence client Post code: #{post.code}"
+    post.code == 204
+  end
+
+  def self.unsilence_check(client, check)
+    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}"
+    puts "unsilence check Post code: #{post.code}"
+    post.code == 204
   end
 
   def client
