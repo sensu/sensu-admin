@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120807181910) do
+ActiveRecord::Schema.define(:version => 20120809204302) do
+
+  create_table "logs", :force => true do |t|
+    t.string   "client"
+    t.string   "check"
+    t.string   "silence_type"
+    t.string   "action_type"
+    t.string   "environment"
+    t.text     "output"
+    t.text     "reason"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.datetime "created_at",                             :null => false

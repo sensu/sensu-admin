@@ -20,35 +20,36 @@ class EventsController < ApplicationController
   end
 
   def resolve
-    resp = Event.manual_resolve(params[:client], params[:check])
+    resp = Event.manual_resolve(params[:client], params[:check], current_user)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
   end
 
   def silence_client
-    resp = Event.silence_client(params[:client], params[:description], current_user.email)
+    puts "PARAMS: #{params.inspect}"
+    resp = Event.silence_client(params[:client], params[:description], current_user)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
   end
 
   def silence_check
-    resp = Event.silence_check(params[:client], params[:check], params[:description], current_user.email)
+    resp = Event.silence_check(params[:client], params[:check], params[:description], current_user)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
   end
 
   def unsilence_client
-    resp = Event.unsilence_client(params[:client])
+    resp = Event.unsilence_client(params[:client], current_user)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
   end
 
   def unsilence_check
-    resp = Event.unsilence_check(params[:client], params[:check])
+    resp = Event.unsilence_check(params[:client], params[:check], current_user)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end

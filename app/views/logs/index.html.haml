@@ -1,0 +1,37 @@
+/ => Log(id: integer, client: string, check: string, silence_type: string, action_type: string, 
+/environment: string, output: text, reason: text, status: string, user_id: integer, created_at: datetime, updated_at: datetime) 
+%table.table.table-striped
+  %thead
+    %th Status
+    %th ENV
+    %th Client
+    %th Check
+    %th Type
+    %th Action
+    %th Output 
+    %th Reason
+    %th User
+    %th Done At
+      
+  %tbody
+    - @logs.each do |log|
+      %tr
+        %td
+          - if log.status == "1"
+            %span.badge.badge-important
+              = format_status(log.status)
+          - elsif log.status == "2"
+            %span.badge.badge-warning
+              = format_status(log.status)
+          - else
+            %span.badge.badge-inverse
+              = format_status(log.status)
+        %td= log.environment
+        %td= log.client
+        %td= log.check
+        %td= log.silence_type
+        %td= log.action_type
+        %td= format_output(log.output, 45)
+        %td= log.reason
+        %td= log.user.email
+        %td= time_ago_in_words(log.created_at)

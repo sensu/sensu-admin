@@ -11,6 +11,7 @@ SensuAdmin::Application.routes.draw do
   match 'stashes/delete_all_stashes' => 'stashes#delete_all_stashes', :via => :post
   resources :events
   resources :stashes
+  resources :logs
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
