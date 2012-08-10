@@ -7,7 +7,7 @@
       %h3 Enter reason
       %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
     %div.modal-footer
-      %a.silence-submit-event{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/silence"} Submit
+      %a.silence-submit-event{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
   - unless processed_clients.include?(event.client)
     - processed_clients << event.client
     %div{:class => "modal hide", :id => "modal_#{event.client}"}
@@ -17,11 +17,13 @@
         %h3 Enter reason
         %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Client Reason"}
       %div.modal-footer
-        %a.silence-submit-event{:control => "silence_submit_#{event.client}", :client_silence => "client_silencer_#{i}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/silence"} Submit
+        %a.silence-submit-event{:control => "silence_submit_#{event.client}", :client_silence => "client_silencer_#{i}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
   %div{:class => "modal hide", :id => "event-#{i}"}
     %div.modal-header
-      %h3= "Client: #{event.client} Check: #{event.check}"
+      %h3== Client: #{event.client} 
+      %h3== Check: #{event.check}
     %div.modal-body
+      %h3 Check Output
       %table.table.table-striped.table-bordered
         %tbody
           %tr
@@ -45,6 +47,11 @@
           %tr
             %td Client Silenced
             %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
+      %br
+      %br
+      %h3 Client Attributes
+      %table.table.table-striped.table-bordered
+        %tbody
           - event.client_attributes.each do |k,v|
             %tr
               %td= k
@@ -54,11 +61,11 @@
       / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
       /
       %div
-        %a.silence-event{:control => "silence_#{event.client}_#{event.check}", :hidden => not_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/silence"} Silence Check
-        %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :hidden => is_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+        %a.silence-event{:control => "silence_#{event.client}_#{event.check}", :hidden => not_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Silence Check
+        %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :hidden => is_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
       %div
-        %a.silence-event{:control => "silence_#{event.client}", :hidden => not_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/silence"} Silence Client
-        %a.unsilence-submit-event{:control => "unsilence_#{event.client}", :hidden => is_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/unsilence"} Unsilence Client
+        %a.silence-event{:control => "silence_#{event.client}", :hidden => not_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Silence Client
+        %a.unsilence-submit-event{:control => "unsilence_#{event.client}", :hidden => is_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
       %div
         %a.resolve-event{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
@@ -76,40 +83,39 @@
       
   %tbody
     - @events.each_with_index do |event,i|
-      %tr{:id => "row-event-#{i}", :rel => "#event-#{i}"}
+      %tr.events{:id => "row-event-#{i}", :rel => "#event-#{i}", :type => "#{event.status}"}
         %td.moreinfo
           / TODO: Make this into a helper that renders using haml_tag
           - if event.status == 1
-            %span.badge.badge-important
+            %span.badge.badge-warning
               = format_status(event.status)
           - elsif event.status == 2
-            %span.badge.badge-warning
+            %span.badge.badge-important
               = format_status(event.status)
           - else
             %span.badge.badge-inverse
               = format_status(event.status)
         %td.moreinfo= event.client_attributes['environment']
-        %td.moreinfo= event.client
+        %td.moreinfo= format_output(event.client, 12)
         %td.moreinfo= event.check
-        %td.moreinfo.rowpopup{:title => "Check Output", 'data-content' => event.output}
+        %td.moreinfo{:title => "Check Output", 'data-content' => event.output}
           = format_output(event.output)
-          %i.icon-chevron-right
-        %td.columnpopup{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(event.check_silenced, event.client_silenced)}
+        %td{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(event.check_silenced, event.client_silenced)}
           %div.btn-group
             %button.btn.btn-info.dropdown-toggle{'data-toggle' => 'dropdown'}
               - display_silenced(event, i)
               %span.caret
             %ul.dropdown-menu
               %li
-                %a.silence-event{:control => "silence_#{event.client}", :index_id => "#{i}", :hidden => not_nil?(event.client_silenced), :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/silence", :href => "#"} Silence Client
+                %a.silence-event{:control => "silence_#{event.client}", :index_id => "#{i}", :hidden => not_nil?(event.client_silenced), :misc => "#{event.client}", :rel => "/events/#{event.client}/silence", :href => "#"} Silence Client
               %li
-                %a.unsilence-submit-event{:control => "unsilence_#{event.client}", :index_id => "#{i}", :hidden => is_nil?(event.client_silenced), :misc => "#{event.client}", :rel => "#{request.url}/#{event.client}/unsilence", :href => "#"} UnSilence Client
+                %a.unsilence-submit-event{:control => "unsilence_#{event.client}", :index_id => "#{i}", :hidden => is_nil?(event.client_silenced), :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence", :href => "#"} UnSilence Client
               %li
-                %a.silence-event{:control => "silence_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => not_nil?(event.check_silenced), :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/silence", :href => "#"} Silence Check
+                %a.silence-event{:control => "silence_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => not_nil?(event.check_silenced), :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence", :href => "#"} Silence Check
               %li
-                %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => is_nil?(event.check_silenced), :misc => "#{event.client}_#{event.check}", :rel => "#{request.url}/#{event.client}/#{event.check}/unsilence", :href => "#"} UnSilence Check
+                %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => is_nil?(event.check_silenced), :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence", :href => "#"} UnSilence Check
               %li
-                %a.resolve-event{:misc => "#row-event-#{i}", :index_id => "#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
+                %a.resolve-event{:misc => "#row-event-#{i}", :index_id => "#{i}", :rel => "/events/#{event.client}/#{event.check}/resolve"} Resolve
         %td= time_ago_in_words(Time.at(event.issued)) + " ago"
         %td.moreinfo= event.occurrences
         %td.moreinfo

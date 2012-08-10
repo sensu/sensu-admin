@@ -17,10 +17,10 @@
     - @logs.each do |log|
       %tr
         %td
-          - if log.status == "1"
+          - if log.status == "2"
             %span.badge.badge-important
               = format_status(log.status)
-          - elsif log.status == "2"
+          - elsif log.status == "1"
             %span.badge.badge-warning
               = format_status(log.status)
           - else

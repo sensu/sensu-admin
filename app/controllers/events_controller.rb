@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
   def index
   end
-
   def events_table
     events = Event.all
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
@@ -18,13 +17,16 @@ class EventsController < ApplicationController
       end
       event.client_attributes = cli[event.client]
     end
-    @events = events.sort!{|x,y| x.status <=> y.status}
-
-    #format.json { render :json => {:success => true, :html => (render_to_string 'events/table')} }
-    #format.json { render :partial => 'events/table'}
-    #format.html {}
+    #
+    # Could use a custom sorter here, as Critical is == 2 and Warning == 1
+    #
+    return_events = []
+    events.sort!{|x,y| x.issued <=> y.issued }
+    events.each{|event| return_events.push(event) if event.status == 2}
+    events.each{|event| return_events.push(event) if event.status == 1}
+    events.each{|event| return_events.push(event) if event.status != 2 && event.status != 1}
+    @events = return_events
     render :json => { :data => render_to_string(:action => '_table', :layout => false) }
-
   end
 
   def resolve
