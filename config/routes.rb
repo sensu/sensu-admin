@@ -12,6 +12,7 @@ SensuAdmin::Application.routes.draw do
   resources :events
   resources :stashes
   resources :logs
+  resources :checks
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
