@@ -12,7 +12,5 @@ rake db:seed
 * Bring in filter from sensu-dashboard
 * Settings for api, rabbitmq, etc
 * RabbitMQ dashboard, health of everything
-* Clients has modal window for client attributes
-* Checks page w/ expansion
 * Get popup_info data content from ajax instead of trying to set it
 * Get silencing info from ajax instead of trying to set it
