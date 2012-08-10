@@ -3,6 +3,19 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 $ ->
+  updateEventTable = ()->
+    $('#updating_event_list').show(1000);
+    $.get "/events/events_table",
+      (data) ->
+        $("#main_events_table").empty();
+        $("#main_events_table").append(data['data']);
+        $('#updating_event_list').hide(1000);
+        $('#event_list_updated').show(1000);
+        $('#event_list_updated').hide(2000);
+  updateEventTable();
+  setInterval () ->
+    updateEventTable();
+  , 60000
   $('[hidden="true"]').hide();
   $('[hidden="false"]').show();
   $('.silence-input').keypress ->
