@@ -3,3 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
   $('.subpopover').popover({'placement': 'bottom'});
+  $('td.moreinfo').click ->
+    $($(this).closest('tr').attr("rel")).modal("show");

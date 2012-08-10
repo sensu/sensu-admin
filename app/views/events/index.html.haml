@@ -3,8 +3,9 @@
   {
     width: 640px;
   }
-%div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "display: none;"}
-  %p Updating event list...
-%div.alert.alert-success.fade.in{:id => "event_list_updated", :style => "display: none;"}
-  %p Event list has been updated!
+%div{:style => "height: 35px; width: 300px;"}
+  %div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "display: none;"}
+    %p Updating event list...
+  %div.alert.alert-success.fade.in{:id => "event_list_updated", :style => "display: none;"}
+    %p Event list has been updated!
 %div{:id => "main_events_table"}

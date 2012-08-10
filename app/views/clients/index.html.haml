@@ -1,3 +1,15 @@
+- @clients.each do |client|
+  %div{:class => "modal hide", :id => "client_modal_#{client.name}"}
+    %div.modal-header
+      %h3== Client Attributes for #{client.name}
+    %div.modal-body
+      %table.table.table-striped.table-bordered
+        %tbody
+          - client.attributes.each do |k,v|
+            %tr
+              %td= k
+              %td= v
+
 %table.table.table-striped
   %thead
     %th ENV
@@ -6,13 +18,18 @@
     %th Subscriptions
     %th Primary Role
     %th Last checkin
+    %th
       
   %tbody
-    - Client.all.each do |client|
-      %tr
-        %td= client.environment
-        %td= client.name
-        %td= client.address
-        %td.subpopover{'data-content' => client.subscriptions.join(', ')}= format_subscriptions(client.subscriptions)
-        %td= client.primary_role
-        %td= time_ago_in_words(Time.at(client.timestamp))
+    - @clients.each do |client|
+      %tr{:rel => "#client_modal_#{client.name}"}
+        %td.moreinfo= client.environment
+        %td.moreinfo= client.name
+        %td.moreinfo= client.address
+        %td.subpopover{'data-content' => client.subscriptions.join(', ')}
+          = format_subscriptions(client.subscriptions)
+          %i.icon-chevron-right
+        %td.moreinfo= client.primary_role
+        %td.moreinfo= time_ago_in_words(Time.at(client.timestamp))
+        %td.moreinfo
+          %i.icon-zoom-in

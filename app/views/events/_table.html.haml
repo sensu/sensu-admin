@@ -72,6 +72,7 @@
     %th Silenced
     %th Occurred
     %th #
+    %th
       
   %tbody
     - @events.each_with_index do |event,i|
@@ -92,6 +93,7 @@
         %td.moreinfo= event.check
         %td.moreinfo.rowpopup{:title => "Check Output", 'data-content' => event.output}
           = format_output(event.output)
+          %i.icon-chevron-right
         %td.columnpopup{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(event.check_silenced, event.client_silenced)}
           %div.btn-group
             %button.btn.btn-info.dropdown-toggle{'data-toggle' => 'dropdown'}
@@ -110,3 +112,5 @@
                 %a.resolve-event{:misc => "#row-event-#{i}", :index_id => "#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
         %td= time_ago_in_words(Time.at(event.issued)) + " ago"
         %td.moreinfo= event.occurrences
+        %td.moreinfo
+          %i.icon-zoom-in
