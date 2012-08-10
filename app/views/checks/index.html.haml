@@ -1,0 +1,12 @@
+- @checks.each do |check|
+  / Maybe switch to an accordion so we have nice up/down arrows for collapse or expand
+  %h2
+    %div
+      %a.table-linker{:rel => "#{check.name}"}= check.name
+
+  %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
+    %tbody
+      - check.attributes.each do |k,v|
+        %tr
+          %td= k
+          %td= v

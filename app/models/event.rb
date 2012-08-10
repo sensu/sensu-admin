@@ -4,44 +4,47 @@ class Event < ActiveResource::Base
 
   def resolve
     post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => self.client, :check => self.check }.to_json
-    if post.code == 201
-      true
-    else
-      false
-    end
+    post.code == 201
+  end
+
+  def self.single(query)
+    Event.all.select{|event| query == "#{event.client}_#{event.check}"}[0]
   end
 
   #
   # This is due to the API not being very Restful and ActiveResource not using .find very well
   #
-  def self.manual_resolve(client, check)
+  def self.manual_resolve(client, check, user)
+    event = Event.single("#{client}_#{check}")
+    Log.log(user, client, "resolve", nil, event)
     post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => client, :check => check }.to_json
-    if post.code == 201
-      true
-    else
-      false
-    end
-  end
-
-  def self.silence_client(client, description, username)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
     post.code == 201
   end
 
-  def self.silence_check(client, check, description, username)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => username, :timestamp => Time.now.to_i }.to_json
+  def self.silence_client(client, description, user)
+    Log.log(user, client, "silence", description)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => user.email, :timestamp => Time.now.to_i }.to_json
     post.code == 201
   end
 
-  def self.unsilence_client(client)
+  def self.silence_check(client, check, description, user)
+    event = Event.single("#{client}_#{check}")
+    puts "DESCRIPTION IS: #{description}"
+    Log.log(user, client, "silence", description, event)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => user.email, :timestamp => Time.now.to_i }.to_json
+    post.code == 201
+  end
+
+  def self.unsilence_client(client, user)
+    Log.log(user, client, "unsilence")
     post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}"
-    puts "unsilence client Post code: #{post.code}"
     post.code == 204
   end
 
-  def self.unsilence_check(client, check)
+  def self.unsilence_check(client, check, user)
+    event = Event.single("#{client}_#{check}")
+    Log.log(user, client, "unsilence", nil, event)
     post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}"
-    puts "unsilence check Post code: #{post.code}"
     post.code == 204
   end
 

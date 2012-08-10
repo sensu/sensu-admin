@@ -32,7 +32,7 @@ $ ->
     $("#modal_" + $(self).attr("misc")).modal("show");
   $('.silence-submit-event').click ->
     self = $(this);
-    $.post $(this).attr("rel"), { 'description': $('#input_' + $(self).attr("misc")).val()},
+    $.post $(this).attr("rel"), { 'description': $('#text_input_' + $(self).attr("misc")).val()},
       (data) ->
         if data
           $("#modal_" + $(self).attr("misc")).modal("hide");
