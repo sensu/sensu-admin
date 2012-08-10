@@ -2,8 +2,10 @@
   - @checks.each do |check|
     %div.accordion-group
       %div.accordion-heading
-        %a.accordion-toggle{:href => "#collapse_#{check.name}", 'data-toggle' => 'collapse', 'data-parent' => '#check_accordion'}= check.name
-      %div.accordion-body.collapse{:id => "collapse_#{check.name}"}
+        %a.accordion-toggle{:href => "#collapse_#{check.name}", 'data-toggle' => 'collapse', 'data-parent' => '#check_accordion'}
+          = check.name
+          %i.icon-plus{:id => "icon_toggle_#{check.name}"}
+      %div.accordion-body.collapse{:rel => "#{check.name}", :id => "collapse_#{check.name}"}
         %div.accordion-inner
           %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
             %tbody

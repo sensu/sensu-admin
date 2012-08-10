@@ -2,3 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
+  $('.collapse').on 'show', ->
+    $('#icon_toggle_' + $(this).attr("rel")).attr('class', 'icon-minus');
+  $('.collapse').on 'hide', ->
+    $('#icon_toggle_' + $(this).attr("rel")).attr('class', 'icon-plus');
