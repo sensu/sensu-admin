@@ -87,3 +87,10 @@ $ ->
             $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-up");
           else
             alert("Failed to unsilence...");
+    search_val = $('#events_search').val();
+    $('#primary_events_table').tableFilter({ additionalFilterTriggers: [$('#events_search')]});
+    $('#events_search').val(search_val);
+    $('#primary_events_table').tableFilterApplyFilterValues();
+    $('#primary_events_table').tableFilterRefresh();
+    $('.filters').hide();
+    

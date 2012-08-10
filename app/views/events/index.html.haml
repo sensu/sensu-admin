@@ -7,8 +7,11 @@
     width:800px;
     left:40%;
   }
-%div{:style => "width: 740px; height: 22px; float: right;"}
-  %div{:style => "width: 350px; float: left;"}
+%div{:style => "width: 400px; float: left;"}
+  Search:
+  %input{:id => "events_search", :type => "text"}
+%div{:style => "width: 750px; height: 22px; float: left;"}
+  %div{:style => "width: 350px; float: right;"}
     %div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "height: 12px; display: none;"}
       %p Updating event list...
     %div.alert.alert-error.fade.in{:id => "error_event_list", :style => "height: 12px; display: none;"}

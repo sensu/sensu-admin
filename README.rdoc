@@ -12,5 +12,3 @@ rake db:seed
 * Bring in filter from sensu-dashboard
 * Settings for api, rabbitmq, etc
 * RabbitMQ dashboard, health of everything
-* Get popup_info data content from ajax instead of trying to set it
-* Get silencing info from ajax instead of trying to set it

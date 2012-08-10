@@ -69,17 +69,17 @@
       %div
         %a.resolve-event{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
-%table.table.table-striped
+%table.table.table-striped{:id => "primary_events_table"}
   %thead
     %th Status 
     %th ENV
     %th Client
     %th Check
     %th Output
-    %th Silenced
-    %th Occurred
-    %th #
-    %th
+    %th{:filter => "false"} Silenced
+    %th{:filter => "false"} Occurred
+    %th{:filter => "false"} #
+    %th{:filter => "false"}
       
   %tbody
     - @events.each_with_index do |event,i|
