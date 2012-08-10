@@ -1,12 +1,13 @@
-- @checks.each do |check|
-  / Maybe switch to an accordion so we have nice up/down arrows for collapse or expand
-  %h2
-    %div
-      %a.table-linker{:rel => "#{check.name}"}= check.name
-
-  %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
-    %tbody
-      - check.attributes.each do |k,v|
-        %tr
-          %td= k
-          %td= v
+%div.accordion{:id => 'check_accordion'}
+  - @checks.each do |check|
+    %div.accordion-group
+      %div.accordion-heading
+        %a.accordion-toggle{:href => "#collapse_#{check.name}", 'data-toggle' => 'collapse', 'data-parent' => '#check_accordion'}= check.name
+      %div.accordion-body.collapse{:id => "collapse_#{check.name}"}
+        %div.accordion-inner
+          %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
+            %tbody
+              - check.attributes.each do |k,v|
+                %tr
+                  %td= k
+                  %td= v
