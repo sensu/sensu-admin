@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   def index
+  end
 
+  def events_table
     events = Event.all
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
     cli = {}
@@ -17,6 +19,12 @@ class EventsController < ApplicationController
       event.client_attributes = cli[event.client]
     end
     @events = events.sort!{|x,y| x.status <=> y.status}
+
+    #format.json { render :json => {:success => true, :html => (render_to_string 'events/table')} }
+    #format.json { render :partial => 'events/table'}
+    #format.html {}
+    render :json => { :data => render_to_string(:action => '_table', :layout => false) }
+
   end
 
   def resolve
