@@ -2,9 +2,9 @@ module ApplicationHelper
   def format_status(status)
     case status
     when 1, "1"
-      "Critical"
-    when 2, "2"
       "Warning"
+    when 2, "2"
+      "Critical"
     else
       "Unknown"
     end
