@@ -3,9 +3,14 @@
   {
     width: 640px;
   }
-%div{:style => "height: 35px; width: 300px;"}
-  %div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "display: none;"}
-    %p Updating event list...
-  %div.alert.alert-success.fade.in{:id => "event_list_updated", :style => "display: none;"}
-    %p Event list has been updated!
+  .modal {
+    width:800px;
+    left:40%;
+  }
+%center
+  %div{:style => "height: 20px; width: 375px; margin-top:-10px;"}
+    %div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "height: 12px; display: none;"}
+      %p Updating event list...
+    %div.alert.alert-error.fade.in{:id => "error_event_list", :style => "height: 12px; display: none;"}
+      %p Event list couldnt be updated.. Retrying.
 %div{:id => "main_events_table"}

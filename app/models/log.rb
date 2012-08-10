@@ -3,7 +3,7 @@ class Log < ActiveRecord::Base
   belongs_to :user
 
   def self.log(user, client_name, type, reason = nil, event = nil)
-    client = Client.get(client_name)
+    client = Client.single(client_name)
     if event.nil?
       #Client only event
       user.logs.create!(:client => client.name,

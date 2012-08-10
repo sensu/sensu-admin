@@ -3,9 +3,14 @@ class Client < ActiveResource::Base
   self.site = APP_CONFIG['api']
   self.collection_name = 'clients'
 
-  def self.get(client)
-    self.collection_name = "client"
-    self.find(client)
+
+  #
+  # You cant use a .get here or GET /client/<id> because then you have
+  # to set .collection_name to 'client' and it will blow up subsequent
+  # queries when Client.all is called
+  #
+  def self.single(query)
+    Client.all.select{|client| client.name == query}[0]
   end
 
   def subscriptions
