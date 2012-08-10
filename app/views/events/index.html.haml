@@ -7,10 +7,14 @@
     width:800px;
     left:40%;
   }
-%center
-  %div{:style => "height: 20px; width: 375px; margin-top:-10px;"}
+%div{:style => "width: 740px; float: right;"}
+  %div{:style => "width: 350px; float: left;"}
     %div.alert.alert-info.fade.in{:id => "updating_event_list", :style => "height: 12px; display: none;"}
       %p Updating event list...
     %div.alert.alert-error.fade.in{:id => "error_event_list", :style => "height: 12px; display: none;"}
       %p Event list couldnt be updated.. Retrying.
+  %div{:style => "width: 100px; float: right;"}
+    Critical Only?
+    %input{:type => "checkbox", :id => "critical_only_checkbox", :value => "no"}
+%right
 %div{:id => "main_events_table"}

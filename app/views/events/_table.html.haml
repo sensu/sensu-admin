@@ -83,7 +83,7 @@
       
   %tbody
     - @events.each_with_index do |event,i|
-      %tr{:id => "row-event-#{i}", :rel => "#event-#{i}"}
+      %tr.events{:id => "row-event-#{i}", :rel => "#event-#{i}", :type => "#{event.status}"}
         %td.moreinfo
           / TODO: Make this into a helper that renders using haml_tag
           - if event.status == 1

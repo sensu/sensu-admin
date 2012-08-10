@@ -25,6 +25,13 @@ $ ->
     updateEventTable();
   , 60000
   runTableHooks = ()->
+    $('#critical_only_checkbox').change ->
+      if $('#critical_only_checkbox').is(':checked')
+        $('tr.events[type!="2"]').hide();
+      else
+        $('tr.events[type!="2"]').show();
+    if $('#critical_only_checkbox').is(':checked')
+      $('tr.events[type!="2"]').hide();
     $('.modal').on 'shown', ->
       modal_shown = true
     $('.modal').on 'hide', ->
