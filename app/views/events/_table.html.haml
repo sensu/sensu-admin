@@ -2,7 +2,7 @@
   - processed_clients = []
   %div{:class => "modal hide", :id => "modal_#{event.client}_#{event.check}"}
     %div.modal-header
-      %h3== Silence Check #{event.check} on client #{event.client}
+      %h3== Silence check #{event.check} on client #{event.client}
     %div.modal-body
       %h3 Enter reason
       %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
@@ -69,17 +69,17 @@
       %div
         %a.resolve-event{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
-%table.table.table-striped
+%table.table.table-striped{:id => "primary_events_table"}
   %thead
     %th Status 
     %th ENV
     %th Client
     %th Check
     %th Output
-    %th Silenced
-    %th Occurred
-    %th #
-    %th
+    %th{:filter => "false"} Action
+    %th{:filter => "false"} Occurred
+    %th{:filter => "false"} #
+    %th{:filter => "false"}
       
   %tbody
     - @events.each_with_index do |event,i|
@@ -103,8 +103,11 @@
         %td{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(event.check_silenced, event.client_silenced)}
           %div.btn-group
             %button.btn.btn-info.dropdown-toggle{'data-toggle' => 'dropdown'}
-              - display_silenced(event, i)
-              %span.caret
+              %div{:style => "width: 25px"}
+                %div{:style => "float: left;"}
+                  - display_silenced(event, i)
+                %div{:style => "float: right;"}
+                  %span.caret
             %ul.dropdown-menu
               %li
                 %a.silence-event{:control => "silence_#{event.client}", :index_id => "#{i}", :hidden => not_nil?(event.client_silenced), :misc => "#{event.client}", :rel => "/events/#{event.client}/silence", :href => "#"} Silence Client

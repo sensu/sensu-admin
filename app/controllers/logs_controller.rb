@@ -1,5 +1,5 @@
 class LogsController < ApplicationController
   def index
-    @logs = Log.find(:all, :order => 'created_at DESC')
+    @logs = Log.paginate(:page => params[:page], :per_page => 20).order('created_at DESC')
   end
 end

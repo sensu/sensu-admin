@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
+  #
+  def attempt_set_password(params)
+    update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
+  end
 end

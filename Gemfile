@@ -18,6 +18,7 @@ require 'rest-client'
 #Design gems
 gem 'bootstrap-sass'
 gem 'haml-rails'
+gem 'bootstrap-will_paginate'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -12,5 +12,9 @@ rake db:seed
 * Bring in filter from sensu-dashboard
 * Settings for api, rabbitmq, etc
 * RabbitMQ dashboard, health of everything
-* Get popup_info data content from ajax instead of trying to set it
-* Get silencing info from ajax instead of trying to set it
+* permission
+* add/remove users
+* On silence submission grey out submit then show when you can submit
+* On event modal show buttons for silence/unsilence
+* Fix event refreshing so its centered
+* Check submission from checks page
