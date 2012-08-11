@@ -1,7 +1,7 @@
 - @clients.each do |client|
   %div{:class => "modal hide", :id => "client_modal_#{client.name}"}
     %div.modal-header
-      %h3== Client Attributes for #{client.name}
+      %h3== Client: #{client.name}
     %div.modal-body
       %table.table.table-striped.table-bordered
         %tbody

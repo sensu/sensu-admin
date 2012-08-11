@@ -7,8 +7,12 @@
         %tbody
           - log.attributes.each do |k,v|
             %tr
-              %td= k
-              %td= v
+              - if k == "user_id"
+                %td User
+                %td== #{log.user.email} (ID: #{log.user.id})
+              - else
+                %td= k
+                %td= v
 
 %table.table.table-striped
   %thead
@@ -25,18 +29,22 @@
     %th
       
   %tbody
+    = will_paginate @logs
     - @logs.each do |log|
       %tr{:rel => "#log_modal_#{log.id}"}
         %td.moreinfo
-          - if log.status == "2"
-            %span.badge.badge-important
-              = format_status(log.status)
-          - elsif log.status == "1"
-            %span.badge.badge-warning
-              = format_status(log.status)
+          - if log.silence_type == "client"
+            %span.badge.badge-info Client
           - else
-            %span.badge.badge-inverse
-              = format_status(log.status)
+            - if log.status == "2"
+              %span.badge.badge-important
+                = format_status(log.status)
+            - elsif log.status == "1"
+              %span.badge.badge-warning
+                = format_status(log.status)
+            - else
+              %span.badge.badge-inverse
+                = format_status(log.status)
         %td.moreinfo= log.environment
         %td.moreinfo= format_output(log.client, 12)
         %td.moreinfo= log.check

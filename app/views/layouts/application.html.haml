@@ -25,5 +25,4 @@
                 = yield
             %footer
       %center
-        - api = Api.status
-        %p= "API Version: #{api['sensu']['version']} -- Redis: #{api['health']['redis']} -- RabbitMQ: #{api['health']['rabbitmq']}"
+        %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}

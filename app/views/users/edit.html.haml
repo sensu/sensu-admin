@@ -1,1 +1,19 @@
-Edit user
+%h2 User info
+%br
+%p== email: #{@user.email}
+
+
+%br
+%br
+%h2 Change Password
+= form_for(@user, :url => { :action => "update_password" } ) do |f|
+  %div.field
+    = f.label :password, "Password"
+    %br
+    = f.password_field :password, :autocomplete => "off"
+  %div.field
+    = f.label :password_confirmation
+    %br
+    = f.password_field :password_confirmation
+  %div.action_container
+    = f.submit

@@ -1,6 +1,7 @@
 SensuAdmin::Application.routes.draw do
   devise_for :users
   resources :users
+  match 'users/update_password' => 'users#update_password', :via => :post
   resources :clients
   match 'events/events_table' => 'events#events_table', :via => :get
   match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
@@ -14,6 +15,7 @@ SensuAdmin::Application.routes.draw do
   resources :stashes
   resources :logs
   resources :checks
+  match 'api/status' => 'api#status', :via => :get
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
