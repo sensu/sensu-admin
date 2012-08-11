@@ -7,7 +7,7 @@
       %h3 Enter reason
       %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
     %div.modal-footer
-      %a.silence-submit-event{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
+      %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
   - unless processed_clients.include?(event.client)
     - processed_clients << event.client
     %div{:class => "modal hide", :id => "modal_#{event.client}"}
@@ -17,7 +17,7 @@
         %h3 Enter reason
         %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Client Reason"}
       %div.modal-footer
-        %a.silence-submit-event{:control => "silence_submit_#{event.client}", :client_silence => "client_silencer_#{i}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
+        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :client_silence => "client_silencer_#{i}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
   %div{:class => "modal hide", :id => "event-#{i}"}
     %div.modal-header
       %h3== Client: #{event.client} 
@@ -56,18 +56,18 @@
             %tr
               %td= k
               %td= v
-    %div.modal-footer
+    %div.modal-footer{:style => "width: 770px; height: 100px;"}
       /
       / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
       /
-      %div
-        %a.silence-event{:control => "silence_#{event.client}_#{event.check}", :hidden => not_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Silence Check
-        %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :hidden => is_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
-      %div
-        %a.silence-event{:control => "silence_#{event.client}", :hidden => not_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Silence Client
-        %a.unsilence-submit-event{:control => "unsilence_#{event.client}", :hidden => is_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
-      %div
-        %a.resolve-event{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
+      %div{:style => "height: 32px;"}
+        %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}_#{event.check}", :hidden => not_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Silence Check
+        %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}_#{event.check}", :hidden => is_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+      %div{:style => "height: 32px;"}
+        %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}", :hidden => not_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Silence Client
+        %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}", :hidden => is_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
+      %div{:style => "height: 32px;"}
+        %a.resolve-event.btn.btn-success{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve
 
 %table.table.table-striped{:id => "primary_events_table"}
   %thead
