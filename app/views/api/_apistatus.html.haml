@@ -1,0 +1,19 @@
+%div
+  - api = Api.status
+  - sensu_version = api['sensu']['version']
+  - redis_health = api['health']['redis']
+  - rabbitmq_health = api['health']['rabbitmq']
+  %span.badge.badge-info
+    == API Version: #{sensu_version}
+  - if redis_health == "ok"
+    %span.badge.badge-success
+      == Redis: #{redis_health.upcase}
+  - else
+    %span.badge.badge-important
+      == Redis: #{redis_health.upcase} 
+  - if rabbitmq_health == "ok"
+    %span.badge.badge-success
+      == RabbitMQ: #{rabbitmq_health.upcase}
+  - else
+    %span.badge.badge-important
+      == RabbitMQ: #{rabbitmq_health.upcase} 

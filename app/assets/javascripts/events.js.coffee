@@ -25,13 +25,6 @@ $ ->
     updateEventTable();
   , 60000
   runTableHooks = ()->
-    $('#critical_only_checkbox').change ->
-      if $('#critical_only_checkbox').is(':checked')
-        $('tr.events[type!="2"]').hide();
-      else
-        $('tr.events[type!="2"]').show();
-    if $('#critical_only_checkbox').is(':checked')
-      $('tr.events[type!="2"]').hide();
     $('.modal').on 'shown', ->
       modal_shown = true
     $('.modal').on 'hide', ->
@@ -87,3 +80,10 @@ $ ->
             $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-up");
           else
             alert("Failed to unsilence...");
+    search_val = $('#events_search').val();
+    $('#primary_events_table').tableFilter({ additionalFilterTriggers: [$('#events_search')]});
+    $('#events_search').val(search_val);
+    $('#primary_events_table').tableFilterApplyFilterValues();
+    $('#primary_events_table').tableFilterRefresh();
+    $('.filters').hide();
+    
