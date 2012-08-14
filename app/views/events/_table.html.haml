@@ -4,10 +4,14 @@
     %div.modal-header
       %h3== Silence check #{event.check} on client #{event.client}
     %div.modal-body
+      %br
       %h3 Enter reason
       %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
     %div.modal-footer
+      %div.alert.alert-error{:id => "no_input_#{event.client}_#{event.check}", :hidden => "true", :style => "float: left;", :hidden => "true"}
+        You need to enter a reason > 12 chars before you can submit!
       %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
+      %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Submit
   - unless processed_clients.include?(event.client)
     - processed_clients << event.client
     %div{:class => "modal hide", :id => "modal_#{event.client}"}
@@ -17,7 +21,10 @@
         %h3 Enter reason
         %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Client Reason"}
       %div.modal-footer
-        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :client_silence => "client_silencer_#{i}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
+        %div.alert.alert-error{:id => "no_input_#{event.client}", :style => "float: left;"}
+          You need to enter a reason > 12 chars before you can submit!
+        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
+        %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Submit
   %div{:class => "modal hide", :id => "event-#{i}"}
     %div.modal-header
       %h3== Client: #{event.client} 
@@ -119,7 +126,7 @@
                 %a.unsilence-submit-event{:control => "unsilence_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => is_nil?(event.check_silenced), :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence", :href => "#"} UnSilence Check
               %li
                 %a.resolve-event{:misc => "#row-event-#{i}", :index_id => "#{i}", :rel => "/events/#{event.client}/#{event.check}/resolve"} Resolve
-        %td= time_ago_in_words(Time.at(event.issued)) + " ago"
+        %td.moreinfo= time_ago_in_words(Time.at(event.issued)) + " ago"
         %td.moreinfo= event.occurrences
         %td.moreinfo
           %i.icon-zoom-in

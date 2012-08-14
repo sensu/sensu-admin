@@ -34,8 +34,17 @@ $ ->
         updateEventTable();
     $('[hidden="true"]').hide();
     $('[hidden="false"]').show();
-    $('.silence-input').keypress ->
-      $('[control="silence_submit_' + $(this).attr("misc") + '"]').show();
+    $('.silence-input').keydown ->
+      self = $(this);
+      $('#no_input_' + $(self).attr("misc")).hide();
+      if $(self).val().length > 12
+        $('[control="silence_grey_submit_' + $(self).attr("misc") + '"]').hide();
+        $('[control="silence_submit_' + $(self).attr("misc") + '"]').show();
+      else
+        $('[control="silence_grey_submit_' + $(self).attr("misc") + '"]').show();
+        $('[control="silence_submit_' + $(self).attr("misc") + '"]').hide();
+    $('[control^=silence_grey_submit_]').click ->
+      $('#no_input_' + $(this).attr("misc")).show();
     $('td.moreinfo').click ->
       $($(this).closest('tr').attr("rel")).modal("show");
     resolve = $('.resolve-event').click ->
