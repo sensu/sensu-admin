@@ -1,15 +1,36 @@
+:css
+  .modal {
+    width: 800px;
+    left: 40%;
+    top: 70%;
+  }
+%p Note: You can expand a check and submit it by expanding the check and clicking "Submit Check"
+- @checks.each do |check|
+  %div.modal{:id => "check_modal_#{check.name}", :style => "display: none;"}
+    %div.modal-header
+      %h3== Submit #{check.name}
+    %div.modal-body
+      %p Input subscribers to run check against comma seperated (e.g. role1, role2, role3)
+      %textarea.input-xlarge{:id => "subscribers_input_#{check.name}"}
+    %div.modal-footer
+      %a.submit-individual-check.btn.btn-success{:id => "submit_check_#{check.name}", :misc => "#{check.name}", :rel => "/checks/#{check.name}/submit", :href => "#"} Submit
+
 %div.accordion{:id => 'check_accordion'}
   - @checks.each do |check|
-    %div.accordion-group
-      %div.accordion-heading
-        %a.accordion-toggle{:href => "#collapse_#{check.name}", 'data-toggle' => 'collapse', 'data-parent' => '#check_accordion'}
-          = check.name
-          %i.icon-plus{:id => "icon_toggle_#{check.name}"}
-      %div.accordion-body.collapse{:rel => "#{check.name}", :id => "collapse_#{check.name}"}
-        %div.accordion-inner
-          %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
-            %tbody
-              - check.attributes.each do |k,v|
-                %tr
-                  %td= k
-                  %td= v
+    %div.row
+      %div.span12
+        %div.accordion-group
+          %div.accordion-heading
+            %a.accordion-toggle{:href => "#collapse_#{check.name}", 'data-toggle' => 'collapse', 'data-parent' => '#check_accordion'}
+              = check.name
+              %i.icon-plus{:id => "icon_toggle_#{check.name}"}
+          %div.accordion-body.collapse{:rel => "#{check.name}", :id => "collapse_#{check.name}"}
+            %div.accordion-inner
+              %table.table.table-striped.table-bordered.check-table{:id => "table_for_#{check.name}"}
+                %tbody
+                  - check.attributes.each do |k,v|
+                    %tr
+                      %td= k
+                      %td= v
+
+              %a.modal-for-check-submit{:misc => "#{check.name}"} Submit Check
