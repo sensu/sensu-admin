@@ -1,0 +1,2 @@
+rvm --install --create use 1.9.3@sensu_admin
+# [[ -s .gems ]] && rvm gemset import .gems
