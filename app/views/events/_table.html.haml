@@ -9,7 +9,7 @@
       %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
     %div.modal-footer
       %div.alert.alert-error{:id => "no_input_#{event.client}_#{event.check}", :hidden => "true", :style => "float: left;", :hidden => "true"}
-        You need to enter a reason > 12 chars before you can submit!
+        %p You need to enter a reason over 12 chars before you can submit!
       %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
       %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Submit
   - unless processed_clients.include?(event.client)
@@ -22,7 +22,7 @@
         %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Client Reason"}
       %div.modal-footer
         %div.alert.alert-error{:id => "no_input_#{event.client}", :style => "float: left;"}
-          You need to enter a reason > 12 chars before you can submit!
+          %p You need to enter a reason over 12 chars before you can submit!
         %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
         %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Submit
   %div{:class => "modal hide", :id => "event-#{i}"}

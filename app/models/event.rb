@@ -3,8 +3,8 @@ class Event < ActiveResource::Base
   self.site = APP_CONFIG['api']
 
   def resolve
-    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => self.client, :check => self.check }.to_json
-    post.code == 201
+    post = RestClient.delete "#{APP_CONFIG['api']}/event/#{self.client}/#{self.check}"
+    post.code == 202
   end
 
   def self.single(query)
@@ -17,8 +17,8 @@ class Event < ActiveResource::Base
   def self.manual_resolve(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "resolve", nil, event)
-    post = RestClient.post "#{APP_CONFIG['api']}/event/resolve", {:client => client, :check => check }.to_json
-    post.code == 201
+    post = RestClient.delete "#{APP_CONFIG['api']}/event/#{client}/#{check}"
+    post.code == 202
   end
 
   def self.silence_client(client, description, user)
