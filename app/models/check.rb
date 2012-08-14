@@ -6,4 +6,9 @@ class Check < ActiveResource::Base
   def name
     self.attributes['name']
   end
+
+  def self.submit_check(check, subscribers)
+    post = RestClient.post "#{APP_CONFIG['api']}/check/request", {:check => check, :subscribers => subscribers }.to_json
+    post.code == 201
+  end
 end
