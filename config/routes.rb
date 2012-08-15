@@ -15,6 +15,7 @@ SensuAdmin::Application.routes.draw do
   resources :stashes
   resources :logs
   resources :checks
+  resources :downtimes
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
   match 'api/status' => 'api#status', :via => :get
 

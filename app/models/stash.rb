@@ -14,7 +14,11 @@ class Stash < ActiveResource::Base
   end
 
   def self.delete_stash(key)
-    post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
+    begin
+      post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
+    rescue Exception => e
+      puts "delete_stash took exception #{e.inspect}"
+    end
     post.code == 204
   end
 
@@ -23,5 +27,16 @@ class Stash < ActiveResource::Base
       post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
     end
     true
+  end
+
+  def self.clear_expired_stashes
+    Stash.stashes.each do |k,v|
+      unless v['expire_at'].nil?
+        if Time.parse(v['expire_at']) < Time.now
+          puts "Clearing stash #{k} due to expiration."
+          Stash.delete_stash(k)
+        end
+      end
+    end and true
   end
 end

@@ -21,17 +21,21 @@ class Event < ActiveResource::Base
     post.code == 202
   end
 
-  def self.silence_client(client, description, user)
-    Log.log(user, client, "silence", description)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", {:description => description, :owner => user.email, :timestamp => Time.now.to_i }.to_json
+  def self.silence_client(client, description, user, expire_at = nil, log = true)
+    Log.log(user, client, "silence", description) if log
+    post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
+    post_data[:expire_at] = expire_at unless expire_at.nil?
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", post_data.to_json
     post.code == 201
   end
 
-  def self.silence_check(client, check, description, user)
+  def self.silence_check(client, check, description, user, expire_at = nil, log = true)
     event = Event.single("#{client}_#{check}")
     puts "DESCRIPTION IS: #{description}"
-    Log.log(user, client, "silence", description, event)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", {:description => description, :owner => user.email, :timestamp => Time.now.to_i }.to_json
+    Log.log(user, client, "silence", description, event) if log
+    post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
+    post_data[:expire_at] = expire_at unless expire_at.nil?
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", post_data.to_json
     post.code == 201
   end
 

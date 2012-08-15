@@ -11,7 +11,8 @@
     %th Key
     %th Description
     %th Owner
-    %th Time
+    %th Expires in
+    %th Set
     %th Action
       
   %tbody
@@ -20,6 +21,10 @@
         %td= k
         %td= v['description']
         %td= v['owner']
+        - if v['expire_at']
+          %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
+        - else
+          %td Never
         %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"
         %td
           %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "#{request.url}/delete_stash"} Delete

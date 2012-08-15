@@ -14,4 +14,9 @@ module ApplicationHelper
     return "" if output.nil?
     (output.length > maxlen) ? "#{output[0..(maxlen - 3)]}..." : output
   end
+
+  def downtime_number
+    count = Downtime.active.count
+    (count > 0) ? "(#{count})" : ""
+  end
 end

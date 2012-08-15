@@ -13,3 +13,5 @@ rake db:seed
 * RabbitMQ dashboard, health of everything
 * permission
 * add/remove users
+* Log Downtime schedule, execution, and completion
+* Make page to show old scheduled downtimes
