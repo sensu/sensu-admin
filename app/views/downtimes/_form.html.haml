@@ -1,0 +1,14 @@
+= semantic_form_for @downtime  do |f|
+  - unless @downtime.errors.empty?
+    %div
+      %p== #{pluralize(@downtime.errors.count, "error")} probitited this post from being saved
+      %ul
+        - @downtime.errors.full_messages.each do |msg|
+          %li= msg
+  = f.inputs :name => "Downtime" do
+    = f.input :name
+    = f.input :description
+    = f.input :start_time, :as => :ui_date_time_picker
+    = f.input :stop_time, :as => :ui_date_time_picker
+    = f.input :downtime_clients, :as => :check_boxes, :collection => Client.all
+  = f.actions
