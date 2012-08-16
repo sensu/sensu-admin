@@ -1,0 +1,2 @@
+module DowntimesHelper
+end

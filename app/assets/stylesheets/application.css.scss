@@ -10,6 +10,9 @@
  *
  *= require_self
  *= require_tree .
+ *= require formtastic
+ *= require jquery.timepicker
+ *= require bootstrap-datepicker
  */
 
 .content {
