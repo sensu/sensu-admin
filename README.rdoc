@@ -17,3 +17,4 @@ Make sure your post-deploy task runs "whenever --update-crontab from the rails c
 * add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
+* Put delete/edit/destroy tabs on downtimes
