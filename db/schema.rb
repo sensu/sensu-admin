@@ -11,7 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120809204302) do
+ActiveRecord::Schema.define(:version => 20120814222508) do
+
+  create_table "downtime_checks", :force => true do |t|
+    t.string   "name"
+    t.integer  "downtime_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "downtime_clients", :force => true do |t|
+    t.string   "name"
+    t.integer  "downtime_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "downtimes", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "start_time"
+    t.datetime "stop_time"
+    t.integer  "user_id"
+    t.boolean  "processed"
+    t.boolean  "completed"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "logs", :force => true do |t|
     t.string   "client"

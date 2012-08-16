@@ -15,8 +15,11 @@ SensuAdmin::Application.routes.draw do
   resources :stashes
   resources :logs
   resources :checks
+  match 'downtimes/old_downtimes' => 'downtimes#old_downtimes', :via => :get
+  resources :downtimes
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
   match 'api/status' => 'api#status', :via => :get
+  match 'api/time' => 'api#time', :via => :get
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
