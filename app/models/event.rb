@@ -31,7 +31,6 @@ class Event < ActiveResource::Base
 
   def self.silence_check(client, check, description, user, expire_at = nil, log = true)
     event = Event.single("#{client}_#{check}")
-    puts "DESCRIPTION IS: #{description}"
     Log.log(user, client, "silence", description, event) if log
     post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
     post_data[:expire_at] = expire_at unless expire_at.nil?

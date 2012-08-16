@@ -1,12 +1,6 @@
-%div
-  %a.btn.btn-primary.pull-right{:href => "/downtimes/new"} Create Downtime
-  %div.pull-left{:id => "api_time_div"}
+%h2 Past downtimes
 %br
-%br
-
-%h2 Active downtimes
-%br
-- (@active_downtime + @future_downtime).each do |downtime|
+- @old_downtimes.each do |downtime|
   %div{:class => "modal hide", :id => "downtime_modal_#{downtime.id}"}
     %div.modal-header
       %h3== Downtime: #{downtime.name}
@@ -90,7 +84,7 @@
     %th Created At
     %th
   %tbody
-    - @active_downtime.each do |adowntime|
+    - @old_downtimes.each do |adowntime|
       %tr{:rel => "#downtime_modal_#{adowntime.id}"}
         %td.moreinfo= adowntime.name
         %td.moreinfo= adowntime.description
@@ -104,41 +98,3 @@
         %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
         %td.moreinfo
           %i.icon-zoom-in
-%br
-%br
-%h2 Scheduled downtimes
-%br
-
-%table.table.table-striped.table-bordered
-  %thead
-    %th Name
-    %th Description
-    %th Start Time
-    %th Stop Time
-    %th User
-    %th Processed?
-    %th Completed?
-    %th Clients
-    %th Checks
-    %th Created At
-    %th
-  %tbody
-    - @future_downtime.each do |adowntime|
-      %tr{:rel => "#downtime_modal_#{adowntime.id}"}
-        %td.moreinfo= adowntime.name
-        %td.moreinfo= adowntime.description
-        %td.moreinfo= adowntime.start_time
-        %td.moreinfo= adowntime.stop_time
-        %td.moreinfo= adowntime.user.email
-        %td.moreinfo= adowntime.processed
-        %td.moreinfo= adowntime.completed
-        %td.moreinfo= adowntime.downtime_clients.count
-        %td.moreinfo= adowntime.downtime_checks.count
-        %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
-        %td.moreinfo
-          %i.icon-zoom-in
-%br
-%br
-%div
-  %center
-    %a.btn.btn-inverse{:href => "/downtimes/old_downtimes"} Past Downtimes

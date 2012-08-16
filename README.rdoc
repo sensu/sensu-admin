@@ -8,10 +8,12 @@ events and clients and can silence events etc.
 rake db:migrate
 rake db:seed
 
+Make sure your post-deploy task runs "whenever --update-crontab from the rails cwd"
+
 == TODO
 * Settings for api, rabbitmq, etc
 * RabbitMQ dashboard, health of everything
 * permission
 * add/remove users
 * Log Downtime schedule, execution, and completion
-* Make page to show old scheduled downtimes
+* Make a downtime info page

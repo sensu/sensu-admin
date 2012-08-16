@@ -1,6 +1,5 @@
 class Downtime < ActiveRecord::Base
-  attr_accessible :description, :name, :start_time, :stop_time, :user_id, :processed, :completed
-  attr_writer :current_step
+  attr_accessible :description, :name, :start_time, :stop_time, :user_id, :processed, :completed, :begin_date, :end_date, :begin_time, :end_time
 
   belongs_to :user
 
@@ -24,6 +23,19 @@ class Downtime < ActiveRecord::Base
 
   #def self.silence_check(client, check, description, user, expire_at = nil)
   #def self.silence_client(client, description, user, expire_at = nil)
+
+  def begin_date
+  end
+
+  def end_date
+  end
+
+  def begin_time
+  end
+
+  def end_time
+  end
+
 
   def self.process_downtimes
     run_expired_stashes = false
@@ -82,6 +94,6 @@ class Downtime < ActiveRecord::Base
   private
 
   def validates_stop_time_of
-    errors.add(:stop_time, "end of date is not in the future.") if Time.now > self.stop_time
+    errors.add(:stop_time, "is not in the future.") if Time.now > self.stop_time
   end
 end

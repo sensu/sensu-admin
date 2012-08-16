@@ -1,14 +1,72 @@
 = semantic_form_for @downtime  do |f|
   - unless @downtime.errors.empty?
     %div
-      %p== #{pluralize(@downtime.errors.count, "error")} probitited this post from being saved
+      %h2== #{pluralize(@downtime.errors.count, "error")} probitited this post from being saved
       %ul
         - @downtime.errors.full_messages.each do |msg|
-          %li= msg
-  = f.inputs :name => "Downtime" do
+          %li
+            %h3= msg
+  = f.inputs do
     = f.input :name
     = f.input :description
-    = f.input :start_time, :as => :ui_date_time_picker
-    = f.input :stop_time, :as => :ui_date_time_picker
-    = f.input :downtime_clients, :as => :check_boxes, :collection => Client.all
-  = f.actions
+    %div.datepair
+      %h2 Schedule downtime time range
+      %h3 From:
+      %input.date_input.start.date{:name => 'downtime[begin_date]'}
+      %input.time_input.start.time{:name => 'downtime[begin_time]'}
+      %h3 To:
+      %input.date_input.end.date{:name => 'downtime[end_date]'}
+      %input.time_input.end.time{:name => 'downtime[end_time]'}
+    %br
+    %br
+    %h3 Clients
+    %br
+    %div
+      %div.pull-left
+        Search:
+        %input{:id => "downtime_client_search", :type => "text"}
+      %div.pull-right
+        %input.pull-right{:id => "select_all_clients", :type => "checkbox"} Select All 
+    %table.table.table-striped{:id => "downtime_clients_table"}
+      %thead
+        %th Name
+        %th Address
+        %th ENV
+        %th Subscriptions
+        %th 
+      %tbody
+        - @clients.each do |client|
+          %tr{:rel => "downtime_client_table_row", :misc => "#{client.name}"}
+            %td.toggle_box= client.name
+            %td.toggle_box= client.address
+            %td.toggle_box= client.environment
+            %td.toggle_box= client.subscriptions.join(',')[0..100]
+            %td.check_box{:filter => "false"}
+              %input{:name => 'downtime[client_ids][]', :value => "#{client.name}", :type => "checkbox"}
+    %br
+    %br
+    %h3 Checks 
+    %p Note: If you want every check on the client silenced, then do not pick any checks below. Selecting checks below means you want only said checks on the clients silenced. This can create ALOT of stashes (client * check count).
+    %br
+    %div
+      %div.pull-left
+        Search:
+        %input{:id => "downtime_check_search", :type => "text"}
+      %div.pull-right
+        %input.pull-right{:id => "select_all_checks", :type => "checkbox"} Select All 
+    %br
+    %table.table.table-striped{:id => "downtime_checks_table"}
+      %thead
+        %th Name
+        %th Description
+        %th 
+      %tbody
+        %input{:name => 'downtime[check_ids][]', :value => "", :type => "hidden"}
+        - @checks.each do |check|
+          %tr{:rel => "downtime_check_table_row", :misc => "#{check.name}"}
+            %td.toggle_box= check.name
+            %td.toggle_box= check.description
+            %td.check_box{:filter => "false"}
+              %input{:name => 'downtime[check_ids][]', :value => "#{check.name}", :type => "checkbox"}
+  %center
+    %input.btn.btn-info{:name => "commit", :type => "submit"}
