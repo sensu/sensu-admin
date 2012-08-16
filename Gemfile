@@ -19,7 +19,7 @@ require 'rest-client'
 gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'bootstrap-will_paginate'
-gem 'formtastic', :git => 'git://github.com/justinfrench/formtastic.git', :branch => '2.1-stable'
+gem 'formtastic'
 gem 'jquery-rails'
 
 # Gems used only for assets and not required

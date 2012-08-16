@@ -18,3 +18,5 @@ Make sure your post-deploy task runs "whenever --update-crontab from the rails c
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
 * Put delete/edit/destroy tabs on downtimes
+* Update homepage to put some stats
+* When deleting stashes show a working message and then make the stashes # update.
