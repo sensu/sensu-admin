@@ -1,11 +1,11 @@
 class DowntimesController < ApplicationController
-  before_filter :find_downtime, :except => [:index, :new, :create, :old_downtimes]
+  before_filter :find_downtime, :except => [:index, :new, :create, :old_downtimes, :force_complete]
   before_filter :find_clients, :except => [:index]
   before_filter :find_checks, :except => [:index]
 
   def index
-    @active_downtime = Downtime.active
-    @future_downtime = Downtime.future
+    @active_downtime = Downtime.active.not_completed.not_processed
+    @future_downtime = Downtime.future.not_completed.not_processed
     #@past_downtime = Downtime.past Would need to paginate this.
   end
 
@@ -55,13 +55,14 @@ class DowntimesController < ApplicationController
   def update
   end
 
+  def force_complete
+    Downtime.force_complete(params[:downtime_id])
+    redirect_to(downtimes_path, :notice => "Downtime successfully completed")
+  end
+
   def destroy
     @downtime.destroy
     redirect_to(downtimes_path, :notice => "Downtime successfully deleted")
-  end
-
-  def server_time
-    render :json => { :data => "Server time: #{Time.zone.now}" }
   end
 
   private

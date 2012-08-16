@@ -4,7 +4,7 @@
     left: 40%;
     top: 70%;
   }
-%p Note: You can expand a check and submit it by expanding the check and clicking "Submit Check"
+%p Note: You can expand a check and submit it by expanding the check and clicking "Request Check"
 - @checks.each do |check|
   %div.modal{:id => "check_modal_#{check.name}", :style => "display: none;"}
     %div.modal-header
@@ -33,4 +33,4 @@
                       %td= k
                       %td= v
 
-              %a.modal-for-check-submit{:misc => "#{check.name}"} Submit Check
+              %a.btn.btn-primary.modal-for-check-submit{:misc => "#{check.name}"} Request Check

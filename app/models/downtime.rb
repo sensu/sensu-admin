@@ -21,22 +21,6 @@ class Downtime < ActiveRecord::Base
   scope :all_completed, where(:completed => true)
   scope :not_completed, where(:completed => false)
 
-  #def self.silence_check(client, check, description, user, expire_at = nil)
-  #def self.silence_client(client, description, user, expire_at = nil)
-
-  def begin_date
-  end
-
-  def end_date
-  end
-
-  def begin_time
-  end
-
-  def end_time
-  end
-
-
   def self.process_downtimes
     run_expired_stashes = false
 
@@ -45,13 +29,13 @@ class Downtime < ActiveRecord::Base
       if downtime.downtime_checks.empty?
         downtime.downtime_clients.each do |client|
           puts "Silencing client #{client.name} for downtime #{downtime.id}"
-          Event.silence_client(client.name, "Scheduled downtime(#{downtime.id},#{downtime.name}) until #{downtime.stop_time} by #{downtime.user.email}", downtime.user, downtime.stop_time, false)
+          Event.silence_client(client.name, "Scheduled downtime(#{downtime.id},#{downtime.name}) until #{downtime.stop_time} by #{downtime.user.email}", downtime.user, downtime.stop_time, false, downtime.id)
         end
       else
         downtime.downtime_clients.each do |client|
           downtime.downtime_checks.each do |check|
             puts "Silencing check #{check.name} on #{client.name} for downtime #{downtime.id}"
-            Event.silence_check(client.name, check.name, "Scheduled downtime(#{downtime.id},#{downtime.name}) until #{downtime.stop_time} by #{downtime.user.email}", downtime.user, downtime.stop_time, false)
+            Event.silence_check(client.name, check.name, "Scheduled downtime(#{downtime.id},#{downtime.name}) until #{downtime.stop_time} by #{downtime.user.email}", downtime.user, downtime.stop_time, false, downtime.id)
           end
         end
       end
@@ -69,6 +53,20 @@ class Downtime < ActiveRecord::Base
       puts "Clearing stashes in process_downtimes"
       Stash.clear_expired_stashes
     end
+  end
+
+  def self.force_complete(id)
+    downtime = Downtime.find(id)
+    Stash.stashes.each do |k,v|
+      unless v['downtime_id'].nil?
+        if v['downtime_id'].to_i == id.to_i
+          puts "Force completing downtime (#{downtime.name}, #{downtime.id}) - Deleting stash #{k}"
+          Stash.delete_stash(k)
+        end
+      end
+    end
+    downtime.process
+    downtime.complete
   end
 
   def active?
@@ -89,6 +87,18 @@ class Downtime < ActiveRecord::Base
 
   def complete
     self.update_attributes(:completed => true)
+  end
+
+  def begin_date
+  end
+
+  def end_date
+  end
+
+  def begin_time
+  end
+
+  def end_time
   end
 
   private

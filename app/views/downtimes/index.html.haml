@@ -73,8 +73,12 @@
               %tr
                 %td= check.name
     %div.modal-footer
-      %p Destroy
-      %p Mark as completed
+      - if downtime.active?
+        %div.btn.btn-danger
+          = link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{downtime.id}"}, {:confirm => "Are you sure?", :method => :post, :style=>'color:#FFFFFF;'}
+      - else
+        %div.btn.btn-danger
+          = link_to 'Delete', downtime_path(downtime), {:confirm => "Are you sure?", :style=>'color:#FFFFFF;', :method => :delete}
 
 %table.table.table-striped.table-bordered
   %thead
@@ -88,6 +92,7 @@
     %th Clients
     %th Checks
     %th Created At
+    %th
     %th
   %tbody
     - @active_downtime.each do |adowntime|
@@ -104,6 +109,7 @@
         %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
         %td.moreinfo
           %i.icon-zoom-in
+            %td= link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{adowntime.id}"}, :confirm => "Are you sure?", :method => :post
 %br
 %br
 %h2 Scheduled downtimes
@@ -122,6 +128,7 @@
     %th Checks
     %th Created At
     %th
+    %th
   %tbody
     - @future_downtime.each do |adowntime|
       %tr{:rel => "#downtime_modal_#{adowntime.id}"}
@@ -137,6 +144,7 @@
         %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
         %td.moreinfo
           %i.icon-zoom-in
+        %td= link_to 'Delete', downtime_path(adowntime), :confirm => "Are you sure?", :method => :delete
 %br
 %br
 %div
