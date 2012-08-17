@@ -24,7 +24,7 @@ $ ->
   updateEventTable()
   setInterval () ->
     update_counter = update_counter + 1
-    if update_counter > 60
+    if update_counter > 60 and modal_shown isnt true
       location.reload()
     updateEventTable()
   , 60000
