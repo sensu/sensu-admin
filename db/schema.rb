@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(:version => 20120814222508) do
     t.datetime "start_time"
     t.datetime "stop_time"
     t.integer  "user_id"
-    t.boolean  "processed"
-    t.boolean  "completed"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.boolean  "processed",   :default => false
+    t.boolean  "completed",   :default => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "logs", :force => true do |t|

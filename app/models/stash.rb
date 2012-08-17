@@ -10,7 +10,7 @@ class Stash < ActiveResource::Base
     end
     return [] if stash_keys.empty?
     #
-    # API Blows up with a few thousand object so lets chunk it
+    # API Blows up with a few thousand objects so lets chunk it
     #
       if stash_keys.count > 201
         stash_response = {}
@@ -20,10 +20,15 @@ class Stash < ActiveResource::Base
           stash_response.merge!(JSON.parse(post.body).to_hash)
         end
       else
-          post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
+        post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
         stash_response = JSON.parse(post.body).to_hash
       end
       stash_response
+  end
+
+  def self.create_stash(key, attributes)
+    post = RestClient.post "#{APP_CONFIG['api']}/stash/#{key}", attributes.to_json
+    post.code == 201
   end
 
   def self.delete_stash(key)
