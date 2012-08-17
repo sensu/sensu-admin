@@ -1,4 +1,5 @@
 class DowntimesController < ApplicationController
+  respond_to :html
   before_filter :find_downtime, :except => [:index, :new, :create, :old_downtimes, :force_complete]
   before_filter :find_clients, :except => [:index]
   before_filter :find_checks, :except => [:index]
@@ -14,45 +15,78 @@ class DowntimesController < ApplicationController
   end
 
   def create
-    dt = params['downtime']
-    @downtime = Downtime.new
-    @downtime.assign_attributes({
-      :name => dt['name'],
-      :description => dt['description'],
-      :start_time => Time.parse("#{dt['begin_date']} #{dt['begin_time']}"),
-      :stop_time => Time.parse("#{dt['end_date']} #{dt['end_time']}"),
-      :user_id => current_user.id
-    })
-    unless dt['client_ids'].nil?
-      dt['client_ids'].each do |client_id|
-        next if client_id.blank?
-        @downtime.downtime_clients.build(:name => client_id)
+    Downtime.transaction do
+      dt = params['downtime']
+      @downtime = Downtime.new
+      @downtime.assign_attributes({
+        :name => dt['name'],
+        :description => dt['description'],
+        :start_time => Time.parse("#{dt['begin_date']} #{dt['begin_time']}"),
+        :stop_time => Time.parse("#{dt['end_date']} #{dt['end_time']}"),
+        :user_id => current_user.id
+      })
+      unless dt['client_ids'].nil?
+        puts "DTCLIDS: #{dt['client_ids'].inspect}"
+        dt['client_ids'].each do |client_id|
+          next if client_id.blank?
+          @downtime.downtime_clients.build(:name => client_id)
+        end
+      end
+      unless dt['check_ids'].nil?
+        puts "DTCHKIDS: #{dt['check_ids'].inspect}"
+        dt['check_ids'].each do |check_id|
+          next if check_id.blank?
+          @downtime.downtime_checks.build(:name => check_id)
+        end
       end
     end
-    unless dt['check_ids'].nil?
-      dt['check_ids'].each do |check_id|
-        next if check_id.blank?
-        @downtime.downtime_checks.build(:name => check_id)
-      end
-    end
-    @downtime.save!
-    respond_to do |format|
-      format.html { redirect_to(downtimes_path(@downtime), :notice => "Successfully created") }
+    if @downtime.save!
+      redirect_to(downtimes_path(@downtime), :notice => "Successfully created")
     end
   rescue ActiveRecord::RecordInvalid
-    respond_to do |format|
-      format.html { render :action => "edit" }
-    end
+    render :action => "edit"
   end
 
   def old_downtimes
     @old_downtimes = Downtime.past
   end
 
+  def show
+  end
+
   def edit
   end
 
   def update
+    Downtime.transaction do
+      dt = params['downtime']
+      @downtime.assign_attributes({
+        :name => dt['name'],
+        :description => dt['description'],
+        :start_time => Time.parse("#{dt['begin_date']} #{dt['begin_time']}"),
+        :stop_time => Time.parse("#{dt['end_date']} #{dt['end_time']}"),
+        :user_id => current_user.id
+      })
+      unless dt['client_ids'].nil?
+        @downtime.downtime_clients.destroy_all
+        dt['client_ids'].each do |client_id|
+          next if client_id.blank?
+          @downtime.downtime_clients.build(:name => client_id)
+        end
+      end
+      unless dt['check_ids'].nil?
+        @downtime.downtime_checks.destroy_all
+        dt['check_ids'].each do |check_id|
+          next if check_id.blank?
+          @downtime.downtime_checks.build(:name => check_id)
+        end
+      end
+      if @downtime.save!
+        redirect_to(downtimes_path, :notice => "Downtime successfully updated.")
+      end
+    end
+  rescue ActiveRecord::RecordInvalid
+      render :action => "edit"
   end
 
   def force_complete

@@ -75,10 +75,14 @@
     %div.modal-footer
       - if downtime.active?
         %div.btn.btn-danger
-          = link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{downtime.id}"}, {:confirm => "Are you sure?", :method => :post, :style=>'color:#FFFFFF;'}
+          = link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{downtime.id}"}, {:data => {:confirm => "Are you sure?"}, :method => :post, :style=>'color:#FFFFFF;'}
       - else
-        %div.btn.btn-danger
-          = link_to 'Delete', downtime_path(downtime), {:confirm => "Are you sure?", :style=>'color:#FFFFFF;', :method => :delete}
+        = link_to edit_downtime_path(downtime), {:style => 'color:#FFFFFF;'} do
+          %div.btn.btn-info
+            Edit
+        = link_to downtime_path(downtime), {:data => {:confirm => "Are you sure?"}, :style=>'color:#FFFFFF;', :method => :delete} do
+          %div.btn.btn-danger
+            Delete
 
 %table.table.table-striped.table-bordered
   %thead
@@ -87,8 +91,6 @@
     %th Start Time
     %th Stop Time
     %th User
-    %th Processed?
-    %th Completed?
     %th Clients
     %th Checks
     %th Created At
@@ -102,14 +104,12 @@
         %td.moreinfo= adowntime.start_time
         %td.moreinfo= adowntime.stop_time
         %td.moreinfo= adowntime.user.email
-        %td.moreinfo= adowntime.processed
-        %td.moreinfo= adowntime.completed
         %td.moreinfo= adowntime.downtime_clients.count
         %td.moreinfo= adowntime.downtime_checks.count
         %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
         %td.moreinfo
           %i.icon-zoom-in
-            %td= link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{adowntime.id}"}, :confirm => "Are you sure?", :method => :post
+        %td= link_to 'Complete', {:controller => "downtimes", :action => "force_complete", :downtime_id => "#{adowntime.id}"}, :data => {:confirm => "Are you sure?"}, :method => :post
 %br
 %br
 %h2 Scheduled downtimes
@@ -122,11 +122,10 @@
     %th Start Time
     %th Stop Time
     %th User
-    %th Processed?
-    %th Completed?
     %th Clients
     %th Checks
     %th Created At
+    %th
     %th
     %th
   %tbody
@@ -137,14 +136,13 @@
         %td.moreinfo= adowntime.start_time
         %td.moreinfo= adowntime.stop_time
         %td.moreinfo= adowntime.user.email
-        %td.moreinfo= adowntime.processed
-        %td.moreinfo= adowntime.completed
         %td.moreinfo= adowntime.downtime_clients.count
         %td.moreinfo= adowntime.downtime_checks.count
         %td.moreinfo= time_ago_in_words(adowntime.created_at) + " ago"
         %td.moreinfo
           %i.icon-zoom-in
-        %td= link_to 'Delete', downtime_path(adowntime), :confirm => "Are you sure?", :method => :delete
+        %td= link_to 'Edit', edit_downtime_path(adowntime)
+        %td= link_to 'Delete', downtime_path(adowntime), :data => {:confirm => "Are you sure?"}, :method => :delete
 %br
 %br
 %div

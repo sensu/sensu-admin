@@ -7,7 +7,6 @@ class Downtime < ActiveRecord::Base
   has_many :downtime_clients
 
   validates_presence_of :name
-  validates_presence_of :description
   validates_presence_of :user_id
   validates_presence_of :downtime_clients
 
@@ -90,15 +89,23 @@ class Downtime < ActiveRecord::Base
   end
 
   def begin_date
+    return "" if self.start_time.nil?
+    self.start_time.strftime("%d/%m/%Y")
   end
 
   def end_date
+    return "" if self.stop_time.nil?
+    self.stop_time.strftime("%d/%m/%Y")
   end
 
   def begin_time
+    return "" if self.start_time.nil?
+    self.start_time.strftime("%l:%M%P")
   end
 
   def end_time
+    return "" if self.stop_time.nil?
+    self.stop_time.strftime("%l:%M%P")
   end
 
   private
