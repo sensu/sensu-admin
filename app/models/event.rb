@@ -21,34 +21,32 @@ class Event < ActiveResource::Base
     post.code == 202
   end
 
-  def self.silence_client(client, description, user, expire_at = nil, log = true)
+  def self.silence_client(client, description, user, expire_at = nil, log = true, downtime_id = nil)
     Log.log(user, client, "silence", description) if log
     post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
     post_data[:expire_at] = expire_at unless expire_at.nil?
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}", post_data.to_json
-    post.code == 201
+    post_data[:downtime_id] = downtime_id unless downtime_id.nil?
+    Stash.create_stash("silence/#{client}", post_data)
   end
 
-  def self.silence_check(client, check, description, user, expire_at = nil, log = true)
+  def self.silence_check(client, check, description, user, expire_at = nil, log = true, downtime_id = nil)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "silence", description, event) if log
     post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
     post_data[:expire_at] = expire_at unless expire_at.nil?
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}", post_data.to_json
-    post.code == 201
+    post_data[:downtime_id] = downtime_id unless downtime_id.nil?
+    Stash.create_stash("silence/#{client}/#{check}", post_data)
   end
 
   def self.unsilence_client(client, user)
     Log.log(user, client, "unsilence")
-    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}"
-    post.code == 204
+    Stash.delete_stash("silence/#{client}")
   end
 
   def self.unsilence_check(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "unsilence", nil, event)
-    post = RestClient.delete "#{APP_CONFIG['api']}/stash/silence/#{client}/#{check}"
-    post.code == 204
+    Stash.delete_stash("silence/#{client}/#{check}")
   end
 
   def client
