@@ -63,9 +63,11 @@ $ ->
       should_update = false
       $("#event-" + $(self).attr("index_id")).modal("hide");
       $("#modal_" + $(self).attr("misc")).modal("show");
+    $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true });
+    $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' });
     $('.silence-submit-event').click ->
       self = $(this);
-      $.post $(this).attr("rel"), { 'description': $('#text_input_' + $(self).attr("misc")).val()},
+      $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + $(self).attr("misc")).val(), 'expire_at_date': $('#silence_expire_at_date_' + $(self).attr("misc")).val(), 'description': $('#text_input_' + $(self).attr("misc")).val()},
         (data) ->
           if data
             $("#modal_" + $(self).attr("misc")).modal("hide");
