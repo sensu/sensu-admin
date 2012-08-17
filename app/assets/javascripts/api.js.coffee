@@ -6,10 +6,10 @@ $ ->
     $.ajax "/api/status",
       type: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
-        $("#api_info_div").html("Failed to update API information!");
+        $("#api_info_div").html("Failed to update API information!")
       success: (data, textStatus, jqXHR) ->
-        $("#api_info_div").html(data['data']);
-  updateApiStatus();
+        $("#api_info_div").html(data['data'])
+  updateApiStatus()
   setInterval () ->
-    updateApiStatus();
+    updateApiStatus()
   , 75000

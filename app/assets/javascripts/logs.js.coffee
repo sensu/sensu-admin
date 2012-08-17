@@ -3,4 +3,4 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
   $('td.moreinfo').click ->
-    $($(this).closest('tr').attr("rel")).modal("show");
+    $($(this).closest('tr').attr("rel")).modal("show")

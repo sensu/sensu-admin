@@ -2,6 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
-  $('.subpopover').popover({'placement': 'bottom'});
+  $('.subpopover').popover({'placement': 'bottom'})
   $('td.moreinfo').click ->
-    $($(this).closest('tr').attr("rel")).modal("show");
+    $($(this).closest('tr').attr("rel")).modal("show")
