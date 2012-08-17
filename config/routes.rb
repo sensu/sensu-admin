@@ -1,25 +1,34 @@
 SensuAdmin::Application.routes.draw do
   devise_for :users
-  resources :users
+
   match 'users/update_password' => 'users#update_password', :via => :post
-  resources :clients
+
   match 'events/events_table' => 'events#events_table', :via => :get
   match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
   match 'events/:client/silence' => 'events#silence_client', :via => :post
   match 'events/:client/:check/silence' => 'events#silence_check', :via => :post
   match 'events/:client/unsilence' => 'events#unsilence_client', :via => :post
   match 'events/:client/:check/unsilence' => 'events#unsilence_check', :via => :post
+
+  match 'stashes/create_stash' => 'stashes#create_stash', :via => :post
   match 'stashes/delete_stash' => 'stashes#delete_stash', :via => :post
   match 'stashes/delete_all_stashes' => 'stashes#delete_all_stashes', :via => :post
+
+  match 'downtimes/old_downtimes' => 'downtimes#old_downtimes', :via => :get
+  match 'downtimes/force_complete' => 'downtimes#force_complete', :via => :post
+
+  match 'checks/:check/submit' => 'checks#submit_check', :via => :post
+
+  match 'api/status' => 'api#status', :via => :get
+  match 'api/time' => 'api#time', :via => :get
+
   resources :events
   resources :stashes
   resources :logs
   resources :checks
-  match 'downtimes/old_downtimes' => 'downtimes#old_downtimes', :via => :get
   resources :downtimes
-  match 'checks/:check/submit' => 'checks#submit_check', :via => :post
-  match 'api/status' => 'api#status', :via => :get
-  match 'api/time' => 'api#time', :via => :get
+  resources :clients
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -71,7 +80,7 @@ SensuAdmin::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  root :to => 'events#index'
 
   # See how all your routes lay out with "rake routes"
 

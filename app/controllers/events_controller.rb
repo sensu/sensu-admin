@@ -39,16 +39,24 @@ class EventsController < ApplicationController
   end
 
   def silence_client
+    expire_at = nil
+    if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
+      expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
+    end
     puts "silence_client params are: #{params.inspect}"
-    resp = Event.silence_client(params[:client], params[:description], current_user)
+    resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
   end
 
   def silence_check
+    expire_at = nil
+    if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
+      expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
+    end
     puts "silence_check params are: #{params.inspect}"
-    resp = Event.silence_check(params[:client], params[:check], params[:description], current_user)
+    resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end

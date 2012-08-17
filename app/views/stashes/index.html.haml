@@ -1,16 +1,52 @@
-%div.btn-group.pull-right
-  %button.btn.btn-danger.dropdown-toggle{:id => "delete-all-stashes-button", 'data-toggle' => 'dropdown'}
-    Delete All Stashes
-    %span.caret
-  %ul.dropdown-menu
-    %li
-      %a{:id => 'delete-all-stashes', :rel => "#{request.url}/delete_all_stashes", :href => "#"} Yes, Nuke it
+%div{:class => "modal hide", :id => "custom_stash_modal"}
+  %div.modal-header
+    %h3== Create stash
+  %div.modal-body
+    %br
+    %h3 Enter key
+    %input.input-xlarge{:id => "custom_stash_key_input", :placeholder => "Stash key"}
+    %br
+    %br
+    %h3 Description
+    %textarea.input-xlarge{:id => "custom_stash_description", :placeholder => "Stash description", :rows => "2"}
+    %br
+    %br
+    %br
+    %h3 Expire at (Optional):
+    %div
+      %div.pull-left
+        %p Date:
+        %input.datepicker{:id => "custom_stash_date_input"}
+      %div.pull-right
+        %p Time:
+        %input.timepicker{:id => "custom_stash_time_input"}
+    %div{:style => "height: 160px;"}
+    
+  %div.modal-footer
+    %a.stash-submit-event.btn.btn-info Submit
+    %button.btn.btn-success.create-custom-stash-working{:hidden => "true"}
+      Working...
+
+%div
+  %div.btn-group.pull-right
+    %button.btn.btn-danger.dropdown-toggle{:id => "delete-all-stashes-button", 'data-toggle' => 'dropdown'}
+      Delete All Stashes
+      %span.caret
+    %ul.dropdown-menu
+      %li
+        %a{:id => 'delete-all-stashes', :rel => "#{request.url}/delete_all_stashes", :href => "#"} Yes, Nuke it
+  %div.btn-group.pull-right
+    %button.btn.btn-info.show-custom-stash-modal{:style => "margin-right: 10px;"}
+      Create Stash
+%br
+%br
+      
 
 %h2== Stashes (#{@stashes.count})
 %table.table.table-striped
   %thead
-    %th Key
-    %th Description
+    %th.span5 Key
+    %th.span4 Description
     %th Owner
     %th Expires in
     %th Set
@@ -19,8 +55,8 @@
   %tbody
     - @stashes.each_with_index do |(k,v), i|
       %tr{:id => "stash-#{i}"}
-        %td= k
-        %td= v['description']
+        %td.span5= k
+        %td.span4= v['description']
         %td= v['owner']
         - if v['expire_at']
           %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
