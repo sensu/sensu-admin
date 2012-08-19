@@ -20,3 +20,4 @@ The seed file creates a user account named admin@example.com with a password of 
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
 * Create stats page
+* Fix events page locking up due to JS slowdown

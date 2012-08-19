@@ -9,6 +9,8 @@ gem 'sqlite3'
 
 #Authentication Gems
 gem 'devise'
+gem 'cancan'
+gem 'rolify'
 
 #API Gems
 require 'json'

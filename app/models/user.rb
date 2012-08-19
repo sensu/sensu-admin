@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  rolify
+  scope :deactivated, where("deleted_at IS NOT NULL")
+  scope :active, where("deleted_at IS NULL")
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -11,5 +14,17 @@ class User < ActiveRecord::Base
   #
   def attempt_set_password(params)
     update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
+  end
+
+  def admin?
+    self.has_role? :admin
+  end
+
+  def active_for_authentication?
+    super && !deleted_at
+  end
+
+  def self.find_for_authentication(conditions)
+    super(conditions.merge(:deleted_flag => false))
   end
 end

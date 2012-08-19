@@ -1,7 +1,8 @@
-%h2 User info
+%h2 Edit User
 %br
-%p== email: #{@user.email}
-
+= semantic_form_for @user do |f|
+  = f.inputs
+  = f.actions
 
 %br
 %br
