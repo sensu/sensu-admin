@@ -23,8 +23,4 @@ class User < ActiveRecord::Base
   def active_for_authentication?
     super && !deleted_at
   end
-
-  def self.find_for_authentication(conditions)
-    super(conditions.merge(:deleted_flag => false))
-  end
 end

@@ -20,6 +20,7 @@ $ ->
         success: (data, textStatus, jqXHR) ->
           $("#main_events_table").html(data['data'])
           $('#updating_event_list').hide()
+          dropTableHooks()
           runTableHooks()
   updateEventTable()
   setInterval () ->
@@ -28,6 +29,18 @@ $ ->
       location.reload()
     updateEventTable()
   , 60000
+  dropTableHooks = ()->
+    $('.modal').unbind()
+    $('.silence-input').unbind()
+    $('[control^=sil]').unbind()
+    $('td.moreinfo').unbind()
+    $('.resolve-event').unbind()
+    $('.silence-event').unbind()
+    $('.timepicker').unbind()
+    $('.datepicker').unbind()
+    $('.silence-submit-event').unbind()
+    $('.unsilence-submit-event').unbind()
+    $('#primary_events_table').unbind()
   runTableHooks = ()->
     $('.modal').on 'shown', ->
       modal_shown = true
