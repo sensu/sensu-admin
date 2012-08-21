@@ -1,0 +1,93 @@
+- @events.each_with_index do |event,i|
+  - processed_clients = []
+  %div{:class => "modal hide", :id => "modal_#{event.client}_#{event.check}"}
+    %div.modal-header
+      %h3== Silence check #{event.check} on client #{event.client}
+    %div.modal-body
+      %br
+      %h3 Enter reason
+      %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Check Reason"}
+      %br
+      %h3 Expire at (Optional):
+      %div
+        %p Date:
+        %input.datepicker{:id => "silence_expire_at_date_#{event.client}_#{event.check}"}
+      %div
+        %p Time:
+        %input.timepicker{:id => "silence_expire_at_time_#{event.client}_#{event.check}"}
+    %div.modal-footer
+      %div.alert.alert-error{:id => "no_input_#{event.client}_#{event.check}", :hidden => "true", :style => "float: left;", :hidden => "true"}
+        %p You need to enter a reason over 12 chars before you can submit!
+      %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
+      %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Submit
+  - unless processed_clients.include?(event.client)
+    - processed_clients << event.client
+    %div{:class => "modal hide", :id => "modal_#{event.client}"}
+      %div.modal-header
+        %h3== Silence Client #{event.client}
+      %div.modal-body
+        %h3 Enter reason
+        %textarea.input-xlarge.silence-input{:id => "text_input_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "Silence Check", :rows => "3", :type => "text", :placeholder => "Silence Client Reason"}
+        %br
+        %h3 Expire at (Optional):
+        %div
+          %p Date:
+          %input.datepicker{:id => "silence_expire_at_date_#{event.client}"}
+        %div
+          %p Time:
+          %input.timepicker{:id => "silence_expire_at_time_#{event.client}"}
+      %div.modal-footer
+        %div.alert.alert-error{:id => "no_input_#{event.client}", :style => "float: left;"}
+          %p You need to enter a reason over 12 chars before you can submit!
+        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
+        %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Submit
+  %div{:class => "modal hide", :id => "event-#{i}"}
+    %div.modal-header
+      %h3== Client: #{event.client} 
+      %h3== Check: #{event.check}
+    %div.modal-body
+      %h3 Check Output
+      %table.table.table-striped.table-bordered
+        %tbody
+          %tr
+            %td Output
+            %td= event.output
+          %tr
+            %td Occurrences
+            %td= event.occurrences
+          %tr
+            %td Status
+            %td= format_status(event.status)
+          %tr
+            %td Occured
+            %td= Time.at(event.issued)
+          %tr
+            %td Flapping
+            %td= event.flapping
+          %tr
+            %td Check Silenced
+            %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : event.check_silenced.to_s)
+          %tr
+            %td Client Silenced
+            %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
+      %br
+      %br
+      %h3 Client Attributes
+      %table.table.table-striped.table-bordered
+        %tbody
+          - event.client_attributes.each do |k,v|
+            %tr
+              %td= k
+              %td= v
+    %div.modal-footer{:style => "width: 770px; height: 100px;"}
+      /
+      / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
+      /
+      %div{:style => "height: 32px;"}
+        %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}_#{event.check}", :hidden => not_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Silence Check
+        %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}_#{event.check}", :hidden => is_nil?(event.check_silenced), :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+      %div{:style => "height: 32px;"}
+        %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}", :hidden => not_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Silence Client
+        %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}", :hidden => is_nil?(event.client_silenced), :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
+      %div{:style => "height: 32px;"}
+        %a.resolve-event.btn.btn-success{:misc => "#row-event-#{i}", :rel => "#{request.url}/#{event.client}/#{event.check}/resolve"} Resolve

@@ -1,6 +1,4 @@
 class EventsController < ApplicationController
-  def index
-  end
   def events_table
     events = Event.all
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}

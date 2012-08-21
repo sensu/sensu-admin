@@ -9,6 +9,8 @@ $ ->
   updateEventTable = ()->
     if modal_shown
       should_update = true
+      if update_counter > 30
+        location.reload() # A nasty hack to get around JS loading up and crashing the browser
     else
       $('#error_event_list').hide()
       $('#updating_event_list').show()
@@ -22,24 +24,10 @@ $ ->
           $('#updating_event_list').hide()
           dropTableHooks()
           runTableHooks()
-  updateEventTable()
-  setInterval () ->
-    update_counter = update_counter + 1
-    if update_counter > 60 and modal_shown isnt true
-      location.reload()
-    updateEventTable()
-  , 60000
   dropTableHooks = ()->
     $('.modal').unbind()
-    $('.silence-input').unbind()
-    $('[control^=sil]').unbind()
-    $('td.moreinfo').unbind()
-    $('.resolve-event').unbind()
-    $('.silence-event').unbind()
     $('.timepicker').unbind()
     $('.datepicker').unbind()
-    $('.silence-submit-event').unbind()
-    $('.unsilence-submit-event').unbind()
     $('#primary_events_table').unbind()
   runTableHooks = ()->
     $('.modal').on 'shown', ->
@@ -51,7 +39,16 @@ $ ->
         updateEventTable()
     $('[hidden="true"]').hide()
     $('[hidden="false"]').show()
-    $('.silence-input').keydown ->
+    $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
+    $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
+    search_val = $('#events_search').val()
+    $('#primary_events_table').tableFilter({ additionalFilterTriggers: [$('#events_search')]})
+    $('#events_search').val(search_val)
+    $('#primary_events_table').tableFilterApplyFilterValues()
+    $('#primary_events_table').tableFilterRefresh()
+    $('.filters').hide()
+  runPermanentHooks = ()->
+    $('.silence-input').live "keydown", (event) ->
       self = $(this)
       $('#no_input_' + $(self).attr("misc")).hide()
       if $(self).val().length > 12
@@ -60,11 +57,11 @@ $ ->
       else
         $('[control="silence_grey_submit_' + $(self).attr("misc") + '"]').show()
         $('[control="silence_submit_' + $(self).attr("misc") + '"]').hide()
-    $('[control^=silence_grey_submit_]').click ->
+    $('[control^=silence_grey_submit_]').live 'click', (event) ->
       $('#no_input_' + $(this).attr("misc")).show()
-    $('td.moreinfo').click ->
+    $('td.moreinfo').live 'click', (event) ->
       $($(this).closest('tr').attr("rel")).modal("show")
-    resolve = $('.resolve-event').click ->
+    resolve = $('.resolve-event').live 'click', (event) ->
       self = $(this)
       $.post $(this).attr("rel"),
         (data) ->
@@ -75,14 +72,12 @@ $ ->
           else
             $(self).text("Failed to resolve")
             $(self).css("color", "red")
-    $('.silence-event').click ->
+    $('.silence-event').live 'click', (event) ->
       self = $(this)
       should_update = false
       $("#event-" + $(self).attr("index_id")).modal("hide")
       $("#modal_" + $(self).attr("misc")).modal("show")
-    $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
-    $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
-    $('.silence-submit-event').click ->
+    $('.silence-submit-event').live 'click', (event) ->
       self = $(this)
       $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + $(self).attr("misc")).val(), 'expire_at_date': $('#silence_expire_at_date_' + $(self).attr("misc")).val(), 'description': $('#text_input_' + $(self).attr("misc")).val()},
         (data) ->
@@ -96,7 +91,7 @@ $ ->
             updateEventTable()
           else
             alert("Failed to silence...")
-    $('.unsilence-submit-event').click ->
+    $('.unsilence-submit-event').live 'click', (event) ->
       self = $(this)
       $.post $(this).attr("rel"),
         (data) ->
@@ -108,9 +103,9 @@ $ ->
             $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-up")
           else
             alert("Failed to unsilence...")
-    search_val = $('#events_search').val()
-    $('#primary_events_table').tableFilter({ additionalFilterTriggers: [$('#events_search')]})
-    $('#events_search').val(search_val)
-    $('#primary_events_table').tableFilterApplyFilterValues()
-    $('#primary_events_table').tableFilterRefresh()
-    $('.filters').hide()
+  updateEventTable()
+  runPermanentHooks()
+  setInterval () ->
+    update_counter = update_counter + 1
+    updateEventTable()
+  , 120000
