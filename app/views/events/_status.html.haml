@@ -1,0 +1,10 @@
+/ TODO: Make this into a helper that renders using haml_tag
+- if event.status == 1
+  %span.badge.badge-warning
+    = format_status(event.status)
+- elsif event.status == 2
+  %span.badge.badge-important
+    = format_status(event.status)
+- else
+  %span.badge.badge-inverse
+    = format_status(event.status)

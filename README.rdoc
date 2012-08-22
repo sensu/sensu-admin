@@ -21,3 +21,4 @@ The seed file creates a user account named admin@example.com with a password of 
 * Make a downtime info page
 * Create stats page
 * Fix events page locking up due to JS slowdown
+* Delete client

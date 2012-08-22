@@ -86,6 +86,10 @@ class Event < ActiveResource::Base
   end
 
   def client_attributes
-    self.attributes['client_attributes']
+    if self.attributes['client_attributes'].nil?
+      Client.all.select{|client| client.name == self.client}[0].attributes
+    else
+      self.attributes['client_attributes']
+    end
   end
 end

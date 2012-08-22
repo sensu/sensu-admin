@@ -11,14 +11,16 @@ $ ->
     $('tr[rel="downtime_check_table_row"][filtermatch!="false"]').find('input[type="checkbox"]').attr("checked", $(this).is(":checked"))
   $('.toggle_box').click ->
     $(this).siblings('.check_box').find('input').trigger("click")
-  updateServerTime = ()->
-    $.ajax "/api/time",
-      type: 'GET'
-      error: (jqXHR, textStatus, errorThrown) ->
-        $("#api_time_div").html("Failed to update server time.")
-      success: (data, textStatus, jqXHR) ->
-        $("#api_time_div").html(data['data'])
-  updateServerTime()
-  setInterval () ->
+
+  if $("#api_time_div").length > 0
+    updateServerTime = ()->
+      $.ajax "/api/time",
+        type: 'GET'
+        error: (jqXHR, textStatus, errorThrown) ->
+          $("#api_time_div").html("Failed to update server time.")
+        success: (data, textStatus, jqXHR) ->
+          $("#api_time_div").html(data['data'])
     updateServerTime()
-  , 60000
+    setInterval () ->
+      updateServerTime()
+    , 60000

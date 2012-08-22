@@ -9,6 +9,9 @@ SensuAdmin::Application.routes.draw do
   match 'events/:client/:check/silence' => 'events#silence_check', :via => :post
   match 'events/:client/unsilence' => 'events#unsilence_client', :via => :post
   match 'events/:client/:check/unsilence' => 'events#unsilence_check', :via => :post
+  match 'events/test' => 'events#test'
+  match 'events/test_table' => 'events#test_table'
+  match 'events/modal_data' => 'events#modal_data', :via => :get
 
   match 'stashes/create_stash' => 'stashes#create_stash', :via => :post
   match 'stashes/delete_stash' => 'stashes#delete_stash', :via => :post

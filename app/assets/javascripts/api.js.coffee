@@ -10,6 +10,3 @@ $ ->
       success: (data, textStatus, jqXHR) ->
         $("#api_info_div").html(data['data'])
   updateApiStatus()
-  setInterval () ->
-    updateApiStatus()
-  , 75000
