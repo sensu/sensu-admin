@@ -22,7 +22,7 @@
       
   %tbody
     - @clients.each do |client|
-      %tr{:rel => "#client_modal_#{client.name}"}
+      %tr{:id => "client_row_#{client.name}", :rel => "#client_modal_#{client.name}"}
         %td.moreinfo= client.environment
         %td.moreinfo= client.name
         %td.moreinfo= client.address
@@ -33,3 +33,5 @@
         %td.moreinfo= time_ago_in_words(Time.at(client.timestamp))
         %td.moreinfo
           %i.icon-zoom-in
+        %td
+          %a.delete-client{:key => client.name, :rel => "/clients/#{client.name}"} Delete

@@ -1,30 +1,35 @@
 class EventsController < ApplicationController
+  before_filter :find_events, :only => [:index, :events_table ]
+
+  def index
+    puts request.inspect
+  end
+
   def events_table
-    events = Event.all
-    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
-    cli = {}
-    Client.all.each do |client|
-      cli[client.attributes['name']] = client.attributes
+    events_datatable = []
+    @events.each_with_index do |event, i|
+      events_datatable << [
+       event.sort_val,
+       render_to_string(:action => "_status", :formats => [:html], :layout => false, :locals => { :event => event }),
+       event.client_attributes['environment'],
+       event.client,
+       event.check,
+       render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
+       render_to_string(:action => "_actions", :formats => [:html], :layout => false, :locals => { :event => event, :i => i}),
+       render_to_string(:action => "_issued", :formats => [:html], :layout => false, :locals => { :event => event }),
+       "<div class = 'moreinfo' style='height: 30px; width: 30px;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i class='icon-zoom-in'></i></div>"
+      ]
     end
-    events.each do |event|
-      if stashes.include?("silence/#{event.client}")
-        event.client_silenced = stashes["silence/#{event.client}"]
+    respond_to do |format|
+      format.json do
+        render :json => { "aaData" => events_datatable}
       end
-      if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
-      end
-      event.client_attributes = cli[event.client]
     end
-    #
-    # Could use a custom sorter here, as Critical is == 2 and Warning == 1
-    #
-    return_events = []
-    events.sort!{|x,y| y.issued <=> x.issued }
-    events.each{|event| return_events.push(event) if event.status == 2}
-    events.each{|event| return_events.push(event) if event.status == 1}
-    events.each{|event| return_events.push(event) if event.status != 2 && event.status != 1}
-    @events = return_events
-    render :json => { :data => render_to_string(:action => '_table', :layout => false) }
+  end
+
+  def modal_data
+    event = Event.single(params[:event_query])
+    render :json => {:data => render_to_string(:action => "_modal_data", :layout => false, :locals => {:event => event, :i => params[:i]})}
   end
 
   def resolve
@@ -72,5 +77,26 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
+  end
+
+  private
+
+  def find_events
+    events = Event.all
+    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
+    cli = {}
+    Client.all.each do |client|
+      cli[client.attributes['name']] = client.attributes
+    end
+    events.each do |event|
+      if stashes.include?("silence/#{event.client}")
+        event.client_silenced = stashes["silence/#{event.client}"]
+      end
+      if stashes.include?("silence/#{event.client}/#{event.check}")
+        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
+      end
+      event.client_attributes = cli[event.client]
+    end
+    @events = events
   end
 end

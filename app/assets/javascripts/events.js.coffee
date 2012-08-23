@@ -3,109 +3,95 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 $ ->
-  update_counter = 0
-  modal_shown = false
-  should_update = false
   updateEventTable = ()->
-    if modal_shown
-      should_update = true
-      if update_counter > 30
-        location.reload() # A nasty hack to get around JS loading up and crashing the browser
-    else
-      $('#error_event_list').hide()
-      $('#updating_event_list').show()
-      $.ajax "/events/events_table",
-        type: 'GET'
-        error: (jqXHR, textStatus, errorThrown) ->
-          $('#updating_event_list').hide()
-          $('#error_event_list').show()
-        success: (data, textStatus, jqXHR) ->
-          $("#main_events_table").html(data['data'])
-          $('#updating_event_list').hide()
-          dropTableHooks()
-          runTableHooks()
-  dropTableHooks = ()->
-    $('.modal').unbind()
-    $('.timepicker').unbind()
-    $('.datepicker').unbind()
-    $('#primary_events_table').unbind()
-  runTableHooks = ()->
-    $('.modal').on 'shown', ->
-      modal_shown = true
-    $('.modal').on 'hide', ->
-      modal_shown = false
-      if should_update
-        should_update = false
-        updateEventTable()
-    $('[hidden="true"]').hide()
-    $('[hidden="false"]').show()
+    $('#updating_event_list').show()
+    $('#primary_events_table').dataTable().fnReloadAjax()
+    setTimeout (() -> $('#updating_event_list').hide()), 1500
+
+  runPermanentHooks = ()->
     $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
     $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
-    search_val = $('#events_search').val()
-    $('#primary_events_table').tableFilter({ additionalFilterTriggers: [$('#events_search')]})
-    $('#events_search').val(search_val)
-    $('#primary_events_table').tableFilterApplyFilterValues()
-    $('#primary_events_table').tableFilterRefresh()
-    $('.filters').hide()
-  runPermanentHooks = ()->
-    $('.silence-input').live "keydown", (event) ->
+
+    $(document).on 'keydown', '.silence-input', ->
       self = $(this)
+      misc = $(self).attr("misc")
       $('#no_input_' + $(self).attr("misc")).hide()
       if $(self).val().length > 12
-        $('[control="silence_grey_submit_' + $(self).attr("misc") + '"]').hide()
-        $('[control="silence_submit_' + $(self).attr("misc") + '"]').show()
+        $('[control="silence_grey_submit_' + misc + '"]').hide()
+        $('[control="silence_submit_' + misc + '"]').show()
       else
-        $('[control="silence_grey_submit_' + $(self).attr("misc") + '"]').show()
-        $('[control="silence_submit_' + $(self).attr("misc") + '"]').hide()
-    $('[control^=silence_grey_submit_]').live 'click', (event) ->
+        $('[control="silence_grey_submit_' + misc + '"]').show()
+        $('[control="silence_submit_' + misc + '"]').hide()
+
+    $(document).on 'click', '[control^=silence_grey_submit_]', ->
       $('#no_input_' + $(this).attr("misc")).show()
-    $('td.moreinfo').live 'click', (event) ->
-      $($(this).closest('tr').attr("rel")).modal("show")
-    resolve = $('.resolve-event').live 'click', (event) ->
+
+    $(document).on 'click', 'div.moreinfo', ->
+      $.get "/events/modal_data", { 'event_query': $(this).attr('misc'), 'i': $(this).attr('index_id') },
+        (data) ->
+          if data
+            $('#event-data-modal').html(data['data'])
+            $('#event-data-modal').modal("show")
+          else
+            alert("Could not get modal info")
+
+    resolve = $(document).on 'click', '.resolve-event', ->
       self = $(this)
       $.post $(this).attr("rel"),
         (data) ->
           if data
             $(self).text("Resolved")
-            $($(self).attr("misc")).hide()
             $(self).css("color", "green")
+            $('#event-data-modal').modal("hide")
+            updateEventTable()
           else
             $(self).text("Failed to resolve")
             $(self).css("color", "red")
-    $('.silence-event').live 'click', (event) ->
+
+    $(document).on 'click', '.silence-event', ->
       self = $(this)
-      should_update = false
-      $("#event-" + $(self).attr("index_id")).modal("hide")
+      $("#event-data-modal").modal("hide")
       $("#modal_" + $(self).attr("misc")).modal("show")
-    $('.silence-submit-event').live 'click', (event) ->
+
+    $(document).on 'click', '.silence-submit-event', ->
       self = $(this)
-      $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + $(self).attr("misc")).val(), 'expire_at_date': $('#silence_expire_at_date_' + $(self).attr("misc")).val(), 'description': $('#text_input_' + $(self).attr("misc")).val()},
+      misc = $(self).attr("misc")
+      $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + misc).val(), 'expire_at_date': $('#silence_expire_at_date_' + misc).val(), 'description': $('#text_input_' + misc).val()},
         (data) ->
           if data
-            $("#modal_" + $(self).attr("misc")).modal("hide")
-            $('[control="unsilence_' + $(self).attr("misc") + '"]').show()
-            $('[control="silence_' + $(self).attr("misc") + '"]').hide()
-            $('td[rel="' + $(self).attr("misc") + '_popup_info"]').attr('data-content', $('#input_' + $(self).attr("misc")).val())
-            $('td[rel="' + $(self).attr("misc") + '_column_silenced"]').text($('#input_' + $(self).attr("misc")).val())
-            $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-off")
+            $("#modal_" + misc).modal("hide")
             updateEventTable()
           else
             alert("Failed to silence...")
-    $('.unsilence-submit-event').live 'click', (event) ->
+
+    $(document).on 'click', '.unsilence-submit-event', ->
       self = $(this)
+      misc = $(self).attr("misc")
       $.post $(this).attr("rel"),
         (data) ->
           if data
-            $('[control="unsilence_' + $(self).attr("misc") + '"]').hide()
-            $('[control="silence_' + $(self).attr("misc") + '"]').show()
-            $('td[rel="' + $(self).attr("misc") + '_popup_info"]').attr('data-content', "No")
-            $('td[rel="' + $(self).attr("misc") + '_column_silenced"]').text("No")
-            $('i[rel="icon_silenced_' + $(self).attr("index_id") + '"]').attr("class", "icon-volume-up")
+            $('[control="unsilence_' + misc + '"]').hide()
+            $('[control="silence_' + misc + '"]').show()
+            $('td[rel="' + misc + '_popup_info"]').attr('data-content', "No")
+            $('td[rel="' + misc + '_column_silenced"]').text("No")
           else
             alert("Failed to unsilence...")
-  updateEventTable()
+
+  dtable = $('#primary_events_table').dataTable
+    bAutoWidth: false
+    bJQueryUI: false
+    bProcessing: false
+    sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+    sWrapper: "dataTables_wrapper form-inline"
+    bServerSide: false
+    bSort: true
+    aoColumns: [{bVisible: false}, null, null, null, null, null, null, null, null]
+    sPaginationType: "bootstrap"
+    iDisplayLength: 25
+    sAjaxSource: $('#primary_events_table').data('source')
+
   runPermanentHooks()
+
   setInterval () ->
-    update_counter = update_counter + 1
     updateEventTable()
-  , 120000
+  , 60000

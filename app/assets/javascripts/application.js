@@ -16,4 +16,7 @@
 //= require datepair
 //= require jquery.timepicker
 //= require bootstrap-datepicker
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap
+//= require dataTables/jquery.dataTables.api.fnReloadAjax
 //= require_tree .
