@@ -85,6 +85,18 @@ class Event < ActiveResource::Base
     self.attributes['check_silenced']
   end
 
+  def sort_val
+    # Could use a custom sorter here, as Critical is == 2 and Warning == 1
+    case self.status
+    when 2
+      1
+    when 1
+      2
+    else
+      3
+    end
+  end
+
   def client_attributes
     if self.attributes['client_attributes'].nil?
       Client.all.select{|client| client.name == self.client}[0].attributes

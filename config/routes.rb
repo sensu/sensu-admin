@@ -4,14 +4,12 @@ SensuAdmin::Application.routes.draw do
   match 'users/update_password' => 'users#update_password', :via => :post
 
   match 'events/events_table' => 'events#events_table', :via => :get
+  match 'events/modal_data' => 'events#modal_data', :via => :get
   match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
   match 'events/:client/silence' => 'events#silence_client', :via => :post
   match 'events/:client/:check/silence' => 'events#silence_check', :via => :post
   match 'events/:client/unsilence' => 'events#unsilence_client', :via => :post
   match 'events/:client/:check/unsilence' => 'events#unsilence_check', :via => :post
-  match 'events/test' => 'events#test'
-  match 'events/test_table' => 'events#test_table'
-  match 'events/modal_data' => 'events#modal_data', :via => :get
 
   match 'stashes/create_stash' => 'stashes#create_stash', :via => :post
   match 'stashes/delete_stash' => 'stashes#delete_stash', :via => :post

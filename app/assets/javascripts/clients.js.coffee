@@ -5,3 +5,13 @@ $ ->
   $('.subpopover').popover({'placement': 'bottom'})
   $('td.moreinfo').click ->
     $($(this).closest('tr').attr("rel")).modal("show")
+  $('a.delete-client').click ->
+    self = $(this)
+    if (confirm('Are you sure?'))
+      $.ajax $(this).attr("rel"),
+        type: 'DELETE'
+        success: (data) ->
+          if data
+            $("#client_row_" + $(self).attr('key')).hide()
+          else
+            alert("Could not delete client")

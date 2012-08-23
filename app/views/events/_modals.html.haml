@@ -1,8 +1,8 @@
-%div{:class => "modal hide", :id => "event-data-modal"}
+%div{:class => "large-modal modal hide", :id => "event-data-modal"}
 
 - @events.each_with_index do |event,i|
   - processed_clients = []
-  %div{:class => "modal hide", :id => "modal_#{event.client}_#{event.check}"}
+  %div{:class => "small-modal modal hide", :id => "modal_#{event.client}_#{event.check}"}
     %div.modal-header
       %h3== Silence check #{event.check} on client #{event.client}
     %div.modal-body
@@ -24,7 +24,7 @@
       %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Submit
   - unless processed_clients.include?(event.client)
     - processed_clients << event.client
-    %div{:class => "modal hide", :id => "modal_#{event.client}"}
+    %div{:class => "small-modal modal hide", :id => "modal_#{event.client}"}
       %div.modal-header
         %h3== Silence Client #{event.client}
       %div.modal-body

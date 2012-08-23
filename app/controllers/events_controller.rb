@@ -1,54 +1,15 @@
 class EventsController < ApplicationController
+  before_filter :find_events, :only => [:index, :events_table ]
 
-  def test
-    events = Event.all
-    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
-    cli = {}
-    Client.all.each do |client|
-      cli[client.attributes['name']] = client.attributes
-    end
-    events.each do |event|
-      if stashes.include?("silence/#{event.client}")
-        event.client_silenced = stashes["silence/#{event.client}"]
-      end
-      if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
-      end
-      event.client_attributes = cli[event.client]
-    end
-    @events = events
-
-
+  def index
+    puts request.inspect
   end
 
-  def test_table
-    events = Event.all
-    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
-    cli = {}
-    Client.all.each do |client|
-      cli[client.attributes['name']] = client.attributes
-    end
-    events.each do |event|
-      if stashes.include?("silence/#{event.client}")
-        event.client_silenced = stashes["silence/#{event.client}"]
-      end
-      if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
-      end
-      event.client_attributes = cli[event.client]
-    end
-    #
-    # Could use a custom sorter here, as Critical is == 2 and Warning == 1
-    #
-    return_events = []
-    events.sort!{|x,y| y.issued <=> x.issued }
-    events.each{|event| return_events.push(event) if event.status == 2}
-    events.each{|event| return_events.push(event) if event.status == 1}
-    events.each{|event| return_events.push(event) if event.status != 2 && event.status != 1}
-
+  def events_table
     events_datatable = []
-    return_events.each_with_index do |event, i|
+    @events.each_with_index do |event, i|
       events_datatable << [
+       event.sort_val,
        render_to_string(:action => "_status", :formats => [:html], :layout => false, :locals => { :event => event }),
        event.client_attributes['environment'],
        event.client,
@@ -64,34 +25,6 @@ class EventsController < ApplicationController
         render :json => { "aaData" => events_datatable}
       end
     end
-  end
-
-  def events_table
-    events = Event.all
-    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
-    cli = {}
-    Client.all.each do |client|
-      cli[client.attributes['name']] = client.attributes
-    end
-    events.each do |event|
-      if stashes.include?("silence/#{event.client}")
-        event.client_silenced = stashes["silence/#{event.client}"]
-      end
-      if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
-      end
-      event.client_attributes = cli[event.client]
-    end
-    #
-    # Could use a custom sorter here, as Critical is == 2 and Warning == 1
-    #
-    return_events = []
-    events.sort!{|x,y| y.issued <=> x.issued }
-    events.each{|event| return_events.push(event) if event.status == 2}
-    events.each{|event| return_events.push(event) if event.status == 1}
-    events.each{|event| return_events.push(event) if event.status != 2 && event.status != 1}
-    @events = return_events
-    render :json => { :data => render_to_string(:action => '_table', :layout => false) }
   end
 
   def modal_data
@@ -144,5 +77,26 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
+  end
+
+  private
+
+  def find_events
+    events = Event.all
+    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
+    cli = {}
+    Client.all.each do |client|
+      cli[client.attributes['name']] = client.attributes
+    end
+    events.each do |event|
+      if stashes.include?("silence/#{event.client}")
+        event.client_silenced = stashes["silence/#{event.client}"]
+      end
+      if stashes.include?("silence/#{event.client}/#{event.check}")
+        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
+      end
+      event.client_attributes = cli[event.client]
+    end
+    @events = events
   end
 end
