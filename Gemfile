@@ -38,7 +38,8 @@ gem 'therubyracer'
 #scheduling gems
 gem 'whenever', :require => false
 
-#because webrick sucks
+#Servers
+gem 'unicorn'
 gem 'thin'
 
 # To use ActiveModel has_secure_password
@@ -47,8 +48,6 @@ gem 'thin'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
