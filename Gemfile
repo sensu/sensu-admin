@@ -14,7 +14,6 @@ gem 'rolify'
 
 #API Gems
 gem 'json'
-gem 'open-uri'
 gem 'rest-client'
 
 #Design gems

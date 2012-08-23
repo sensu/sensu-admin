@@ -104,6 +104,8 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rolify (3.2.0)
     sass (3.2.1)
     sass-rails (3.2.5)
@@ -150,7 +152,9 @@ DEPENDENCIES
   haml-rails
   jquery-datatables-rails
   jquery-rails
+  json
   rails (= 3.2.8)
+  rest-client
   rolify
   sass-rails (~> 3.2.3)
   sqlite3
