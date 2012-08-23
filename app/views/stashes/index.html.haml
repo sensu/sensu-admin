@@ -5,6 +5,7 @@
     %br
     %h3 Enter key
     %input.input-xlarge{:id => "custom_stash_key_input", :placeholder => "Stash key"}
+    %p Note: No spaces, etc e.g. "silence/client_name/check_name"
     %br
     %br
     %h3 Description
@@ -24,7 +25,7 @@
     
   %div.modal-footer
     %a.stash-submit-event.btn.btn-info Submit
-    %button.btn.btn-success.create-custom-stash-working{:hidden => "true"}
+    %button.btn.btn-success.create-custom-stash-working
       Working...
 
 %div
@@ -34,7 +35,7 @@
       %span.caret
     %ul.dropdown-menu
       %li
-        %a{:id => 'delete-all-stashes', :rel => "#{request.url}/delete_all_stashes", :href => "#"} Yes, Nuke it
+        %a{:id => 'delete-all-stashes', :rel => "/stashes/delete_all_stashes", :href => "#"} Yes, Nuke it
   %div.btn-group.pull-right
     %button.btn.btn-info.show-custom-stash-modal{:style => "margin-right: 10px;"}
       Create Stash
@@ -64,4 +65,4 @@
           %td Never
         %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"
         %td
-          %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "#{request.url}/delete_stash"} Delete
+          %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
