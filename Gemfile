@@ -13,9 +13,9 @@ gem 'cancan'
 gem 'rolify'
 
 #API Gems
-require 'json'
-require 'open-uri'
-require 'rest-client'
+gem 'json'
+gem 'open-uri'
+gem 'rest-client'
 
 #Design gems
 gem 'bootstrap-sass'
