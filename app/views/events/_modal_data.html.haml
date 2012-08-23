@@ -1,0 +1,50 @@
+%div.modal-header
+  %h3== Client: #{event.client} (#{event.client_attributes['address']}) in #{event.client_attributes['environment']}
+  %h3== Check: #{event.check}
+%div.modal-body
+  %h3 Check Output
+  %table.table.table-striped.table-bordered
+    %tbody
+      %tr
+        %td Output
+        %td= event.output
+      %tr
+        %td Occurrences
+        %td= event.occurrences
+      %tr
+        %td Status
+        %td= format_status(event.status)
+      %tr
+        %td Occured
+        %td= Time.at(event.issued)
+      %tr
+        %td Flapping
+        %td= event.flapping
+      %tr
+        %td Check Silenced
+        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : event.check_silenced.to_s)
+      %tr
+        %td Client Silenced
+        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
+  %br
+  %br
+  %h3 Client Attributes
+  %table.table.table-striped.table-bordered
+    %tbody
+      - event.client_attributes.sort.each do |k,v|
+        %tr
+          %td= k
+          %td= v
+%div.modal-footer{:style => "width: 100%; height: 10%; margin-left: -5%;"}
+  /
+  / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
+  /
+  - if event.check_silenced.nil?
+    %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Silence Check
+  - else
+    %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
+  - if event.client_silenced.nil?
+    %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Silence Client
+  - else
+    %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
+  %a.resolve-event.btn.btn-success{:rel => "/events/#{event.client}/#{event.check}/resolve"} Resolve

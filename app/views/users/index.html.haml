@@ -1,0 +1,43 @@
+%h3 Active users:
+%table.table.table-striped.table-bordered
+  %tbody
+    %thead
+      %th Email
+      %th Created At
+      %th Admin?
+      %th
+      %th
+    %tbody
+      - @active_users.each do |user|
+        %tr
+          %td= user.email
+          %td= user.created_at
+          %td= user.admin?
+          %td= link_to "Deactivate", user, :method => :delete, :confirm => "You sure?"
+          %td= link_to "Edit", edit_user_path(user)
+%br
+%br
+%h3 Deactivated users:
+%table.table.table-striped.table-bordered
+  %tbody
+    %thead
+      %th Email
+      %th Created At
+      %th Admin?
+      %th Deactivated At
+      %th
+      %th
+    %tbody
+      - @deactivated_users.each do |user|
+        %tr
+          %td= user.email
+          %td= user.created_at
+          %td= user.admin?
+          %td= user.deleted_at
+          %td= link_to "Activate", user, :method => :delete, :confirm => "You sure?"
+          %td= link_to "Edit", edit_user_path(user)
+
+
+%br
+%br
+= link_to 'Create new user', new_user_path, :class => "btn btn-info"

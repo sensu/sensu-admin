@@ -8,5 +8,6 @@
 
 unless User.find_by_email("admin@example.com")
   u = User.create!({:email => "admin@example.com", :password => "secret", :password_confirmation => "secret" })
+  u.add_role :admin
   u.save!
 end

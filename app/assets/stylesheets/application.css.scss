@@ -13,6 +13,7 @@
  *= require formtastic
  *= require jquery.timepicker
  *= require bootstrap-datepicker
+ *= require dataTables/jquery.dataTables.bootstrap
  */
 
 .content {
@@ -26,3 +27,20 @@
   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
   box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
+
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+      cursor: pointer;
+          *cursor: hand;
+        }
+         
+table.table thead .sorting { background: image-url('sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: image-url('sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: image-url('sort_desc.png') no-repeat center right; }
+
+table.table thead .sorting_asc_disabled { background: image-url('sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: image-url('sort_desc_disabled.png') no-repeat center right; }
+
