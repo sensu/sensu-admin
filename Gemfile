@@ -41,7 +41,7 @@ gem 'whenever', :require => false
 
 #Servers
 gem 'unicorn'
-gem 'thin'
+gem 'thin', :group => :development
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
