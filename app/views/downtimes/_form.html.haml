@@ -23,7 +23,9 @@
         %br
         %h2 Schedule downtime time range
         %br
-        %p Note: Time input in local timezone but converted to UTC.
+        %p 
+          Note: Time input in server time (UTC).
+          %div.pull-left{:id => "api_time_div"}
         %br
         %h3 From:
         %input.date_input.start.date{:name => 'downtime[begin_date]', :value => @downtime.begin_date}

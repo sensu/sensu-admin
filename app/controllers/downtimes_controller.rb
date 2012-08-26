@@ -5,7 +5,7 @@ class DowntimesController < ApplicationController
   before_filter :find_checks, :except => [:index]
 
   def index
-    @active_downtime = Downtime.active.not_completed.not_processed
+    @active_downtime = Downtime.active.not_completed.all_processed
     @future_downtime = Downtime.future.not_completed.not_processed
     #@past_downtime = Downtime.past Would need to paginate this.
   end
