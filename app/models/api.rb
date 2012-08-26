@@ -5,7 +5,7 @@ class Api < ActiveResource::Base
   #self.collection_name = "info"
 
   def self.status
-    JSON.parse(open("#{APP_CONFIG['api']}/info").read)
+    JSON.parse(RestClient.get("#{APP_CONFIG['api']}/info"))
   end
 
   def self.version
