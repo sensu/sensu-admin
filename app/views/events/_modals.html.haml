@@ -18,9 +18,9 @@
         %p Time:
         %input.timepicker{:id => "silence_expire_at_time_#{event.client}_#{event.check}"}
     %div.modal-footer
-      %div.alert.alert-error{:id => "no_input_#{event.client}_#{event.check}", :hidden => "true", :style => "float: left;", :hidden => "true"}
+      %div.alert.alert-error{:id => "no_input_#{event.client}_#{event.check}", :style => "display: none; float: left;" }
         %p You need to enter a reason over 12 chars before you can submit!
-      %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence"} Submit
+      %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/silence", :style => "display: none;"} Submit
       %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Submit
   - unless processed_clients.include?(event.client)
     - processed_clients << event.client
@@ -41,5 +41,5 @@
       %div.modal-footer
         %div.alert.alert-error{:id => "no_input_#{event.client}", :style => "float: left;"}
           %p You need to enter a reason over 12 chars before you can submit!
-        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :index_id => "#{i}", :hidden => 'true', :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
+        %a.silence-submit-event.btn.btn-success{:control => "silence_submit_#{event.client}", :index_id => "#{i}", :style => "display: none;", :misc => "#{event.client}", :rel => "/events/#{event.client}/silence"} Submit
         %a.silence-submit-event.btn.btn-inverse{:control => "silence_grey_submit_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Submit

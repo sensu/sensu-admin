@@ -6,6 +6,7 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'mysql2', "~> 0.3.11"
 
 #Authentication Gems
 gem 'devise'
@@ -14,7 +15,6 @@ gem 'rolify'
 
 #API Gems
 gem 'json'
-gem 'open-uri'
 gem 'rest-client'
 
 #Design gems
@@ -39,8 +39,9 @@ gem 'therubyracer'
 #scheduling gems
 gem 'whenever', :require => false
 
-#because webrick sucks
-gem 'thin'
+#Servers
+gem 'unicorn'
+gem 'thin', :group => :development
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -48,8 +49,6 @@ gem 'thin'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
