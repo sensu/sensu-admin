@@ -1,6 +1,6 @@
 = render 'modals'
 
-%table.span12.dataTable.table.table-striped.table-bordered{'data-source' => '/events/events_table', :border => "0", :cellpadding => "0", :cellspacing => "0", :id => "primary_events_table", :style => "margin-left: 0px;"}
+%table.span12.dataTable.table{'data-source' => '/events/events_table', :border => "0", :cellpadding => "0", :cellspacing => "0", :id => "primary_events_table", :style => "margin-left: 0px;"}
   %thead
     %th
     %th.span1 Status 
@@ -9,7 +9,7 @@
     %th.span1 Check
     %th.span4 Output
     %th.span1 Action
-    %th.span2 Issued
+    %th.span1 Issued
     %th.span1
       
   %tbody

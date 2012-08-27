@@ -89,6 +89,11 @@ $ ->
     sPaginationType: "bootstrap"
     iDisplayLength: 25
     sAjaxSource: $('#primary_events_table').data('source')
+    fnRowCallback: (nRow, aData, iDisplayIndex, iDisplayIndexFull) ->
+      if aData[0] == 1
+        tr = $('td', nRow).closest('tr')
+        $(tr).attr('class', 'critical-event')
+        return nRow
 
   runPermanentHooks()
 
