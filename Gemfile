@@ -11,7 +11,7 @@ gem 'mysql2', "~> 0.3.11"
 #Authentication Gems
 gem 'devise'
 gem 'cancan'
-gem 'rolify'
+gem 'rolify', '= 3.1'
 
 #API Gems
 gem 'json'
