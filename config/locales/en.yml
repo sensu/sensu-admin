@@ -2,8 +2,20 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
   datetime:
     distance_in_words:
         less_than_x_minutes:
-          one: < 1 minute
+          one: <1min
+        x_minutes:
+          one: 1min
+          other: "%{count}min"
+        about_x_hours:
+          one: 1hr
+          other: "%{count}hr"
+        x_days:
+          one: 1day
+          other: "%{count}day"
+        x_months:
+          one: 1month
+          other: "%{count}month"
+        
