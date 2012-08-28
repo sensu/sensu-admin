@@ -109,7 +109,7 @@ GEM
       json (~> 1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rolify (3.2.0)
+    rolify (3.1.0)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -163,7 +163,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.11)
   rails (= 3.2.8)
   rest-client
-  rolify
+  rolify (= 3.1)
   sass-rails (~> 3.2.3)
   sqlite3
   therubyracer
