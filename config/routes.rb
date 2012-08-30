@@ -30,6 +30,7 @@ SensuAdmin::Application.routes.draw do
   resources :downtimes
   resources :clients
   resources :users
+  resources :stats
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

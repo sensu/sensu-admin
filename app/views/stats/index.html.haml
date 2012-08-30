@@ -1,0 +1,105 @@
+%h1 Stats
+%br
+%br
+%h2 Clients
+.row
+  .span3
+    %p By Subscriptions:
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        - @clients_by_subscription.sort{|l,r| r[1] <=> l[1]}.each do |k,v|
+          %tr
+            %td= k
+            %td= v
+  .span3
+    %p By Environment:
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        - value_total = 0
+        - @clients_by_environment.sort{|l,r| r[1] <=> l[1]}.each do |k,v|
+          - value_total += v
+          %tr
+            %td= k
+            %td= v
+        %tr
+          %td Total
+          %td= value_total
+  .span5
+    %p Misc stats
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        %tr
+          %td Total Clients
+          %td= @clients.count
+        %tr
+          %td Total Subscriptions
+          %td= @clients_by_subscription.count
+        %tr
+          %td Total Environments
+          %td= @clients_by_environment.count
+
+%br
+%br
+%br
+%h2 Events
+.row
+  .span2
+    %p By Check:
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        - @events_by_check.sort{|l,r| r[1] <=> l[1]}.each do |k,v|
+          %tr
+            %td= k
+            %td= v
+  .span2
+    %p By Environment:
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        - total_events = 0
+        - @events_by_environment.sort{|l,r| r[1] <=> l[1]}.each do |k,v|
+          - total_events += v
+          %tr
+            %td= k
+            %td= v
+        %tr
+          %td Total
+          %td= total_events
+  .span4
+    %p Events per client
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Client
+        %th Count
+      %tbody
+        - @events_per_client.sort{|l,r| r[1] <=> l[1]}.each do |k,v|
+          %tr
+            %td= k
+            %td= v
+  .span4
+    %p Misc stats
+    %table.table.table-striped.table-bordered
+      %thead
+        %th Name
+        %th Count
+      %tbody
+        %tr
+          %td Total Events
+          %td= @events.count
+        %tr
+          %td Total Environments
+          %td= @events_by_environment.count
