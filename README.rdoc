@@ -19,4 +19,3 @@ The seed file creates a user account named admin@example.com with a password of 
 * add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
-* Create stats page
