@@ -104,4 +104,8 @@ class Event < ActiveResource::Base
       self.attributes['client_attributes']
     end
   end
+
+  def environment
+    self.client_attributes['environment']
+  end
 end
