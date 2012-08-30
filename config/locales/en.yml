@@ -8,14 +8,14 @@ en:
           one: <1min
         x_minutes:
           one: 1min
-          other: "%{count}min"
+          other: "%{count}mins"
         about_x_hours:
           one: 1hr
-          other: "%{count}hr"
+          other: "%{count}hrs"
         x_days:
           one: 1day
-          other: "%{count}day"
+          other: "%{count}days"
         x_months:
           one: 1month
-          other: "%{count}month"
+          other: "%{count}month(s)"
         
