@@ -11,6 +11,11 @@
     %div.modal-header
       %h3== Downtime: #{downtime.name}
     %div.modal-body
+      - if downtime.start_time < (Time.now - 10.minutes) && !downtime.processed? && !downtime.completed?
+        %div.alert.alert-error
+          %p 
+            Note: This downtime should be in an active (or past) state but was never processed nor completed, 
+            Please check your cronjob and or logs. Please read the README.rdoc to see how to configure whenever to setup your cronjobs.
       %table.table.table-striped.table-bordered
         %tbody
           %tr
@@ -130,7 +135,7 @@
     %th
   %tbody
     - @future_downtime.each do |adowntime|
-      - tr_style = (adowntime.start_time < (Time.now - 10.minutes)) ? "background-color: red;" : ""
+      - tr_style = (adowntime.start_time < (Time.now - 10.minutes)) ? "background-color: #FF8282;" : ""
       %tr{:style => tr_style, :rel => "#downtime_modal_#{adowntime.id}"}
         %td.moreinfo= adowntime.name
         %td.moreinfo= adowntime.description

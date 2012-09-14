@@ -18,7 +18,7 @@ gem 'json'
 gem 'rest-client'
 
 #Design gems
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 2.1.0.0'
 gem 'haml-rails'
 gem 'bootstrap-will_paginate'
 gem 'formtastic'
