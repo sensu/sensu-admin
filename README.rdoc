@@ -19,3 +19,8 @@ The seed file creates a user account named admin@example.com with a password of 
 * add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
+* Downtimes stay in scheduled unless they get started, e.g. the whenever job never runs
+* mouseover events in red should stay red
+* popover in events looks like crap on small or huge screens
+* Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
+* Fix events js so it only fires on the events page

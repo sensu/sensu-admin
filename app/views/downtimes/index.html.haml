@@ -115,7 +115,7 @@
 %h2 Scheduled downtimes
 %br
 
-%table.table.table-striped.table-bordered
+%table.table.table-bordered
   %thead
     %th Name
     %th Description
@@ -130,7 +130,8 @@
     %th
   %tbody
     - @future_downtime.each do |adowntime|
-      %tr{:rel => "#downtime_modal_#{adowntime.id}"}
+      - tr_style = (adowntime.start_time < (Time.now - 10.minutes)) ? "background-color: red;" : ""
+      %tr{:style => tr_style, :rel => "#downtime_modal_#{adowntime.id}"}
         %td.moreinfo= adowntime.name
         %td.moreinfo= adowntime.description
         %td.moreinfo= adowntime.start_time
