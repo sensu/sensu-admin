@@ -28,10 +28,10 @@
           %div.pull-left{:id => "api_time_div"}
         %br
         %h3 From:
-        %input.date_input.start.date{:name => 'downtime[begin_date]', :value => @downtime.begin_date}
+        %input.date_input.start.date{:id => "downtime_start_date", :name => 'downtime[begin_date]', :value => @downtime.begin_date}
         %input.time_input.start.time{:name => 'downtime[begin_time]', :value => @downtime.begin_time}
         %h3 To:
-        %input.date_input.end.date{:name => 'downtime[end_date]', :value => @downtime.end_date}
+        %input.date_input.end.date{:id => "downtime_end_date", :name => 'downtime[end_date]', :value => @downtime.end_date}
         %input.time_input.end.time{:name => 'downtime[end_time]', :value => @downtime.end_time}
       %br
       %br

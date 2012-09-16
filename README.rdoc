@@ -19,3 +19,5 @@ The seed file creates a user account named admin@example.com with a password of 
 * add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
+* popover in events looks like crap on small or huge screens
+* Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
