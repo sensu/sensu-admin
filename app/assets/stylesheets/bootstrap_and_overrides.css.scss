@@ -1,3 +1,8 @@
 @import "bootstrap";
 body { padding-top: 60px; }
 @import "bootstrap-responsive";
+
+.table tbody tr:hover td,
+.table tbody tr:hover th {
+      background-color: inherit;
+    }
