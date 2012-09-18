@@ -13,7 +13,7 @@
           %td= user.email
           %td= user.created_at
           %td= user.admin?
-          %td= link_to "Deactivate", user, :method => :delete, :confirm => "You sure?"
+          %td= button_to "Deactivate", user, :method => :delete, :confirm => "You sure?"
           %td= link_to "Edit", edit_user_path(user)
 %br
 %br
@@ -34,7 +34,7 @@
           %td= user.created_at
           %td= user.admin?
           %td= user.deleted_at
-          %td= link_to "Activate", user, :method => :delete, :confirm => "You sure?"
+          %td= button_to "Activate", {:id => user.id, :controller => 'users', :action => "activate"}, :method => :put, :confirm => "You sure?"
           %td= link_to "Edit", edit_user_path(user)
 
 

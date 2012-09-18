@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
   before_filter :find_user, :except => [ :index, :new, :create, :update_password, :update]
-
-  check_authorization
-  load_and_authorize_resource
+  before_filter :authenticate_user!
 
   def index
     @active_users = User.active
@@ -25,13 +23,23 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
+    if current_user.has_role? :admin
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end
 
   def update_password
-    @user = current_user
+    if current_user.has_role? :admin
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+
     if @user.attempt_set_password(params[:user])
-      redirect_to root_path
+      sign_in(current_user, :bypass => true)
+      redirect_to edit_user_path(@user), :notice => "Password Updated!"
     else
       render :edit
     end
@@ -41,10 +49,20 @@ class UsersController < ApplicationController
   end
 
   def update
-    authorize! :manage, @user
-    @user = current_user
+    if current_user.has_role? :admin
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+
+    unless params[:user][:role_ids].nil?
+      unless current_user.has_role? :admin
+        params[:user].delete(:role_ids)
+      end
+    end
+
     if @user.update_attributes(params[:user])
-      sign_in(@user, :bypass => true)
+      sign_in(current_user, :bypass => true)
       redirect_to edit_user_path(@user), :notice => "Updated!"
     else
       redirect_to edit_user_path(@user), :alert => "Password could not be updated, do they match?"
@@ -54,8 +72,15 @@ class UsersController < ApplicationController
 
   def destroy
     find_user
-    @user.destroy
-    redirect_to users_path, :notice => "User successfully deleted"
+    @user.deleted_at = Time.now
+    @user.save!
+    redirect_to users_path, :notice => "User successfully marked as deactivated"
+  end
+
+  def activate
+    @user.deleted_at = nil
+    @user.save!
+    redirect_to users_path, :notice => "User successfully marked as activated"
   end
 
   private

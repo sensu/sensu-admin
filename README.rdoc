@@ -21,3 +21,4 @@ The seed file creates a user account named admin@example.com with a password of 
 * Make a downtime info page
 * popover in events looks like crap on small or huge screens
 * Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
+* Make a note when silencing or creating a downtime that event handlers must use sensu-plugin or hit the API to check for silencing
