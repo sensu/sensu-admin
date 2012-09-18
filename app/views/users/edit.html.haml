@@ -1,13 +1,20 @@
 %h2 Edit User
+
+- unless @user.active?
+  %br
+  %div.alert.alert-error
+    %p Note: This user is not active and has a deleted_at flag set on their account, they need to be activated first from the users list before modifying anything.
 %br
 = semantic_form_for @user do |f|
-  = f.inputs
+  = f.input :email
+  - if current_user.has_role? :admin
+    = f.input :roles, :as => :check_boxes, :collection => Role.all
   = f.actions
 
 %br
 %br
 %h2 Change Password
-= form_for(@user, :url => { :action => "update_password" } ) do |f|
+= form_for(@user, :url => { :id => @user.id, :action => "update_password" } ) do |f|
   %div.field
     = f.label :password, "Password"
     %br

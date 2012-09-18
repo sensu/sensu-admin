@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :logs
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles, :role_ids
   # attr_accessible :title, :body
   #
   def attempt_set_password(params)
@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
 
   def admin?
     self.has_role? :admin
+  end
+
+  def active?
+    self.deleted_at.nil?
   end
 
   def active_for_authentication?
