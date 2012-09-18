@@ -1,7 +1,8 @@
 SensuAdmin::Application.routes.draw do
   devise_for :users
 
-  match 'users/update_password' => 'users#update_password', :via => :post
+  match 'users/:id/update_password' => 'users#update_password', :via => :put
+  match 'users/:id/activate' => 'users#activate', :via => :put
 
   match 'events/events_table' => 'events#events_table', :via => :get
   match 'events/modal_data' => 'events#modal_data', :via => :get
