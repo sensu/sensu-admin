@@ -26,14 +26,12 @@ class DowntimesController < ApplicationController
         :user_id => current_user.id
       })
       unless dt['client_ids'].nil?
-        puts "DTCLIDS: #{dt['client_ids'].inspect}"
         dt['client_ids'].each do |client_id|
           next if client_id.blank?
           @downtime.downtime_clients.build(:name => client_id)
         end
       end
       unless dt['check_ids'].nil?
-        puts "DTCHKIDS: #{dt['check_ids'].inspect}"
         dt['check_ids'].each do |check_id|
           next if check_id.blank?
           @downtime.downtime_checks.build(:name => check_id)

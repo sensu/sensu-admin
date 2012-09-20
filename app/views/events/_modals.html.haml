@@ -1,8 +1,8 @@
-%div{:class => "large-modal modal hide", :id => "event-data-modal"}
+%div{:class => "modal large-modal hide", :id => "event-data-modal"}
 
 - @events.each_with_index do |event,i|
   - processed_clients = []
-  %div{:class => "small-modal modal hide", :id => "modal_#{event.client}_#{event.check}"}
+  %div{:class => "modal small-modal hide", :id => "modal_#{event.client}_#{event.check}"}
     %div.modal-header
       %h3== Silence check #{event.check} on client #{event.client}
     %div.modal-body
