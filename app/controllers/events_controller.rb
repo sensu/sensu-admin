@@ -2,7 +2,6 @@ class EventsController < ApplicationController
   before_filter :find_events, :only => [:index, :events_table ]
 
   def index
-    puts request.inspect
   end
 
   def events_table
@@ -33,9 +32,7 @@ class EventsController < ApplicationController
   end
 
   def resolve
-    puts "resolve params are: #{params.inspect}"
     resp = Event.manual_resolve(params[:client], params[:check], current_user)
-    puts "controller response for resolve is #{resp}"
     respond_to do |format|
       format.json { render :json => resp.to_s }
     end
@@ -46,7 +43,6 @@ class EventsController < ApplicationController
     if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
-    puts "silence_client params are: #{params.inspect}"
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => resp.to_s }
@@ -58,7 +54,6 @@ class EventsController < ApplicationController
     if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
-    puts "silence_check params are: #{params.inspect}"
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => resp.to_s }

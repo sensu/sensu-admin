@@ -1,8 +1,133 @@
 @import "bootstrap";
-body { padding-top: 60px; }
 @import "bootstrap-responsive";
+
+body { 
+  padding-top: 60px; 
+}
 
 .table tbody tr:hover td,
 .table tbody tr:hover th {
-      background-color: inherit;
-    }
+  background-color: inherit;
+}
+
+.modal {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  left: 3%;
+  bottom: 3%;
+  width: auto;
+  margin: 0;
+}
+
+.small-modal {
+  height: 50%;
+  width: 60%;
+  left: 8%;
+  top: 5%;
+ }
+ 
+ .large-modal {
+   height: 65%;
+   width: 75%;
+   left: 8%;
+   top: 5%;
+ }
+
+  div.modal-body {
+    max-height: 70%;
+  }
+
+  .small-modal div.modal-footer {
+    min-height: 50px;
+  }
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+ */
+
+@media (max-width: 979px) {
+  body {
+    padding-top: 0px;
+  }
+}
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  .large-modal, .small-modal {
+    height: 95%;
+    width: 95%;
+    left: 0%;
+    top: 5%;
+   }
+
+  .small-modal div.modal-body {
+    max-height: 50%;
+  }
+
+  .large-modal div.modal-body {
+    max-height: 50%;
+  }
+
+  div.modal-footer {
+    min-height: 40px;
+  }
+ 
+  /* Force table to not be like tables anymore */
+  .events_table thead,.events_table tbody,.events_table th,.events_table td,.events_table tr { 
+    display: block; 
+  }
+
+  table.events_table {
+    padding-left: 5%;
+    display:block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .events_table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .events_table tr { 
+    padding-bottom: 5%; 
+    border: 1px solid white; 
+  }
+
+  .events_table td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 0%; 
+    min-height: 15px;
+  }
+
+  table.events_table  td:before { 
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: -30px;
+    width: 45%; 
+    padding-right: 30px; 
+    white-space: nowrap;
+  }
+
+  /*
+  Label the data
+  */
+  .events_table td:nth-of-type(1):before { content: "Stat"; }
+  .events_table td:nth-of-type(2):before { content: "ENV"; }
+  .events_table td:nth-of-type(3):before { content: "ID"; }
+  .events_table td:nth-of-type(4):before { content: "Chk"; }
+  .events_table td:nth-of-type(5):before { content: "Out"; }
+  .events_table td:nth-of-type(6):before { content: "Act"; }
+  .events_table td:nth-of-type(7):before { content: "Time"; }
+  .events_table td:nth-of-type(8):before { content: "More"; }
+}
