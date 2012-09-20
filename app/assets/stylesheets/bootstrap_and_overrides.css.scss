@@ -27,20 +27,21 @@ body {
   top: 5%;
  }
  
- .large-modal {
-   height: 65%;
-   width: 75%;
-   left: 8%;
-   top: 5%;
- }
+.large-modal {
+ height: 65%;
+ width: 75%;
+ left: 8%;
+ top: 5%;
+}
 
-  div.modal-body {
-    max-height: 60%;
-  }
+div.modal-body {
+  max-height: 60%;
+  max-width: 95%;
+}
 
-  div.modal-footer {
-    min-height: 20%;
-  }
+div.modal-footer {
+  min-height: 20%;
+}
 
 /* 
 Max width before this PARTICULAR table gets nasty
