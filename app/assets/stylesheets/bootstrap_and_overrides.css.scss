@@ -21,7 +21,7 @@ body {
 }
 
 .small-modal {
-  height: 50%;
+  height: 60%;
   width: 60%;
   left: 8%;
   top: 5%;
@@ -35,11 +35,11 @@ body {
  }
 
   div.modal-body {
-    max-height: 70%;
+    max-height: 60%;
   }
 
-  .small-modal div.modal-footer {
-    min-height: 50px;
+  div.modal-footer {
+    min-height: 20%;
   }
 
 /* 
@@ -73,8 +73,8 @@ only screen and (max-width: 760px),
     max-height: 50%;
   }
 
-  div.modal-footer {
-    min-height: 40px;
+  .modal-footer {
+    min-height: 45px;
   }
  
   /* Force table to not be like tables anymore */
