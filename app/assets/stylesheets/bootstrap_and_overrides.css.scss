@@ -43,21 +43,27 @@ div.modal-footer {
   min-height: 20%;
 }
 
-/* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
- */
+table.events_table {
+  margin-left: -17px;
+}
 
 @media (max-width: 979px) {
   body {
     padding-top: 0px;
   }
+  .container {
+    width: 100%;
+  }
+  table.events_table {
+    margin-left: 5px;
+  }
+  .content {
+    width: 970px;
+  }
 }
 
 @media 
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
+only screen and (max-width: 480px) {
 
   .large-modal, .small-modal {
     height: 95%;
@@ -85,6 +91,7 @@ only screen and (max-width: 760px),
 
   table.events_table {
     padding-left: 5%;
+    margin-left: 10px;
     display:block;
   }
 
@@ -114,7 +121,7 @@ only screen and (max-width: 760px),
     position: absolute;
     /* Top/left values mimic padding */
     top: 6px;
-    left: -30px;
+    left: -42px;
     width: 45%; 
     padding-right: 30px; 
     white-space: nowrap;
