@@ -16,7 +16,7 @@ class EventsController < ApplicationController
        render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
        render_to_string(:action => "_actions", :formats => [:html], :layout => false, :locals => { :event => event, :i => i}),
        render_to_string(:action => "_issued", :formats => [:html], :layout => false, :locals => { :event => event }),
-       "<div class = 'moreinfo' style = 'cursor: pointer; position: absolute; display: block; height: 100%; width: 100%;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i class='icon-zoom-in'></i></div>"
+       "<div class = 'moreinfo' style = 'cursor: pointer; position: absolute; display: block; height: 100%; width: 100%;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i style='padding-right: 10px;' class='icon-zoom-in'></i></div>"
       ]
     end
     respond_to do |format|
