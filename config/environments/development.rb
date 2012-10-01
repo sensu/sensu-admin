@@ -6,6 +6,8 @@ SensuAdmin::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.middleware.use "Rack::Bug", :secret_key => "testing123456789"
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
