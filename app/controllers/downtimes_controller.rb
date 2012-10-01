@@ -7,6 +7,7 @@ class DowntimesController < ApplicationController
   def index
     @active_downtime = Downtime.active.not_completed.all_processed
     @future_downtime = Downtime.not_completed.not_processed
+    @clients_hash = Client.full_hash
     #@past_downtime = Downtime.past Would need to paginate this. For now its on its own page.
   end
 
@@ -47,6 +48,7 @@ class DowntimesController < ApplicationController
 
   def old_downtimes
     @old_downtimes = Downtime.past
+    @clients_hash = Client.full_hash
   end
 
   def show
