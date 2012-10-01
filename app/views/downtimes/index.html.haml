@@ -61,15 +61,15 @@
         %tbody
           - downtime.downtime_clients.each do |dclient|
             %tr
-              - client = Client.single(dclient.name)
-              - if client.nil?
+              - clients = Client.full_hash
+              - if clients[dclient.name].nil?
                 %td= dclient.name
                 %td Unknown
                 %td Unknown
               - else
-                %td= client.name
-                %td= client.address
-                %td= client.environment
+                %td= dclient.name
+                %td= clients[dclient.name][:address]
+                %td= clients[dclient.name][:environment]
       - unless downtime.downtime_checks.empty?
         %h3 Checks (#{downtime.downtime_checks.count})
         %table.table.table-striped.table-bordered

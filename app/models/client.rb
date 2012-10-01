@@ -13,6 +13,12 @@ class Client < ActiveResource::Base
     Client.all.select{|client| client.name == query}[0]
   end
 
+  def self.full_hash
+    clienthash = {}
+    Client.all.each{|c| clienthash[c.name] = { :address => c.address, :environment => c.environment}}
+    clienthash
+  end
+
   def subscriptions
     self.attributes['subscriptions']
   end
