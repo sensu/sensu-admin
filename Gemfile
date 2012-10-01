@@ -43,6 +43,9 @@ gem 'whenever', :require => false
 gem 'unicorn'
 gem 'thin', :group => :development
 
+#debug
+gem 'rack-bug', :git => 'https://github.com/brynary/rack-bug.git', :branch => 'rails3'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
