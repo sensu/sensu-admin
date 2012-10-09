@@ -81,7 +81,7 @@ class EventsController < ApplicationController
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
     cli = {}
     Client.all.each do |client|
-      cli[client.attributes['name']] = client.attributes
+      cli[client.name] = client.attributes
     end
     events.each do |event|
       if stashes.include?("silence/#{event.client}")
