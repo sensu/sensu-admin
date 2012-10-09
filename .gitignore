@@ -18,3 +18,4 @@ config.yml
 /tmp
 app/assets/stylesheets/.sass-cache/
 .sass-cache/
+*.swp

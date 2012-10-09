@@ -1,8 +1,6 @@
 class Client < ActiveResource::Base
   include ActiveResource::Extend::WithoutExtension
   self.site = APP_CONFIG['api']
-  self.collection_name = 'clients'
-
 
   #
   # You cant use a .get here or GET /client/<id> because then you have

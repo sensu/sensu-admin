@@ -12,6 +12,11 @@ Make sure your post-deploy task runs "whenever --update-crontab from the rails c
 
 The seed file creates a user account named admin@example.com with a password of secret.
 
+== Database
+
+sensu-admin uses the database very lightly, so you can use sqlite instead of mysql. bundling --without mysql will not require the mysql libraries.
+The User, Downtime and Log models are all that use the database currently so unless you have very high throughput it should result in little usage.
+
 == TODO
 * Settings for api, rabbitmq, etc
 * RabbitMQ dashboard, health of everything
@@ -24,3 +29,4 @@ The seed file creates a user account named admin@example.com with a password of 
 * Make a note when silencing or creating a downtime that event handlers must use sensu-plugin or hit the API to check for silencing
 * Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
 * Full jquery mobile support
+* Try and fix the events table magnifying glass so it doesnt wrap and acts better

@@ -2,3 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+.critical-event {
+  color: black;
+  background: #DED3D3;
+  border: 3px solid #FF8282;
+  padding: 2px;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -khtml-border-radius: 25px;
+  border-radius: 7px;
+   
+  /* Firefox */
+  -moz-border-top-colors: #eee #ddd #ccc #bbb #aaa;
+  -moz-border-left-colors: #111 #222 #333 #444 #555;
+  -moz-border-bottom-colors: #666 #777 #888 #999;
+  /* WebKit - not working */
+  -webkit-border-top-colors: #eee #ddd #ccc #bbb #aaa;
+  -webkit-border-left-colors: #111 #222 #333 #444 #555;
+  -webkit-border-bottom-colors: #666 #777 #888 #999;
+  /* IE9, Opera 10.5+ - not working */
+  border-top-colors: #eee #ddd #ccc #bbb #aaa;
+  border-left-colors: #111 #222 #333 #444 #555;
+  border-bottom-colors: #666 #777 #888 #999;
+}
