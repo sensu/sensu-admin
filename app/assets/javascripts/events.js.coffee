@@ -7,7 +7,7 @@ $ ->
     updateEventTable = ()->
       $('#updating_event_list').show()
       $('#primary_events_table').dataTable().fnReloadAjax()
-      setTimeout (() -> $('#updating_event_list').hide()), 1500
+      setTimeout (() -> $('#updating_event_list').hide()), 2500
 
     runPermanentHooks = ()->
       $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })

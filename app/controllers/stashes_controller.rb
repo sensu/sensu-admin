@@ -15,14 +15,14 @@ class StashesController < ApplicationController
     end
     resp = Stash.create_stash(params[:key], attributes)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 201).to_s }
     end
   end
 
   def delete_stash
     resp = Stash.delete_stash(params[:key])
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 202).to_s }
     end
   end
 

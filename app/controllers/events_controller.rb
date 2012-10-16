@@ -34,7 +34,7 @@ class EventsController < ApplicationController
   def resolve
     resp = Event.manual_resolve(params[:client], params[:check], current_user)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 202).to_s }
     end
   end
 
@@ -45,7 +45,7 @@ class EventsController < ApplicationController
     end
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 201).to_s }
     end
   end
 
@@ -56,21 +56,21 @@ class EventsController < ApplicationController
     end
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 201).to_s }
     end
   end
 
   def unsilence_client
     resp = Event.unsilence_client(params[:client], current_user)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 202).to_s }
     end
   end
 
   def unsilence_check
     resp = Event.unsilence_check(params[:client], params[:check], current_user)
     respond_to do |format|
-      format.json { render :json => resp.to_s }
+      format.json { render :json => (resp.code == 202).to_s }
     end
   end
 
@@ -81,7 +81,7 @@ class EventsController < ApplicationController
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
     cli = {}
     Client.all.each do |client|
-      cli[client.name] = client.attributes
+      cli[client.name] = JSON.parse(client.to_json)
     end
     events.each do |event|
       if stashes.include?("silence/#{event.client}")
