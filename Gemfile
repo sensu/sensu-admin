@@ -20,7 +20,7 @@ gem 'json'
 gem 'rest-client'
 
 #Design gems
-gem 'bootstrap-sass', '= 2.0.4.0'
+gem 'bootstrap-sass', '= 2.1.0.1', :git => "git://github.com/thomas-mcdonald/bootstrap-sass.git"
 gem 'haml-rails'
 gem 'bootstrap-will_paginate'
 gem 'formtastic'

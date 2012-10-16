@@ -1,8 +1,8 @@
 %div
   - api = Api.status
-  - sensu_version = api['sensu']['version']
-  - redis_health = api['health']['redis']
-  - rabbitmq_health = api['health']['rabbitmq']
+  - sensu_version = api.sensu['version']
+  - redis_health = api.health['redis']
+  - rabbitmq_health = api.health['rabbitmq']
   %span.badge.badge-info
     == API Version: #{sensu_version}
   - if redis_health == "ok"
