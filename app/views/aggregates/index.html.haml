@@ -1,0 +1,25 @@
+- @aggregates.each do |k,v|
+  %div.span8
+    %h2= k
+    %table.table.table-striped.table-bordered.table-condensed
+      %thead
+        %th Issued
+        %th Ok
+        %th Warning
+        %th Critical
+        %th Unknown
+        %th Total
+        %th Timestamp
+      %tbody
+        - v.each do |i, iv|
+          %tr
+            %td= i
+            %td= iv['ok']
+            %td= iv['warning']
+            %td= iv['critical']
+            %td= iv['unknown']
+            %td= iv['total']
+            %td= Time.at(i.to_i)
+    %br
+    %br
+    %br
