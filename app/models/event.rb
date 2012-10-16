@@ -1,24 +1,18 @@
-class Event < ActiveResource::Base
-  include ActiveResource::Extend::WithoutExtension
-  self.site = APP_CONFIG['api']
+class Event < Resting
+  attr_accessor :client_silenced, :check_silenced, :client_attributes
 
   def resolve
-    post = RestClient.delete "#{APP_CONFIG['api']}/event/#{self.client}/#{self.check}"
-    post.code == 202
+    self.delete("#{self.client}/#{self.check}")
   end
 
   def self.single(query)
     Event.all.select{|event| query == "#{event.client}_#{event.check}"}[0]
   end
 
-  #
-  # This is due to the API not being very Restful and ActiveResource not using .find very well
-  #
   def self.manual_resolve(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "resolve", nil, event)
-    post = RestClient.delete "#{APP_CONFIG['api']}/event/#{client}/#{check}"
-    post.code == 202
+    self.delete("events/#{client}/#{check}")
   end
 
   def self.silence_client(client, description, user, expire_at = nil, log = true, downtime_id = nil)
@@ -26,7 +20,7 @@ class Event < ActiveResource::Base
     post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
     post_data[:expire_at] = expire_at unless expire_at.nil?
     post_data[:downtime_id] = downtime_id unless downtime_id.nil?
-    Stash.create_stash("silence/#{client}", post_data)
+    Stash.create("silence/#{client}", post_data)
   end
 
   def self.silence_check(client, check, description, user, expire_at = nil, log = true, downtime_id = nil)
@@ -35,54 +29,18 @@ class Event < ActiveResource::Base
     post_data = {:description => description, :owner => user.email, :timestamp => Time.now.to_i }
     post_data[:expire_at] = expire_at unless expire_at.nil?
     post_data[:downtime_id] = downtime_id unless downtime_id.nil?
-    Stash.create_stash("silence/#{client}/#{check}", post_data)
+    Stash.create("silence/#{client}/#{check}", post_data)
   end
 
   def self.unsilence_client(client, user)
     Log.log(user, client, "unsilence")
-    Stash.delete_stash("silence/#{client}")
+    Stash.delete("silence/#{client}")
   end
 
   def self.unsilence_check(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "unsilence", nil, event)
-    Stash.delete_stash("silence/#{client}/#{check}")
-  end
-
-  def client
-    self.attributes['client']
-  end
-
-  def check
-    self.attributes['check']
-  end
-
-  def status
-    self.attributes['status']
-  end
-
-  def issued
-    self.attributes['issued']
-  end
-
-  def occurrences
-    self.attributes['occurrences']
-  end
-
-  def flapping
-    self.attributes['flapping']
-  end
-
-  def output
-    self.attributes['output']
-  end
-
-  def client_silenced
-    self.attributes['client_silenced']
-  end
-
-  def check_silenced
-    self.attributes['check_silenced']
+    Stash.delete("silence/#{client}/#{check}")
   end
 
   def sort_val
@@ -97,12 +55,12 @@ class Event < ActiveResource::Base
     end
   end
 
+  def client
+    self.client_attributes['client']
+  end
+
   def client_attributes
-    if self.attributes['client_attributes'].nil?
-      Client.all.select{|client| client.name == self.client}[0].attributes
-    else
-      self.attributes['client_attributes']
-    end
+    JSON.parse(Client.find(self.client).to_json)
   end
 
   def environment

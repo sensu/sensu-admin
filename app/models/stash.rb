@@ -1,13 +1,11 @@
-class Stash < ActiveResource::Base
-  include ActiveResource::Extend::WithoutExtension
-  ActiveResource::Base.include_root_in_json = false
-  self.site = APP_CONFIG['api']
-  self.format = SensuStashFormatter.new
+class Stash < Resting
+
+  def self.all
+    self.all_raw
+  end
 
   def self.stashes
-    stash_keys = Stash.all.collect do |stash|
-      stash.attributes.keys[0]
-    end
+    stash_keys = Stash.all
     return [] if stash_keys.empty?
     #
     # API Blows up with a few thousand objects so lets chunk it
@@ -16,33 +14,27 @@ class Stash < ActiveResource::Base
         stash_response = {}
         while !stash_keys.empty?
           stash_post = stash_keys.slice!(0..200)
-          post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_post.to_json
-          stash_response.merge!(JSON.parse(post.body).to_hash)
+          stsh = post("stashes", stash_post)
+          stash_response.merge!(JSON.parse(stsh.body).to_hash)
         end
       else
-        post = RestClient.post "#{APP_CONFIG['api']}/stashes", stash_keys.to_json
-        stash_response = JSON.parse(post.body).to_hash
+        stsh = post("stashes", stash_keys)
+        stash_response = JSON.parse(stsh.body).to_hash
       end
       stash_response
   end
 
   def self.create_stash(key, attributes)
-    post = RestClient.post "#{APP_CONFIG['api']}/stash/#{key}", attributes.to_json
-    post.code == 201
+    post("stash/#{key}", attributes)
   end
 
   def self.delete_stash(key)
-    begin
-      post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
-    rescue Exception => e
-      puts "delete_stash took exception #{e.inspect}"
-    end
-    post.code == 204
+    destroy(key)
   end
 
   def self.delete_all_stashes
-    Stash.stashes.keys.each do |key|
-      post = RestClient.delete "#{APP_CONFIG['api']}/stash/#{key}"
+    Stash.all.each do |key|
+      destroy(key)
     end
     true
   end
@@ -52,7 +44,7 @@ class Stash < ActiveResource::Base
       unless v['expire_at'].nil?
         if Time.parse(v['expire_at']) < Time.now
           puts "Clearing stash #{k} due to expiration."
-          Stash.delete_stash(k)
+          destroy(k)
         end
       end
     end and true
