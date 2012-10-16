@@ -1,22 +1,18 @@
-class Api < ActiveResource::Base
-  #include ActiveResource::Extend::WithoutExtension
-  #self.site = "http://localhost:4567/"
-  #self.format = SensuJSONFormatter.new
-  #self.collection_name = "info"
+class Api < Resting
 
   def self.status
-    JSON.parse(RestClient.get("#{APP_CONFIG['api']}/info"))
+    get("info")
   end
 
   def self.version
-    self.status['sensu']['version']
+    self.status.sensu['version']
   end
 
   def self.redis_health
-    self.status['health']['redis']
+    self.status.health['redis']
   end
 
   def self.rabbitmq_health
-    self.status['health']['rabbitmq']
+    self.status.health['rabbitmq']
   end
 end

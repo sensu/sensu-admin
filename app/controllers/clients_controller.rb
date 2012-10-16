@@ -4,10 +4,9 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    cli_resp = Client.delete(params[:id])
-    resp = cli_resp.code == 202
+    resp = Client.destroy(params[:id])
     respond_to do |format|
-      format.json { render :json => {:data => resp}.to_json }
+      format.json { render :json => {:data => (resp == 202).to_s}.to_json }
     end
   end
 end
