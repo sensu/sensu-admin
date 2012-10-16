@@ -30,3 +30,4 @@ The User, Downtime and Log models are all that use the database currently so unl
 * Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
 * Full jquery mobile support
 * Try and fix the events table magnifying glass so it doesnt wrap and acts better
+* When scrolling to the right on the events table, there is alot of space to scroll into nowhere.
