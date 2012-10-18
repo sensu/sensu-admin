@@ -1,25 +1,75 @@
 - @aggregates.each do |k,v|
-  %div.span8
-    %h2= k
-    %table.table.table-striped.table-bordered.table-condensed
-      %thead
-        %th Issued
-        %th Ok
-        %th Warning
-        %th Critical
-        %th Unknown
-        %th Total
-        %th Timestamp
-      %tbody
-        - v.each do |i, iv|
-          %tr
-            %td= i
-            %td= iv['ok']
-            %td= iv['warning']
-            %td= iv['critical']
-            %td= iv['unknown']
-            %td= iv['total']
-            %td= Time.at(i.to_i)
-    %br
-    %br
-    %br
+  - v.each do |i,iv|
+    %div.modal{:id => "aggregate_modal_#{k}_#{i}", :style => "display: none;"}
+      %div.modal-header
+        %h3== Aggregate Summary #{k} - #{i}
+      %div.modal-body
+        %p== Summary output for check #{k} issued at #{i}
+        %br
+        %table.table.table-striped.table-bordered.table-condensed
+          %thead
+            %th Issued
+            %th Ok
+            %th Warning
+            %th Critical
+            %th Unknown
+            %th Total
+            %th Timestamp
+          %tbody
+            %tr
+              %td= i
+              %td= iv['ok']
+              %td= iv['warning']
+              %td= iv['critical']
+              %td= iv['unknown']
+              %td= iv['total']
+              %td= Time.at(i.to_i)
+
+        %br
+        %br
+        %h3 Output
+        %table.table.table-condensed
+          %thead
+            %th #
+            %th Result
+          %tbody
+            - output = iv['outputs'].sort{|a,b| b[1].to_i <=> a[1].to_i}
+            - output.each do |ok, ov|
+              %tr
+                %td= ov
+                %td= ok
+%div.accordion.span8{:id => "aggregate_accordion"}
+  - @aggregates.each do |k,v|
+    %div.row
+      %div.span8
+        %div.accordion-group
+          %div.accordion-heading
+            %a.accordion-toggle{:href => "#collapse_#{k}", 'data-toggle' => 'collapse', 'data-parent' => '#aggregate_accordion'} 
+              = k
+              %i.icon-plus{:id => "icon_toggle_#{k}"}
+          %div.accordion-body.collapse{:rel => "#{k}", :id => "collapse_#{k}"}
+            %div.accordion-inner
+              %table.table.table-striped.table-bordered.table-condensed
+                %thead
+                  %th Issued
+                  %th Ok
+                  %th Warning
+                  %th Critical
+                  %th Unknown
+                  %th Total
+                  %th Timestamp
+                %tbody
+                  - v.each do |i, iv|
+                    %tr
+                      %td
+                        %a.modal-for-aggregate-display{:href => "#show_aggregate_modal_#{k}_#{i}", :misc => "#{k}_#{i}"}
+                          = i
+                      %td= iv['ok']
+                      %td= iv['warning']
+                      %td= iv['critical']
+                      %td= iv['unknown']
+                      %td= iv['total']
+                      %td= Time.at(i.to_i)
+              %br
+              %br
+              %br
