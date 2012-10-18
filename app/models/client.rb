@@ -5,4 +5,8 @@ class Client < Resting
     Client.all.each{|c| clienthash[c.name] = { :address => c.address, :environment => c.environment}}
     clienthash
   end
+
+  def environment
+    @environment || "N/A"
+  end
 end
