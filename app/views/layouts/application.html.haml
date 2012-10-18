@@ -26,4 +26,5 @@
                 = yield
             %footer
       %center
-        %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}
+        - if user_signed_in?
+          %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}
