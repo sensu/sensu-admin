@@ -4,7 +4,7 @@ class Aggregate < Resting
     Aggregate.all.each do |agg|
       resp_hash[agg.check] = {}
       agg.issued.each do |issue|
-        resp_hash[agg.check][issue] = Aggregate.get("aggregates/#{agg.check}/#{issue}", true)
+        resp_hash[agg.check][issue] = Aggregate.get("aggregates/#{agg.check}/#{issue}?summarize=output", true)
       end
     end
     resp_hash
