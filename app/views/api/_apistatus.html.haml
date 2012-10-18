@@ -1,19 +1,19 @@
-%div
+%div.row
   - api = Api.status
   - sensu_version = api.sensu['version']
   - redis_health = api.health['redis']
   - rabbitmq_health = api.health['rabbitmq']
-  %span.badge.badge-info
+  %span.badge.badge-info{:style => "margin-right: 5px;"}
     == API Version: #{sensu_version}
   - if redis_health == "ok"
-    %span.badge.badge-success
+    %span.badge.badge-success{:style => "margin-right: 5px;"}
       == Redis: #{redis_health.upcase}
   - else
-    %span.badge.badge-important
+    %span.badge.badge-important{:style => "margin-right: 5px;"}
       == Redis: #{redis_health.upcase} 
   - if rabbitmq_health == "ok"
-    %span.badge.badge-success
+    %span.badge.badge-success{:style => "margin-right: 5px;"}
       == RabbitMQ: #{rabbitmq_health.upcase}
   - else
-    %span.badge.badge-important
+    %span.badge.badge-important{:style => "margin-right: 5px;"}
       == RabbitMQ: #{rabbitmq_health.upcase} 
