@@ -23,7 +23,7 @@ $ ->
       $.post $(this).attr("rel"), { 'key': $(self).attr("key")},
         (data) ->
           if data
-            $($(self).attr("misc")).hide()
+            $($(self).attr("misc")).remove()
           else
             alert("Stash deletion failed")
   $('#delete-all-stashes').click ->
