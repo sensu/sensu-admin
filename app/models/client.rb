@@ -6,12 +6,8 @@ class Client < Resting
     clienthash
   end
 
-  def environment
-    @environment || "N/A"
+  # Here so if Client is missing attributes that the view does not fail
+  def method_missing(method)
+    "N/A"
   end
-
-  def primary_role
-    @primary_role || "N/A"
-  end
-
 end
