@@ -5,4 +5,7 @@ class Check < Resting
     poster.code == 201
   end
 
+  def method_missing(method)
+    "N/A"
+  end
 end
