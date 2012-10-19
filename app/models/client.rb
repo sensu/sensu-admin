@@ -9,4 +9,9 @@ class Client < Resting
   def environment
     @environment || "N/A"
   end
+
+  def primary_role
+    @primary_role || "N/A"
+  end
+
 end
