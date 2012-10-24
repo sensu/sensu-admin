@@ -45,3 +45,6 @@ table.table thead .sorting_desc { background: image-url('sort_desc.png') no-repe
 table.table thead .sorting_asc_disabled { background: image-url('sort_asc_disabled.png') no-repeat center right; }
 table.table thead .sorting_desc_disabled { background: image-url('sort_desc_disabled.png') no-repeat center right; }
 
+a:hover {
+ cursor:pointer;
+}
