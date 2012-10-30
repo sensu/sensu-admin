@@ -19,9 +19,6 @@ The User, Downtime and Log models are all that use the database currently so unl
 
 == TODO
 * Settings for api, rabbitmq, etc
-* RabbitMQ dashboard, health of everything
-* permission
-* add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
 * popover in events looks like crap on small or huge screens
@@ -30,3 +27,8 @@ The User, Downtime and Log models are all that use the database currently so unl
 * Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
 * Full jquery mobile support
 * Try and fix the events table magnifying glass so it doesnt wrap and acts better
+* Silence events en mass
+* Make sure that downtimes and silence events have pre defined descriptions
+* Silence all
+* fix no space output from a check causing problems on events list
+* Silence based on an attribute (es, rs)
