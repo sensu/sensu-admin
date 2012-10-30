@@ -1,0 +1,8 @@
+%div{'data-role' =>  'header'}
+  %h1 Title
+%div{'data-role' => 'content'}
+  %p Data
+
+%ul{'data-theme' => 'b', 'data-role' => 'listview', 'data-inset' => 'true', 'data-filters' => 'true'}
+  - @events.each do |event|
+    %li= event.check
