@@ -11,7 +11,7 @@ $ ->
 
     runPermanentHooks = ()->
       $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
-      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
+      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'm/d/yy', 'format': 'mm/dd/yyyy' })
 
       $(document).on 'keydown', '.silence-input', ->
         self = $(this)
@@ -77,6 +77,17 @@ $ ->
               $('td[rel="' + misc + '_column_silenced"]').text("No")
             else
               alert("Failed to unsilence...")
+
+       $(document).on 'click', '.delete-client', ->
+         self = $(this)
+         if (confirm('Are you sure?'))
+           $.ajax $(this).attr("rel"),
+             type: 'DELETE'
+             success: (data) ->
+               if data
+                 updateEventTable()
+               else
+                 alert("Could not delete client")
 
     dtable = $('#primary_events_table').dataTable
       bAutoWidth: false
