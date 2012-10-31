@@ -78,6 +78,17 @@ $ ->
             else
               alert("Failed to unsilence...")
 
+       $(document).on 'click', '.delete-client', ->
+         self = $(this)
+         if (confirm('Are you sure?'))
+           $.ajax $(this).attr("rel"),
+             type: 'DELETE'
+             success: (data) ->
+               if data
+                 updateEventTable()
+               else
+                 alert("Could not delete client")
+
     dtable = $('#primary_events_table').dataTable
       bAutoWidth: false
       bJQueryUI: false
