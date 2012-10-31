@@ -81,29 +81,40 @@ $ ->
             else
               alert("Failed to unsilence...")
 
-    use_environments = $("#use_environments").attr("rel")
-    if use_environments == "true"
-      aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, null]
-    else
-      aocolumns = [{bVisible: false}, null, null, null, null, null, null, null]
+      $(document).on 'click', '.delete-client', ->
+       self = $(this)
+       if (confirm('Are you sure?'))
+         $.ajax $(this).attr("rel"),
+           type: 'DELETE'
+           success: (data) ->
+             if data
+               updateEventTable()
+             else
+               alert("Could not delete client")
 
-    dtable = $('#primary_events_table').dataTable
-      bAutoWidth: false
-      bJQueryUI: false
-      bProcessing: false
-      sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
-      sWrapper: "dataTables_wrapper form-inline"
-      bServerSide: false
-      bSort: true
-      aoColumns: aocolumns
-      sPaginationType: "bootstrap"
-      iDisplayLength: 25
-      sAjaxSource: $('#primary_events_table').data('source')
-      fnRowCallback: (nRow, aData, iDisplayIndex, iDisplayIndexFull) ->
-        if aData[0] == 1
-          tr = $('td', nRow).closest('tr')
-          $(tr).attr('class', 'critical-event')
-          return nRow
+      use_environments = $("#use_environments").attr("rel")
+      if use_environments == "true"
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, null]
+      else
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null]
+
+      dtable = $('#primary_events_table').dataTable
+        bAutoWidth: false
+        bJQueryUI: false
+        bProcessing: false
+        sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+        sWrapper: "dataTables_wrapper form-inline"
+        bServerSide: false
+        bSort: true
+        aoColumns: aocolumns
+        sPaginationType: "bootstrap"
+        iDisplayLength: 25
+        sAjaxSource: $('#primary_events_table').data('source')
+        fnRowCallback: (nRow, aData, iDisplayIndex, iDisplayIndexFull) ->
+          if aData[0] == 1
+            tr = $('td', nRow).closest('tr')
+            $(tr).attr('class', 'critical-event')
+            return nRow
 
     runPermanentHooks()
 
