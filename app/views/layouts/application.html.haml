@@ -27,8 +27,8 @@
             %footer
       %center
         %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}
-        %p
+        %div
           - if mobile_device?
-            = link_to "Full Site", :mobile => 0
+            %a{:href => "/events?mobile=0", "data-ajax" => "false"} Full Site
           - else
-            = link_to "Mobile site", :mobile => 1
+            %a{:href => "/events?mobile=1", "data-ajax" => "false"} Mobile Site

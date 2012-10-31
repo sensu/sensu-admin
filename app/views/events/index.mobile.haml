@@ -1,8 +1,39 @@
+- criticals = @events.select{|event| event.status.to_i == 2}
+- warnings = @events.select{|event| event.status.to_i != 2}
 %div{'data-role' =>  'header'}
-  %h1 Title
-%div{'data-role' => 'content'}
-  %p Data
+  %h1 Sensu Events
+%div.ui-content{'data-role' => 'content', :role => "main"}
+  %div.content-primary
+    %ul{'data-theme' => 'b', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      %li{'data-theme' => 'b'}
+        %h2 Critical Events
+        %div.ui-li-count= criticals.count
+        %ul
+          - criticals.each do |event|
+            %li{'data-inset' => 'true'}
+              %h2== #{event.check} on #{event.client}
+              %p= event.output[0..100]
+              %p== #{event.environment} -- #{time_ago_in_words(Time.at(event.issued))}
+              %ul
+                %li Silence Check
+                %li Silence Client
+                %li Resolve
 
-%ul{'data-theme' => 'b', 'data-role' => 'listview', 'data-inset' => 'true', 'data-filters' => 'true'}
-  - @events.each do |event|
-    %li= event.check
+
+
+
+
+
+
+
+
+
+    %ul{'data-theme' => 'c', 'data-role' => 'listview', 'data-inset' => 'true'}
+      %li{'data-theme' => 'c'}
+        %h2 Warning Events
+        %div.ui-li-count= warnings.count
+        %ul
+          - warnings.each do |event|
+            %li{'data-inset' => 'true'}
+              %a{:href => "some.html"}= event.check
+              %p= event.status
