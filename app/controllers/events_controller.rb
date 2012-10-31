@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_filter :find_events, :only => [:index, :events_table ]
+  before_filter :prepare_for_mobile
 
   def index
   end
@@ -35,6 +36,7 @@ class EventsController < ApplicationController
     resp = Event.manual_resolve(params[:client], params[:check], current_user)
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 
@@ -46,6 +48,7 @@ class EventsController < ApplicationController
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
+      format.mobile { render :json => (resp.code == 201).to_s }
     end
   end
 
@@ -57,6 +60,7 @@ class EventsController < ApplicationController
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
+      format.mobile { render :json => (resp.code == 201).to_s }
     end
   end
 
@@ -64,6 +68,7 @@ class EventsController < ApplicationController
     resp = Event.unsilence_client(params[:client], current_user)
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 
@@ -71,6 +76,7 @@ class EventsController < ApplicationController
     resp = Event.unsilence_check(params[:client], params[:check], current_user)
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 

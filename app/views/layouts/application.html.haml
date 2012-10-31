@@ -29,6 +29,6 @@
         %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}
         %div
           - if mobile_device?
-            %a{:href => "/events?mobile=0", "data-ajax" => "false"} Full Site
+            %a{:href => "/?mobile=0", "data-ajax" => "false"} Full Site
           - else
-            %a{:href => "/events?mobile=1", "data-ajax" => "false"} Mobile Site
+            %a{:href => "/?mobile=1", "data-ajax" => "false"} Mobile Site

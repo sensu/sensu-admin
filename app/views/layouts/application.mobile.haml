@@ -11,6 +11,10 @@
       = stylesheet_link_tag    "sensu-mobile.min"
       = stylesheet_link_tag    "jquery.mobile.min"
       = javascript_include_tag "jquery"
+      :javascript
+        $(document).bind("mobileinit", function() {
+          $.mobile.page.prototype.options.addBackBtn = true;
+        });
       = javascript_include_tag "jquery_ujs"
       = javascript_include_tag "jquery.mobile"
       = csrf_meta_tags
@@ -23,6 +27,6 @@
         %center
           %div
             - if mobile_device?
-              %a{:href => "/events?mobile=0", "data-ajax" => "false"} Full Site
+              %a{:href => "/?mobile=0", "data-ajax" => "false"} Full Site
             - else
-              %a{:href => "/events?mobile=1", "data-ajax" => "false"} Mobile Site
+              %a{:href => "/?mobile=1", "data-ajax" => "false"} Mobile Site

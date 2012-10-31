@@ -22,7 +22,7 @@ class StashesController < ApplicationController
   def delete_stash
     resp = Stash.delete_stash(params[:key])
     respond_to do |format|
-      format.json { render :json => (resp.code == 202).to_s }
+      format.json { render :json => (resp.code == 204).to_s }
     end
   end
 

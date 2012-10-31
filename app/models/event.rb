@@ -34,13 +34,13 @@ class Event < Resting
 
   def self.unsilence_client(client, user)
     Log.log(user, client, "unsilence")
-    Stash.delete("silence/#{client}")
+    Stash.delete("stashes/silence/#{client}")
   end
 
   def self.unsilence_check(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "unsilence", nil, event)
-    Stash.delete("silence/#{client}/#{check}")
+    Stash.delete("stashes/silence/#{client}/#{check}")
   end
 
   def sort_val
@@ -60,7 +60,9 @@ class Event < Resting
   end
 
   def client_attributes
-    JSON.parse(Client.find(self.client).to_json)
+    Rails.cache.fetch(self.client, :expires_in => 5.minutes, :race_condition_ttl => 10) do
+      JSON.parse(Client.find(self.client).to_json)
+    end
   end
 
   def environment

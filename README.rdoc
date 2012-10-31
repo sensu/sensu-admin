@@ -32,3 +32,4 @@ The User, Downtime and Log models are all that use the database currently so unl
 * Silence all
 * fix no space output from a check causing problems on events list
 * Silence based on an attribute (es, rs)
+* escape button to close modal
