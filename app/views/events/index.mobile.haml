@@ -153,3 +153,4 @@
                     %button.resolve-submit{:type => "warning_#{i}", :rel => "/events/#{event.client}/#{event.check}/resolve", :control => "#{event.client}_#{event.check}", 'data-theme' => 'd'} Resolve Event
                   %div{:control => "resolved_#{event.client}_#{event.check}", :style => "display: none;"}
                     %button{'data-theme' => 'b'} Resolved
+  %p Note: In this current iteration, events do NOT auto-update on any interval, please hit refresh if you want the latest events.
