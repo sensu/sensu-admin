@@ -11,7 +11,8 @@ class Stash < Resting
   end
 
   def self.refresh_cache
-    Rails.cache.write("stashes", Stash.all, :expires_in => 30.seconds, :race_condition_ttl => 10)
+    Rails.cache.write("stashes", self.all, :expires_in => 30.seconds, :race_condition_ttl => 10)
+    Rails.cache.delete("all_stashes")
   end
 
   def self.stashes
