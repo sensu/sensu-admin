@@ -106,7 +106,7 @@ class DowntimesController < ApplicationController
   end
 
   def find_clients
-    @clients = Client.all
+    @clients = Client.all_with_cache
   end
 
   def find_checks

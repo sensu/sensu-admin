@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_filter :find_events, :only => [:index, :events_table ]
+  before_filter :prepare_for_mobile
 
   def index
   end
@@ -35,6 +36,7 @@ class EventsController < ApplicationController
     resp = Event.manual_resolve(params[:client], params[:check], current_user)
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 
@@ -44,8 +46,10 @@ class EventsController < ApplicationController
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
+      format.mobile { render :json => (resp.code == 201).to_s }
     end
   end
 
@@ -55,32 +59,38 @@ class EventsController < ApplicationController
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
+      format.mobile { render :json => (resp.code == 201).to_s }
     end
   end
 
   def unsilence_client
     resp = Event.unsilence_client(params[:client], current_user)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 
   def unsilence_check
     resp = Event.unsilence_check(params[:client], params[:check], current_user)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
+      format.mobile { render :json => (resp.code == 202).to_s }
     end
   end
 
   private
 
   def find_events
-    events = Event.all
+    events = Event.all_with_cache
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
     cli = {}
-    Client.all.each do |client|
+    Client.all_with_cache.each do |client|
       cli[client.name] = JSON.parse(client.to_json)
     end
     events.each do |event|
