@@ -1,0 +1,52 @@
+- events.each_with_index do |event, i|
+  %li{'data-inset' => 'true', :id => "critical_#{i}", 'data-theme' => color_code}
+    %h2== #{event.check} on #{event.client}
+    %p== Summary: #{event.output[0..100]}
+    %p== ENV: #{event.environment}
+    %p== Time ago: #{time_ago_in_words(Time.at(event.issued))}
+    - if event.client_silenced.nil?
+      %p{:rel => "silence_details_#{event.client}"}== Client not silenced 
+    - else
+      %p{:rel => "silence_details_#{event.client}"}== Client silenced: #{event.client_silenced['description']} 
+    - if event.check_silenced.nil?
+      %p{:rel => "silence_details_#{event.client}_#{event.check}"}== Check not silenced 
+    - else
+      %p{:rel => "silence_details_#{event.client}_#{event.check}"}== Check silenced: #{event.check_silenced['description']}
+    %ul{'data-theme' => 'a', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      %li
+        %p== Check: #{event.check}
+        %p== Client: #{event.client}
+        %p{:style => 'white-space: normal;'}== Output: #{event.output}
+        %p== ENV: #{event.environment}
+        %p== Occured: #{time_ago_in_words(Time.at(event.issued))} Ago
+        %br
+        %br
+      %li
+        - silence_client_style = (event.client_silenced.nil?) ? "" : "display: none;"
+        - unsilence_client_style = (event.client_silenced.nil?) ? "display: none;" : ""
+        %div{:rel => "silence_#{event.client}", :style => silence_client_style}
+          %div.ui-hide-label{'data-role' => 'fieldcontain'}
+            %input{:type => "text", :name => "description", :id => "#{event.client}_#{i}_description", :value => "", :placeholder => "Silence Reason"}
+          %div.ui-submit.ui-btn.ui-shadow{'data-corners' => 'true'}
+            %button.silence-submit{:rel => "/events/#{event.client}/silence", :control => "#{event.client}", :silence_type => "Client silenced reason: ", :description => "#{event.client}_#{i}", 'data-theme' => 'd'} Silence Client
+        %div{:rel => "unsilence_#{event.client}", :style => unsilence_client_style}
+          %p{:rel => "silence_details_#{event.client}"}== Client Silenced Details: #{event.client_silenced.to_s}
+          %button.silence-submit{:rel => "/events/#{event.client}/unsilence", :control => "#{event.client}", :silence_type => "Client not silenced"} Unsilence Client
+      %br
+      %br
+      %li
+        - silence_check_style = (event.check_silenced.nil?) ? "" : "display: none;"
+        - unsilence_check_style = (event.check_silenced.nil?) ? "display: none;" : ""
+        %div{:rel => "silence_#{event.client}_#{event.check}", :style => silence_check_style}
+          %div.ui-hide-label{'data-role' => 'fieldcontain'}
+            %input{:type => "text", :name => "description", :id => "#{event.client}_#{event.check}_#{i}_description", :value => "", :placeholder => "Silence Reason"}
+          %div.ui-submit.ui-btn.ui-shadow{'data-corners' => 'true'}
+            %button.silence-submit{:rel => "/events/#{event.client}/#{event.check}/silence", :control => "#{event.client}_#{event.check}", :silence_type => "Check silenced reason: ", :description => "#{event.client}_#{event.check}_#{i}", 'data-theme' => 'd'} Silence Check
+        %div{:rel => "unsilence_#{event.client}_#{event.check}", :style => unsilence_check_style}
+          %p{:rel => "silence_details_#{event.client}_#{event.check}"}== Check Silenced Details: #{event.check_silenced.to_s}
+          %button.silence-submit{:rel => "/events/#{event.client}/#{event.check}/unsilence", :control => "#{event.client}_#{event.check}", :silence_type => "Check not silenced"} Unsilence Check
+      %li
+        %div{:control => "resolve_#{event.client}_#{event.check}"}
+          %button.resolve-submit{:type => "critical_#{i}", :rel => "/events/#{event.client}/#{event.check}/resolve", :control => "#{event.client}_#{event.check}", 'data-theme' => 'd'} Resolve Event
+        %div{:control => "resolved_#{event.client}_#{event.check}", :style => "display: none;"}
+          %button{'data-theme' => 'b'} Resolved

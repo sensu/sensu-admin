@@ -1,33 +1,11 @@
-:javascript 
-  $(document).ready(function() {
-    $(".delete-stash").click(function(){
-      var self = $(this);
-
-      $.ajax({
-        type: "POST",
-        url: $(self).attr("rel"),
-        cache: false,
-        data: {'key': $(self).attr("key")},
-        success: function(data) {
-          $('#delete_' + $(self).attr("index")).toggle();
-          $('#deleted_' + $(self).attr("index")).toggle();
-          $('#stash_' + $(self).attr("index")).toggle();
-        },
-        error: function(data) {
-          alert("Failed to perform action");
-        }
-        });
-
-      return false;
-    });
-  });
-
 %div{'data-role' =>  'header'}
   %h1 Sensu Stashes
 = render 'layouts/navigation'
 %div.ui-content{'data-role' => 'content', :role => "main"}
   %div.content-primary
     %ul{'data-theme' => 'a', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      - if @stashes.empty?
+        %button{'data-theme' => 'c'} No Stashes
       - @stashes.each_with_index do |(k,v), i|
         %li{'data-theme' => 'a', :id => "stash_#{i}"}
           %h2= k
