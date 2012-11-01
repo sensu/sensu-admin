@@ -1,0 +1,54 @@
+:javascript 
+  $(document).ready(function() {
+    $(".delete-client").click(function(){
+      var self = $(this);
+
+      $.ajax({
+        type: "DELETE",
+        url: $(self).attr("rel"),
+        cache: false,
+        data: {},
+        success: function(data) {
+          $('#client_delete_' + $(self).attr("index")).toggle();
+          $('#client_deleted_' + $(self).attr("index")).toggle();
+          $('#client_' + $(self).attr("index")).toggle();
+        },
+        error: function(data) {
+          alert("Failed to perform action");
+        }
+        });
+
+      return false;
+    });
+  });
+
+%div{'data-role' =>  'header'}
+  %h1 Sensu Clients
+= render 'layouts/navigation'
+%div.ui-content{'data-role' => 'content', :role => "main"}
+  %div.content-primary
+    %ul{'data-theme' => 'a', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      - @clients.each_with_index do |client, i|
+        %li{'data-theme' => 'a', :id => "client_#{i}"}
+          %h2= client.name
+          %p== ENV: #{client.environment}
+          %p== Address: #{client.address}
+          %p== Subscriptions: #{client.subscriptions.join(', ')}
+          %p== Last checkin: #{time_ago_in_words(Time.at(client.timestamp))}
+          %ul
+            %li
+              %h2= client.name
+              %p== ENV: #{client.environment}
+              %p== Address: #{client.address}
+              %p== Subscriptions: #{client.subscriptions.join(', ')}
+              %p== Last checkin: #{time_ago_in_words(Time.at(client.timestamp))}
+              %br
+              %br
+              %h3 JSON Attributes:
+              - client.attributes.each do |k,v|
+                %p== #{k} -> #{v}
+            %li{'data-theme' => 'b'}
+              %div{:id => "client_delete_#{i}"}
+                %button.delete-client{:index => i, 'data-theme' => 'b', :rel => "/clients/#{client.name}"} Delete Client
+              %div{:id => "client_deleted_#{i}", :style => "display: none;"}
+                %button{'data-theme' => 'c'} Deleted!

@@ -46,6 +46,7 @@ class EventsController < ApplicationController
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
       format.mobile { render :json => (resp.code == 201).to_s }
@@ -58,6 +59,7 @@ class EventsController < ApplicationController
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
       format.mobile { render :json => (resp.code == 201).to_s }
@@ -66,6 +68,7 @@ class EventsController < ApplicationController
 
   def unsilence_client
     resp = Event.unsilence_client(params[:client], current_user)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
       format.mobile { render :json => (resp.code == 202).to_s }
@@ -74,6 +77,7 @@ class EventsController < ApplicationController
 
   def unsilence_check
     resp = Event.unsilence_check(params[:client], params[:check], current_user)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
       format.mobile { render :json => (resp.code == 202).to_s }
@@ -83,10 +87,10 @@ class EventsController < ApplicationController
   private
 
   def find_events
-    events = Event.all
+    events = Event.all_with_cache
     stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
     cli = {}
-    Client.all.each do |client|
+    Client.all_with_cache.each do |client|
       cli[client.name] = JSON.parse(client.to_json)
     end
     events.each do |event|

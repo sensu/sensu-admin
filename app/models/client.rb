@@ -1,12 +1,18 @@
 class Client < Resting
 
-  def self.all
-    puts "test"
-    find(:all)
+  def self.all_with_cache
+    Rails.cache.fetch("clients", :expires_in => 30.seconds, :race_condition_ttl => 10) do
+      all
+    end
   end
+
+  def self.refresh_cache
+    Rails.cache.write("clients", Client.all, :expires_in => 30.seconds, :race_condition_ttl => 10)
+  end
+
   def self.full_hash
     clienthash = {}
-    Client.all.each{|c| clienthash[c.name] = { :address => c.address, :environment => c.environment}}
+    Client.all_with_cache.each{|c| clienthash[c.name] = { :address => c.address, :environment => c.environment}}
     clienthash
   end
 end

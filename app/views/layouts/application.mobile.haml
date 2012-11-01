@@ -14,6 +14,7 @@
       :javascript
         $(document).bind("mobileinit", function() {
           $.mobile.page.prototype.options.addBackBtn = true;
+          $.mobile.page.prototype.options.backBtnTheme = 'a';
         });
       = javascript_include_tag "jquery_ujs"
       = javascript_include_tag "jquery.mobile"
@@ -21,12 +22,10 @@
       = favicon_link_tag
       = yield(:head)
     %body
-      %div{'data-role' => 'page'}
-        = yield
-
-        %center
-          %div
-            - if mobile_device?
-              %a{:href => "/?mobile=0", "data-ajax" => "false"} Full Site
-            - else
-              %a{:href => "/?mobile=1", "data-ajax" => "false"} Mobile Site
+      = yield
+      %center
+        %div
+          - if mobile_device?
+            %a{:href => "/?mobile=0", "data-ajax" => "false"} Full Site
+          - else
+            %a{:href => "/?mobile=1", "data-ajax" => "false"} Mobile Site

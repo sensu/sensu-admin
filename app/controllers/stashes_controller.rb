@@ -1,4 +1,6 @@
 class StashesController < ApplicationController
+  before_filter :prepare_for_mobile
+
   def index
     @stashes = Stash.stashes
   end
@@ -14,6 +16,7 @@ class StashesController < ApplicationController
       attributes.merge!({:description => params[:description]})
     end
     resp = Stash.create_stash(params[:key], attributes)
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 201).to_s }
     end
@@ -21,15 +24,19 @@ class StashesController < ApplicationController
 
   def delete_stash
     resp = Stash.delete_stash(params[:key])
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 204).to_s }
+      format.mobile { render :json => (resp.code == 204).to_s }
     end
   end
 
   def delete_all_stashes
     resp = Stash.delete_all_stashes
+    Stash.refresh_cache
     respond_to do |format|
       format.json { render :json => resp.to_s }
+      format.mobile { render :json => resp.to_s }
     end
   end
 end
