@@ -24,6 +24,8 @@ gem 'bootstrap-sass', '= 2.1.0.1', :git => "git://github.com/thomas-mcdonald/boo
 gem 'haml-rails'
 gem 'bootstrap-will_paginate'
 gem 'formtastic'
+
+# Jquery
 gem 'jquery-rails'
 gem 'jquery-datatables-rails'
 
