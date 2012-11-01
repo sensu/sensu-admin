@@ -1,33 +1,11 @@
-:javascript 
-  $(document).ready(function() {
-    $(".delete-client").click(function(){
-      var self = $(this);
-
-      $.ajax({
-        type: "DELETE",
-        url: $(self).attr("rel"),
-        cache: false,
-        data: {},
-        success: function(data) {
-          $('#client_delete_' + $(self).attr("index")).toggle();
-          $('#client_deleted_' + $(self).attr("index")).toggle();
-          $('#client_' + $(self).attr("index")).toggle();
-        },
-        error: function(data) {
-          alert("Failed to perform action");
-        }
-        });
-
-      return false;
-    });
-  });
-
 %div{'data-role' =>  'header'}
   %h1 Sensu Clients
 = render 'layouts/navigation'
 %div.ui-content{'data-role' => 'content', :role => "main"}
   %div.content-primary
     %ul{'data-theme' => 'a', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      - if @clients.empty?
+        %button{'data-theme' => 'c'} No Clients
       - @clients.each_with_index do |client, i|
         %li{'data-theme' => 'a', :id => "client_#{i}"}
           %h2= client.name

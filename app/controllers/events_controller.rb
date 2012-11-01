@@ -45,6 +45,7 @@ class EventsController < ApplicationController
     if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
+    params[:description] = "No reason given" if params[:description].empty?
     resp = Event.silence_client(params[:client], params[:description], current_user, expire_at)
     Stash.refresh_cache
     respond_to do |format|
@@ -58,6 +59,7 @@ class EventsController < ApplicationController
     if !params[:expire_at_time].blank? && !params[:expire_at_date].blank?
       expire_at = Time.parse("#{params[:expire_at_date]} #{params[:expire_at_time]}")
     end
+    params[:description] = "No reason given" if params[:description].empty?
     resp = Event.silence_check(params[:client], params[:check], params[:description], current_user, expire_at)
     Stash.refresh_cache
     respond_to do |format|
