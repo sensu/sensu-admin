@@ -100,7 +100,14 @@ class EventsController < ApplicationController
       if stashes.include?("silence/#{event.client}/#{event.check}")
         event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
       end
-      event.client_attributes = cli[event.client]
+
+      #
+      # Just in case we got into a condition where a new event appeared to a new client, but was not cached yet.
+      # This isnt an issue though as client_attributes in Event will fail back to getting fresh json from API
+      #
+      unless cli[event.client].nil?
+        event.client_attributes = cli[event.client]
+      end
     end
     @events = events
   end
