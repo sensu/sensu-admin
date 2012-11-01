@@ -1,0 +1,11 @@
+%div{'data-role' => 'navbar'}
+  %ul
+    - unless params[:controller] == "events"
+      %li
+        %a{:href => "/events?mobile=1", 'data-theme' => 'a'} Events
+    - unless params[:controller] == "stashes"
+      %li
+        %a{:href => "/stashes?mobile=1", 'data-theme' => 'a'} Stashes
+    - unless params[:controller] == "clients"
+      %li
+        %a{:href => "/clients?mobile=1", 'data-theme' => 'a'} Clients

@@ -18,16 +18,24 @@ sensu-admin uses the database very lightly, so you can use sqlite instead of mys
 The User, Downtime and Log models are all that use the database currently so unless you have very high throughput it should result in little usage.
 
 == TODO
+* Fix cookbook for deployment
 * Settings for api, rabbitmq, etc
-* RabbitMQ dashboard, health of everything
-* permission
-* add/remove users
 * Log Downtime schedule, execution, and completion
 * Make a downtime info page
 * popover in events looks like crap on small or huge screens
 * Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
 * Make a note when silencing or creating a downtime that event handlers must use sensu-plugin or hit the API to check for silencing
 * Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
-* Full jquery mobile support
 * Try and fix the events table magnifying glass so it doesnt wrap and acts better
 * Say they have no aggregates if array is empty
+* Silence events en mass
+* Make sure that downtimes and silence events have pre defined descriptions
+* Silence all
+* fix no space output from a check causing problems on events list
+* Silence based on an attribute (es, rs)
+* escape button to close modal
+* Make the JQuery mobile version auto-update events if possible
+* Move mobile and desktop assets into their own directories and cleanup
+* Lazy load events, clients, etc
+* Environments are an option
+* Remove primary_role completely
