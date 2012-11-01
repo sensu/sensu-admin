@@ -33,3 +33,5 @@ The User, Downtime and Log models are all that use the database currently so unl
 * fix no space output from a check causing problems on events list
 * Silence based on an attribute (es, rs)
 * escape button to close modal
+* Make the JQuery mobile version auto-update events if possible
+* Move mobile and desktop assets into their own directories and cleanup
