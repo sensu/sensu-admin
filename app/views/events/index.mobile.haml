@@ -1,0 +1,28 @@
+- criticals = @events.select{|event| event.status.to_i == 2}
+- warnings = @events.select{|event| event.status.to_i == 1}
+- unknowns = @events.select{|event| ![1,2].include?(event.status.to_i)}
+
+%div{'data-role' =>  'header'}
+  %h1 Sensu Events
+//render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
+= render 'layouts/navigation'
+%div.ui-content{'data-role' => 'content', :role => "main"}
+  %div.content-primary
+    %ul{'data-theme' => 'b', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
+      %li{'data-theme' => 'b'}
+        %h2 Critical Events
+        %div.ui-li-count= criticals.count
+        %ul
+          = render :partial => "mobile_event", :locals => {:events => criticals, :color_code => 'b'}
+      %li{'data-theme' => 'c'}
+        %h2 Warning Events
+        %div.ui-li-count= warnings.count
+        %ul
+          = render :partial => "mobile_event", :locals => {:events => warnings, :color_code => 'c'}
+      %li{'data-theme' => 'e'}
+        %h2 Unknown Events
+        %div.ui-li-count= unknowns.count
+        %ul
+          = render :partial => "mobile_event", :locals => {:events => unknowns, :color_code => 'e'}
+
+  %p Note: In this current iteration, events do NOT auto-update on any interval, please hit refresh if you want the latest events.

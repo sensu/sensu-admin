@@ -7,27 +7,15 @@
       %title= content_for?(:title) ? yield(:title) : "Sensu Admin"
       %meta{:content => "Sensu-admin is an admin application for viewing, silencing and resolving events from the sensu-api. In addition to exposing many other api related things.", :name => "description"}
       %meta{:content => "Sonian DevOps Josh Pasqualetto <josh.pasqualetto@sonian.net>", :name => "author"}
-      = stylesheet_link_tag    "application", :media => "all"
-      = javascript_include_tag "application"
+      %meta{:name => 'viewport', :content => "width=device-width, initial-scale=1"}
+      = stylesheet_link_tag    "mobile", :media => "all"
+      = javascript_include_tag "mobile"
       = csrf_meta_tags
       = favicon_link_tag
       = yield(:head)
     %body
-      %header.navbar.navbar-fixed-top
-        %nav.navbar-inner
-          .container
-            = render 'layouts/navigation'
-      #main{:role => "main"}
-        .container
-          .content
-            .row
-              .span12
-                = render 'layouts/messages'
-                = yield
-            %footer
+      = yield
       %center
-        - if user_signed_in?
-          %div{:id => "api_info_div", :style => "height: 20px; margin-top: 10px"}
         %div
           - if mobile_device?
             %a{:href => "/?mobile=0", "data-ajax" => "false"} Full Site
