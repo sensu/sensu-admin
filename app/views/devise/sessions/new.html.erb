@@ -1,3 +1,4 @@
+<div style="padding-left: 10%;">
 <h2>Sign in</h2>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
@@ -13,5 +14,6 @@
 
   <div><%= f.submit "Sign in" %></div>
 <% end %>
-
 <%= render "devise/shared/links" %>
+</div>
+
