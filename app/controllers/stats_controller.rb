@@ -1,7 +1,7 @@
 class StatsController < ApplicationController
   def index
-    @events = Event.all
-    @clients = Client.all
+    @events = Event.all_with_cache
+    @clients = Client.all_with_cache
     @downtimes = Downtime.all
     @stashes = Stash.all
     @clients_by_subscription = {}

@@ -1,12 +1,22 @@
 class Event < Resting
   attr_accessor :client_silenced, :check_silenced, :client_attributes
 
+  def self.all_with_cache
+    Rails.cache.fetch("events", :expires_in => 30.seconds, :race_condition_ttl => 10) do
+      all
+    end
+  end
+
+  def self.refresh_cache
+    Rails.cache.write("events", Event.all, :expires_in => 30.seconds, :race_condition_ttl => 10)
+  end
+
   def resolve
     self.delete("#{self.client}/#{self.check}")
   end
 
   def self.single(query)
-    Event.all.select{|event| query == "#{event.client}_#{event.check}"}[0]
+    Event.all_with_cache.select{|event| query == "#{event.client}_#{event.check}"}[0]
   end
 
   def self.manual_resolve(client, check, user)
@@ -34,13 +44,13 @@ class Event < Resting
 
   def self.unsilence_client(client, user)
     Log.log(user, client, "unsilence")
-    Stash.delete("silence/#{client}")
+    Stash.delete("stashes/silence/#{client}")
   end
 
   def self.unsilence_check(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "unsilence", nil, event)
-    Stash.delete("silence/#{client}/#{check}")
+    Stash.delete("stashes/silence/#{client}/#{check}")
   end
 
   def sort_val
@@ -60,7 +70,9 @@ class Event < Resting
   end
 
   def client_attributes
-    JSON.parse(Client.find(self.client).to_json)
+    Rails.cache.fetch(self.client, :expires_in => 5.minutes, :race_condition_ttl => 10) do
+      JSON.parse(Client.find(self.client).to_json)
+    end
   end
 
   def environment
