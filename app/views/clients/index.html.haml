@@ -16,7 +16,6 @@
     %th Name
     %th Address
     %th Subscriptions
-    %th Primary Role
     %th Last checkin
     %th
       
@@ -29,7 +28,6 @@
         %td.subpopover{'data-content' => client.subscriptions.join(', ')}
           = format_subscriptions(client.subscriptions)
           %i.icon-chevron-right
-        %td.moreinfo= client.primary_role
         %td.moreinfo= time_ago_in_words(Time.at(client.timestamp))
         %td.moreinfo
           %i.icon-zoom-in

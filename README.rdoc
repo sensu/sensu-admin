@@ -37,4 +37,3 @@ The User, Downtime and Log models are all that use the database currently so unl
 * Move mobile and desktop assets into their own directories and cleanup
 * Lazy load events, clients, etc
 * Environments are an option
-* Remove primary_role completely
