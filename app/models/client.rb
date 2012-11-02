@@ -1,9 +1,15 @@
 class Client < Resting
 
   def self.all_with_cache
-    Rails.cache.fetch("clients", :expires_in => 30.seconds, :race_condition_ttl => 10) do
-      all
+    clients = Rails.cache.read("clients")
+    if clients.nil?
+      clients = Client.all
+      Rails.cache.write("clients", clients, :expires_in => 45.seconds, :race_condition_ttl => 10)
+      clients.each do |client|
+        Rails.cache.write(client.name, client, :expires_in => 5.minutes, :race_condition_ttl => 10)
+      end
     end
+    clients
   end
 
   def self.refresh_cache

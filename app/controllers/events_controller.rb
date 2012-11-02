@@ -90,28 +90,6 @@ class EventsController < ApplicationController
   private
 
   def find_events
-    events = Event.all_with_cache
-    stashes = Hash[Stash.stashes.select {|stash, value| stash =~ /silence/}]
-    cli = {}
-    Client.all_with_cache.each do |client|
-      cli[client.name] = JSON.parse(client.to_json)
-    end
-    events.each do |event|
-      if stashes.include?("silence/#{event.client}")
-        event.client_silenced = stashes["silence/#{event.client}"]
-      end
-      if stashes.include?("silence/#{event.client}/#{event.check}")
-        event.check_silenced = stashes["silence/#{event.client}/#{event.check}"]
-      end
-
-      #
-      # Just in case we got into a condition where a new event appeared to a new client, but was not cached yet.
-      # This isnt an issue though as client_attributes in Event will fail back to getting fresh json from API
-      #
-      unless cli[event.client].nil?
-        event.client_attributes = cli[event.client]
-      end
-    end
-    @events = events
+    @events = Event.all_with_cache
   end
 end
