@@ -18,24 +18,25 @@ sensu-admin uses the database very lightly, so you can use sqlite instead of mys
 The User, Downtime and Log models are all that use the database currently so unless you have very high throughput it should result in little usage.
 
 == TODO
+
+=== High Priority
 * Fix cookbook for deployment
-* Settings for api, rabbitmq, etc
-* Log Downtime schedule, execution, and completion
-* Make a downtime info page
-* popover in events looks like crap on small or huge screens
-* Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
-* Make a note when silencing or creating a downtime that event handlers must use sensu-plugin or hit the API to check for silencing
-* Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
-* Try and fix the events table magnifying glass so it doesnt wrap and acts better
-* Say they have no aggregates if array is empty
+* Settings displaying environments, api settings
 * Silence events en mass
-* Make sure that downtimes and silence events have pre defined descriptions
+
+=== Medium Priority
+* Lazy load events, clients, etc in mobile
 * Silence all
-* fix no space output from a check causing problems on events list
+* Use sensu config for production sensu-admin -- https://github.com/sensu/sensu/blob/master/lib/sensu/settings.rb
+* Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
+* Make sure that downtimes and silence events have pre defined descriptions that you can set (dropdown)
+* Fix bug where if a check output has no spaces it can blow out the list (because it will not wrap)
+* Add keepalive into downtime checks
+
+=== Low Priority
+* Make a downtime info page
+* Log Downtime schedule, execution, and completion
 * Silence based on an attribute (es, rs)
-* escape button to close modal
 * Make the JQuery mobile version auto-update events if possible
 * Move mobile and desktop assets into their own directories and cleanup
-* Lazy load events, clients, etc
-* Environments are an option
-* Remove primary_role completely
+* Notify the user if whenever cronjobs have not run recently, namely when scheduling a downtime.

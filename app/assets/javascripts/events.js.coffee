@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 $ ->
+  # Hack so that escape works on modals
+  $('div.modal').attr("tabindex", "-1")
+
   if $('#primary_events_table').length > 0
     updateEventTable = ()->
       $('#updating_event_list').show()

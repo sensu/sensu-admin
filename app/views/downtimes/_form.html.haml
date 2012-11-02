@@ -6,6 +6,7 @@
       - @downtime.errors.full_messages.each do |msg|
         %li
           %p= msg
+%p Note: Your event handler must use sensu-plugin or hit the API to make use of silencing(downtimes).
 %div.form
   = semantic_form_for @downtime  do |f|
     = f.inputs do
