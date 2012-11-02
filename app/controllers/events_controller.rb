@@ -34,6 +34,7 @@ class EventsController < ApplicationController
 
   def resolve
     resp = Event.manual_resolve(params[:client], params[:check], current_user)
+    Event.refresh_cache
     respond_to do |format|
       format.json { render :json => (resp.code == 202).to_s }
       format.mobile { render :json => (resp.code == 202).to_s }
