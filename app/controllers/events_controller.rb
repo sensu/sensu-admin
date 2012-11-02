@@ -91,7 +91,7 @@ class EventsController < ApplicationController
 
   def find_events
     events = Event.all_with_cache
-    stashes = Stash.stashes.select {|stash, value| stash =~ /silence/}
+    stashes = Hash[Stash.stashes.select {|stash, value| stash =~ /silence/}]
     cli = {}
     Client.all_with_cache.each do |client|
       cli[client.name] = JSON.parse(client.to_json)
