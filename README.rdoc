@@ -31,6 +31,7 @@ The User, Downtime and Log models are all that use the database currently so unl
 * Do not render out all modals into the html, do like you do with the main modal on events and render via ajax
 * Make sure that downtimes and silence events have pre defined descriptions that you can set (dropdown)
 * Fix bug where if a check output has no spaces it can blow out the list (because it will not wrap)
+* Add keepalive into downtime checks
 
 === Low Priority
 * Make a downtime info page
