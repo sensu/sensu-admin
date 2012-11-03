@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-unless User.find_by_email("admin@example.com")
+if User.all.count == 0
   u = User.create!({:email => "admin@example.com", :password => "secret", :password_confirmation => "secret" })
   u.add_role :admin
   u.save!
