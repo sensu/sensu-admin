@@ -12,7 +12,8 @@
 
 %table.table.table-striped
   %thead
-    %th ENV
+    - if use_environments?
+      %th ENV
     %th Name
     %th Address
     %th Subscriptions
@@ -22,7 +23,8 @@
   %tbody
     - @clients.each do |client|
       %tr{:id => "client_row_#{client.name}", :rel => "#client_modal_#{client.name}"}
-        %td.moreinfo= client.environment
+        - if use_environments?
+          %td.moreinfo= client.environment
         %td.moreinfo= client.name
         %td.moreinfo= client.address
         %td.subpopover{'data-content' => client.subscriptions.join(', ')}

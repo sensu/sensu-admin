@@ -9,14 +9,16 @@
       - @clients.each_with_index do |client, i|
         %li{'data-theme' => 'a', :id => "client_#{i}"}
           %h2= client.name
-          %p== ENV: #{client.environment}
+          - if use_environments?
+            %p== ENV: #{client.environment}
           %p== Address: #{client.address}
           %p== Subscriptions: #{client.subscriptions.join(', ')}
           %p== Last checkin: #{time_ago_in_words(Time.at(client.timestamp))}
           %ul
             %li
               %h2= client.name
-              %p== ENV: #{client.environment}
+              - if use_environments?
+                %p== ENV: #{client.environment}
               %p== Address: #{client.address}
               %p== Subscriptions: #{client.subscriptions.join(', ')}
               %p== Last checkin: #{time_ago_in_words(Time.at(client.timestamp))}

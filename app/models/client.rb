@@ -6,7 +6,8 @@ class Client < Resting
       clients = Client.all
       Rails.cache.write("clients", clients, :expires_in => 45.seconds, :race_condition_ttl => 10)
       clients.each do |client|
-        Rails.cache.write(client.name, client, :expires_in => 5.minutes, :race_condition_ttl => 10)
+        client_data = JSON.parse(client.to_json) # We only want attributes
+        Rails.cache.write(client.name, client_data, :expires_in => 5.minutes, :race_condition_ttl => 10)
       end
     end
     clients
@@ -23,7 +24,7 @@ class Client < Resting
   end
 
   # Here so if Client is missing attributes that the view does not fail
-  def method_missing(method)
-    "N/A"
+  def method_missing(method, *args, &block)
+    "None"
   end
 end

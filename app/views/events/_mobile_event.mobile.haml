@@ -2,7 +2,8 @@
   %li{'data-inset' => 'true', :id => "critical_#{i}", 'data-theme' => color_code}
     %h2== #{event.check} on #{event.client}
     %p== Summary: #{event.output[0..100]}
-    %p== ENV: #{event.environment}
+    - if use_environments?
+      %p== ENV: #{event.environment}
     %p== Time ago: #{time_ago_in_words(Time.at(event.issued))}
     - if event.client_silenced.nil?
       %p{:rel => "silence_details_#{event.client}"}== Client not silenced 
@@ -17,7 +18,8 @@
         %p== Check: #{event.check}
         %p== Client: #{event.client}
         %p{:style => 'white-space: normal;'}== Output: #{event.output}
-        %p== ENV: #{event.environment}
+        - if use_environments?
+          %p== ENV: #{event.environment}
         %p== Occured: #{time_ago_in_words(Time.at(event.issued))} Ago
         %br
         %br

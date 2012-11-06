@@ -23,6 +23,10 @@ SensuAdmin::Application.routes.draw do
 
   match 'api/status' => 'api#status', :via => :get
   match 'api/time' => 'api#time', :via => :get
+  match 'api/setup' => 'api#setup', :via => :get
+  match 'api/test_api' => 'api#test_api', :via => :post
+
+  match "settings/missing" => "settings#missing", :via => :get
 
   resources :events
   resources :stashes
@@ -33,6 +37,7 @@ SensuAdmin::Application.routes.draw do
   resources :users
   resources :stats
   resources :aggregates
+  resources :settings
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

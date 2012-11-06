@@ -81,6 +81,12 @@ $ ->
             else
               alert("Failed to unsilence...")
 
+    use_environments = $("#use_environments").attr("rel")
+    if use_environments == "true"
+      aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, null]
+    else
+      aocolumns = [{bVisible: false}, null, null, null, null, null, null, null]
+
     dtable = $('#primary_events_table').dataTable
       bAutoWidth: false
       bJQueryUI: false
@@ -89,7 +95,7 @@ $ ->
       sWrapper: "dataTables_wrapper form-inline"
       bServerSide: false
       bSort: true
-      aoColumns: [{bVisible: false}, null, null, null, null, null, null, null, null]
+      aoColumns: aocolumns
       sPaginationType: "bootstrap"
       iDisplayLength: 25
       sAjaxSource: $('#primary_events_table').data('source')

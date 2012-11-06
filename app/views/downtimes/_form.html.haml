@@ -48,7 +48,8 @@
         %thead
           %th Name
           %th Address
-          %th ENV
+          - if use_environments?
+            %th ENV
           %th Subscriptions
           %th 
         %tbody
@@ -57,7 +58,8 @@
             %tr{:rel => "downtime_client_table_row", :misc => "#{client.name}"}
               %td.toggle_box= client.name
               %td.toggle_box= client.address
-              %td.toggle_box= client.environment
+              - if use_environments?
+                %td.toggle_box= client.environment
               %td.toggle_box= client.subscriptions.join(',')[0..100]
               %td.check_box{:filter => "false"}
                 - if client_checked

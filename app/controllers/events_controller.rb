@@ -8,17 +8,30 @@ class EventsController < ApplicationController
   def events_table
     events_datatable = []
     @events.each_with_index do |event, i|
-      events_datatable << [
-       event.sort_val,
-       render_to_string(:action => "_status", :formats => [:html], :layout => false, :locals => { :event => event }),
-       event.client_attributes['environment'],
-       event.client,
-       event.check,
-       render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
-       render_to_string(:action => "_actions", :formats => [:html], :layout => false, :locals => { :event => event, :i => i}),
-       render_to_string(:action => "_issued", :formats => [:html], :layout => false, :locals => { :event => event }),
-       "<div class = 'moreinfo' style = 'cursor: pointer; position: absolute; display: block; height: 25px; width: 25px;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i style='padding-right: 10px;' class='icon-zoom-in'></i></div>"
-      ]
+      if Setting.use_environments?
+        events_datatable << [
+         event.sort_val,
+         render_to_string(:action => "_status", :formats => [:html], :layout => false, :locals => { :event => event }),
+         event.client_attributes['environment'],
+         event.client,
+         event.check,
+         render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
+         render_to_string(:action => "_actions", :formats => [:html], :layout => false, :locals => { :event => event, :i => i}),
+         render_to_string(:action => "_issued", :formats => [:html], :layout => false, :locals => { :event => event }),
+         "<div class = 'moreinfo' style = 'cursor: pointer; position: absolute; display: block; height: 25px; width: 25px;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i style='padding-right: 10px;' class='icon-zoom-in'></i></div>"
+        ]
+      else
+        events_datatable << [
+         event.sort_val,
+         render_to_string(:action => "_status", :formats => [:html], :layout => false, :locals => { :event => event }),
+         event.client,
+         event.check,
+         render_to_string(:action => "_output", :formats => [:html], :layout => false, :locals => { :event => event }),
+         render_to_string(:action => "_actions", :formats => [:html], :layout => false, :locals => { :event => event, :i => i}),
+         render_to_string(:action => "_issued", :formats => [:html], :layout => false, :locals => { :event => event }),
+         "<div class = 'moreinfo' style = 'cursor: pointer; position: absolute; display: block; height: 25px; width: 25px;' index_id='#{i}' misc='#{event.client}_#{event.check}'><i style='padding-right: 10px;' class='icon-zoom-in'></i></div>"
+        ]
+      end
     end
     respond_to do |format|
       format.json do

@@ -1,5 +1,8 @@
 %div.modal-header
-  %h3== Client: #{event.client} (#{event.client_attributes['address']}) in #{event.client_attributes['environment']}
+  - if use_environments?
+    %h3== Client: #{event.client} (#{event.client_attributes['address']}) in #{event.client_attributes['environment']}
+  - else
+    %h3== Client: #{event.client} (#{event.client_attributes['address']})
   %h3== Check: #{event.check}
 %div.modal-body
   %h3 Check Output
