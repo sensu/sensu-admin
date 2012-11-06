@@ -55,7 +55,7 @@ class Resting
 
     def delete(path)
       begin
-        RestClient.delete "#{APP_CONFIG['api']}/#{path}"
+        RestClient.delete "#{Setting.api_server}/#{path}"
       rescue RestClient::ResourceNotFound
         false
       end
@@ -63,7 +63,7 @@ class Resting
 
     def put(path, attributes = {})
       begin
-        RestClient.put "#{APP_CONFIG['api']}/#{path}", attributes.to_json
+        RestClient.put "#{Setting.api_server}/#{path}", attributes.to_json
       rescue RestClient::ResourceNotFound
         false
       end
@@ -71,7 +71,7 @@ class Resting
 
     def post(path, attributes = {})
       begin
-        RestClient.post "#{APP_CONFIG['api']}/#{path}", attributes.to_json
+        RestClient.post "#{Setting.api_server}/#{path}", attributes.to_json
       rescue RestClient::ResourceNotFound
         false
       end
@@ -79,7 +79,7 @@ class Resting
 
     def get(path, raw = false)
       begin
-        data = JSON.parse(RestClient.get "#{APP_CONFIG['api']}/#{path}")
+        data = JSON.parse(RestClient.get "#{Setting.api_server}/#{path}")
         if raw
           data
         else
