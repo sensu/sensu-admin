@@ -1,0 +1,18 @@
+%div
+  = semantic_form_for @sensu_api_server do |f|
+    .row
+      %div.span8
+        = f.input :value, :label => "Sensu API Server url"
+        = f.actions
+      %div.span4
+        %p (e.g. http://username:password@sensu.myorg.com:4567) 
+        %p No trailing /'s please.
+  %br
+  %br
+  = semantic_form_for @use_environments do |f|
+    .row
+      %div.span8
+        = f.input :value, :label => "Show environment for Client/Event", :as => :select, :collection => ["true", "false"]
+        = f.actions
+      %div.span4
+        %p Note: Clients must have environments set to filter into Client & Event. 

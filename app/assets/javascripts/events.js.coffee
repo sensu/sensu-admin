@@ -14,7 +14,7 @@ $ ->
 
     runPermanentHooks = ()->
       $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
-      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
+      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'm/d/yy', 'format': 'mm/dd/yyyy' })
 
       $(document).on 'keydown', '.silence-input', ->
         self = $(this)
@@ -81,23 +81,40 @@ $ ->
             else
               alert("Failed to unsilence...")
 
-    dtable = $('#primary_events_table').dataTable
-      bAutoWidth: false
-      bJQueryUI: false
-      bProcessing: false
-      sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
-      sWrapper: "dataTables_wrapper form-inline"
-      bServerSide: false
-      bSort: true
-      aoColumns: [{bVisible: false}, null, null, null, null, null, null, null, null]
-      sPaginationType: "bootstrap"
-      iDisplayLength: 25
-      sAjaxSource: $('#primary_events_table').data('source')
-      fnRowCallback: (nRow, aData, iDisplayIndex, iDisplayIndexFull) ->
-        if aData[0] == 1
-          tr = $('td', nRow).closest('tr')
-          $(tr).attr('class', 'critical-event')
-          return nRow
+      $(document).on 'click', '.delete-client', ->
+       self = $(this)
+       if (confirm('Are you sure?'))
+         $.ajax $(this).attr("rel"),
+           type: 'DELETE'
+           success: (data) ->
+             if data
+               updateEventTable()
+             else
+               alert("Could not delete client")
+
+      use_environments = $("#use_environments").attr("rel")
+      if use_environments == "true"
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, null]
+      else
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null]
+
+      dtable = $('#primary_events_table').dataTable
+        bAutoWidth: false
+        bJQueryUI: false
+        bProcessing: false
+        sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+        sWrapper: "dataTables_wrapper form-inline"
+        bServerSide: false
+        bSort: true
+        aoColumns: aocolumns
+        sPaginationType: "bootstrap"
+        iDisplayLength: 25
+        sAjaxSource: $('#primary_events_table').data('source')
+        fnRowCallback: (nRow, aData, iDisplayIndex, iDisplayIndexFull) ->
+          if aData[0] == 1
+            tr = $('td', nRow).closest('tr')
+            $(tr).attr('class', 'critical-event')
+            return nRow
 
     runPermanentHooks()
 

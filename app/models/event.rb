@@ -19,6 +19,24 @@ class Event < Resting
     Event.all_with_cache.select{|event| query == "#{event.client}_#{event.check}"}[0]
   end
 
+  def client_silenced
+    stashes = Stash.stashes
+    if stashes.include?("silence/#{self.client}")
+      stashes["silence/#{self.client}"]
+    else
+      nil
+    end
+  end
+
+  def check_silenced
+    stashes = Stash.stashes
+    if stashes.include?("silence/#{self.client}/#{self.check}")
+      stashes["silence/#{self.client}/#{self.check}"]
+    else
+      nil
+    end
+  end
+
   def self.manual_resolve(client, check, user)
     event = Event.single("#{client}_#{check}")
     Log.log(user, client, "resolve", nil, event)
@@ -65,17 +83,17 @@ class Event < Resting
     end
   end
 
-  def client
-    self.client_attributes['client']
-  end
-
   def client_attributes
     Rails.cache.fetch(self.client, :expires_in => 5.minutes, :race_condition_ttl => 10) do
       JSON.parse(Client.find(self.client).to_json)
     end
   end
 
+  def client
+    client_attributes['name']
+  end
+
   def environment
-    self.client_attributes['environment']
+    client_attributes['environment']
   end
 end

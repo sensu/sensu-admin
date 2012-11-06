@@ -143,3 +143,18 @@ only screen and (max-width: 480px) {
   .events_table td:nth-of-type(7):before { content: "Time"; }
   .events_table td:nth-of-type(8):before { content: "More"; }
 }
+a:hover {
+ cursor:pointer;
+}
+
+.alert {
+  left: 50%;
+  height: 12px;
+  z-index: 2;
+  position: absolute;
+  margin: auto auto auto -100px;
+  width: 130px;
+  padding: 8px;
+  line-height: 10px;
+  display: none;
+}
