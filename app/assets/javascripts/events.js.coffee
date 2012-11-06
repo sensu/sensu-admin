@@ -94,9 +94,9 @@ $ ->
 
       use_environments = $("#use_environments").attr("rel")
       if use_environments == "true"
-        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, null]
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null, {bSortable: false}]
       else
-        aocolumns = [{bVisible: false}, null, null, null, null, null, null, null]
+        aocolumns = [{bVisible: false}, null, null, null, null, null, null, {bSortable: false}]
 
       dtable = $('#primary_events_table').dataTable
         bAutoWidth: false
