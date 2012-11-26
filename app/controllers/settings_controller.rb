@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
     authorize! :manage, Setting.all
     @sensu_api_server = Setting.find_by_name("api_server")
     @use_environments = Setting.find_by_name("use_environments")
+    @configure_server = Setting.find_by_name("configure_server")
   end
 
   def missing

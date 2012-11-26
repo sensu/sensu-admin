@@ -19,6 +19,10 @@ module ApplicationHelper
     Setting.use_environments?
   end
 
+  def configure_server?
+    Setting.configure_server?
+  end
+
   def downtime_number
     count = Downtime.active.count
     (count > 0) ? "(#{count})" : ""
