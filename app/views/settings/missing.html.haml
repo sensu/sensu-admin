@@ -1,0 +1,5 @@
+%div.alert.alert-error
+  %p Your missing setting(s) needed to run sensu-admin, please run (or have your admin run) rake db:seed, Your missing the following variables:
+- REQUIRED_SETTINGS.each do |setting|
+  - unless Setting.find_by_name(setting)
+    %p= setting

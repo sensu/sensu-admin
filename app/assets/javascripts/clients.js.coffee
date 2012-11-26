@@ -15,3 +15,9 @@ $ ->
             $("#client_row_" + $(self).attr('key')).hide()
           else
             alert("Could not delete client")
+
+  dtable = $('#clients_table').dataTable
+      bAutoWidth: false
+      bSort: true
+      aoColumns: [null, null, null, null, null, null, {bSortable: false}, {bSortable: false}]
+      bPaginate: false

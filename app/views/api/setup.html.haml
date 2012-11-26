@@ -1,0 +1,13 @@
+%p Your sensu-api server is either down or not responding, or you have not configured it correctly or you are just setting up sensu-admin.
+
+%p Please enter in your api server using the following details then hit test, then save.
+%p (e.g. http://username:password@sensu.myorg.com:4567) 
+%p No trailing /'s please.
+
+#sensu_api_setup
+  = semantic_form_for @sensu_api_server do |f|
+    = f.input :value, :label => "Sensu API Server url"
+    %input.btn.btn-info{:id => "save_api_server", :style => "display: none;", :name => "commit", :type => "submit", :value => "Save Setting"}
+  %button.btn.btn-primary{:id => "test_api_server"} Test API
+  %br
+  %p{:id => "test_api_status"}
