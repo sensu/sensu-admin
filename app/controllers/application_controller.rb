@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!
-  before_filter :check_for_api, :except => [:setup, :test_api, :update]
+  before_filter :check_for_api, :except => [:setup, :test_api, :update, :new, :create] #Otherwise devise wont sign people in
   before_filter :check_for_settings, :except => :missing
 
   private

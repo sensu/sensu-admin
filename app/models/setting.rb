@@ -14,6 +14,12 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  def self.configure_server?
+    Rails.cache.fetch("configure_server", :expires_in => 15.minutes, :race_condition_ttl => 10) do
+      find_by_name("configure_server").value == "true" && File.exists?("config/config.json")
+    end
+  end
+
   def self.flush_cache
     REQUIRED_SETTINGS.each do |setting|
       Rails.cache.delete(setting)

@@ -1,5 +1,4 @@
 class Client < Resting
-
   def self.all_with_cache
     clients = Rails.cache.read("clients")
     if clients.nil?
