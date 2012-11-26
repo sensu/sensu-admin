@@ -16,3 +16,12 @@
         = f.actions
       %div.span4
         %p Note: Clients must have environments set to filter into Client & Event. 
+  %br
+  %br
+  = semantic_form_for @configure_server do |f|
+    .row
+      %div.span8
+        = f.input :value, :label => "Configure Server checks", :as => :select, :collection => ["true", "false"]
+        = f.actions
+      %div.span4
+        %p Note: Configures check to run on clients

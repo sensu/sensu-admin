@@ -20,3 +20,7 @@ end
 unless Setting.find_by_name("use_environments")
   Setting.create(:name => "use_environments", :value => "false")
 end
+
+unless Setting.find_by_name("configure_server")
+  Setting.create(:name => "configure_server", :value => "true")
+end
