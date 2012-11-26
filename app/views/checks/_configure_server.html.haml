@@ -1,0 +1,7 @@
+= @server_json["checks"].each do |k,v|
+  %p== Check #{k}
+  = form_tag :checks, :url => {:controller => :checks, :action => :update}, :remote => true, :method => :put do
+    = v.each do |attr,val|
+      %p= attr
+      = text_field_tag attr, val
+    = submit_tag "Submit"

@@ -46,7 +46,8 @@
         %thead
           %th Name
           %th Address
-          %th ENV
+          - if use_environments?
+            %th ENV
         %tbody
           - downtime.downtime_clients.each do |dclient|
             %tr
@@ -57,7 +58,8 @@
               - else
                 %td= dclient.name
                 %td= @clients_hash[dclient.name][:address]
-                %td= @clients_hash[dclient.name][:environment]
+                - if use_environments?
+                  %td= @clients_hash[dclient.name][:environment]
       - unless downtime.downtime_checks.empty?
         %h3 Checks (#{downtime.downtime_checks.count})
         %table.table.table-striped.table-bordered

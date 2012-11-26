@@ -15,6 +15,14 @@ module ApplicationHelper
     (output.length > maxlen) ? "#{output[0..(maxlen - 3)]}..." : output
   end
 
+  def use_environments?
+    Setting.use_environments?
+  end
+
+  def configure_server?
+    Setting.configure_server?
+  end
+
   def downtime_number
     count = Downtime.active.count
     (count > 0) ? "(#{count})" : ""

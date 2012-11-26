@@ -68,7 +68,8 @@
               - else
                 %td= dclient.name
                 %td= @clients_hash[dclient.name][:address]
-                %td= @clients_hash[dclient.name][:environment]
+                - if use_environments?
+                  %td= @clients_hash[dclient.name][:environment]
       - unless downtime.downtime_checks.empty?
         %h3 Checks (#{downtime.downtime_checks.count})
         %table.table.table-striped.table-bordered

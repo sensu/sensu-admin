@@ -1,9 +1,0 @@
-defaults: &defaults
-  api: http://localhost:4567
-
-development: 
-  <<: *defaults
-
-production:
-  <<: *defaults
-  api: http://sensu.prod.com:4567
