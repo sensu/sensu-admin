@@ -31,9 +31,9 @@ SensuAdmin::Application.routes.draw do
   resources :events
   resources :stashes
   resources :logs
-  resources :checks
+  resources :checks, :id => /.*/
   resources :downtimes
-  resources :clients
+  resources :clients, :id => /.*/
   resources :users
   resources :stats
   resources :aggregates
