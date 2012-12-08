@@ -13,7 +13,7 @@ module EventsHelper
   def display_silenced(event, i)
     # If client_silenced is nil, that means its not silenced
     voldisp = ((event.client_silenced.nil? && event.check_silenced.nil?) ? "up" : "off")
-    haml_tag(:i, {:class => "icon-volume-#{voldisp}", :rel => "icon_silenced_#{i}"})
+    haml_tag(:i, {:class => "icon-volume-#{voldisp}", :rel => "icon_silenced_#{i}", :style => "color: #2c2c2c; text-shadow: none;"})
   end
 
   def is_nil?(obj)
