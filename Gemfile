@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -46,6 +46,11 @@ gem 'whenever', :require => false
 #Servers
 gem 'unicorn'
 gem 'thin', :group => :development
+
+#testing
+group :test, :development do
+  gem 'minitest-rails'
+end
 
 #debug
 #gem 'rack-bug', :git => 'https://github.com/brynary/rack-bug.git', :branch => 'rails3', :group => :development
