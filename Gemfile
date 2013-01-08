@@ -47,6 +47,11 @@ gem 'whenever', :require => false
 gem 'unicorn'
 gem 'thin', :group => :development
 
+#testing
+group :test, :development do
+  gem 'minitest-rails'
+end
+
 #debug
 #gem 'rack-bug', :git => 'https://github.com/brynary/rack-bug.git', :branch => 'rails3', :group => :development
 
