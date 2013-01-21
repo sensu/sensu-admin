@@ -1,30 +1,46 @@
 SensuAdmin::Application.routes.draw do
   devise_for :users
 
-  match 'users/:id/update_password' => 'users#update_password', :via => :put
-  match 'users/:id/activate' => 'users#activate', :via => :put
+  scope 'users' do
+    scope '/:id' do
+      match '/update_password' => 'users#update_password', :via => :put
+      match '/activate' => 'users#activate', :via => :put
+    end
+  end
 
-  match 'events/events_table' => 'events#events_table', :via => :get
-  match 'events/modal_data' => 'events#modal_data', :via => :get
-  match 'events/:client/:check/resolve' => 'events#resolve', :via => :post
-  match 'events/:client/silence' => 'events#silence_client', :via => :post
-  match 'events/:client/:check/silence' => 'events#silence_check', :via => :post
-  match 'events/:client/unsilence' => 'events#unsilence_client', :via => :post
-  match 'events/:client/:check/unsilence' => 'events#unsilence_check', :via => :post
+  scope 'events' do
+    match 'events_table' => 'events#events_table', :via => :get
+    match 'modal_data' => 'events#modal_data', :via => :get
+    scope '/:client' do
+      match '/silence' => 'events#silence_client', :via => :post
+      match '/unsilence' => 'events#unsilence_client', :via => :post
+      scope '/:check' do
+        match '/resolve' => 'events#resolve', :via => :post
+        match '/silence' => 'events#silence_check', :via => :post
+        match '/unsilence' => 'events#unsilence_check', :via => :post
+      end
+    end
+  end
 
-  match 'stashes/create_stash' => 'stashes#create_stash', :via => :post
-  match 'stashes/delete_stash' => 'stashes#delete_stash', :via => :post
-  match 'stashes/delete_all_stashes' => 'stashes#delete_all_stashes', :via => :post
+  scope 'stashes' do
+    match '/create_stash' => 'stashes#create_stash', :via => :post
+    match '/delete_stash' => 'stashes#delete_stash', :via => :post
+    match '/delete_all_stashes' => 'stashes#delete_all_stashes', :via => :post
+  end
 
-  match 'downtimes/old_downtimes' => 'downtimes#old_downtimes', :via => :get
-  match 'downtimes/force_complete' => 'downtimes#force_complete', :via => :post
+  scope 'downtimes' do
+    match '/old_downtimes' => 'downtimes#old_downtimes', :via => :get
+    match '/force_complete' => 'downtimes#force_complete', :via => :post
+  end
 
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
 
-  match 'api/status' => 'api#status', :via => :get
-  match 'api/time' => 'api#time', :via => :get
-  match 'api/setup' => 'api#setup', :via => :get
-  match 'api/test_api' => 'api#test_api', :via => :post
+  scope 'api' do
+    match '/status' => 'api#status', :via => :get
+    match '/time' => 'api#time', :via => :get
+    match '/setup' => 'api#setup', :via => :get
+    match '/test_api' => 'api#test_api', :via => :post
+  end
 
   match "settings/missing" => "settings#missing", :via => :get
 
