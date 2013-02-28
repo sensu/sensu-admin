@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     begin
       RestClient.get "#{Setting.api_server}/info"
     rescue Exception => e
-      redirect_to(api_setup_path, :alert => "API is down: #{e}")
+      redirect_to(api_setup_path, :alert => "API(#{Setting.api_server}) is down: #{e}")
     end
   end
 
