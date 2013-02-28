@@ -89,6 +89,12 @@ class Event < Resting
     end
   end
 
+  def check_attributes
+    Rails.cache.fetch(self.check, :expires_in => 5.minutes, :race_condition_ttl => 10) do
+      JSON.parse(Check.find(self.check).to_json)
+    end
+  end
+
   def client
     client_attributes['name']
   end
