@@ -31,6 +31,15 @@
         %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
   %br
   %br
+  %h3 Check Attributes
+  %table.table.table-striped.table-bordered
+    %tbody
+      - event.check_attributes.sort.each do |k,v|
+        %tr
+          %td= k
+          %td= anchor_wrap_if_url(v)
+  %br
+  %br
   %h3 Client Attributes
   %table.table.table-striped.table-bordered
     %tbody

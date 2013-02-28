@@ -1,4 +1,5 @@
 module EventsHelper
+
   def silenced_output(check, client)
     # TODO: This should be all haml_tag's
     output = ""
@@ -23,4 +24,18 @@ module EventsHelper
   def not_nil?(obj)
     obj.nil? ? "false" : "true"
   end
+
+  def is_url?(str)
+    require 'uri'
+    str =~ URI::ABS_URI ? true : false
+  end
+
+  def anchor_wrap_if_url(str)
+    if is_url?(str)
+      content_tag(:a, str)
+    else
+      str
+    end
+  end
+
 end
