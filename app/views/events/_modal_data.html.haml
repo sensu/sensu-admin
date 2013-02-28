@@ -25,10 +25,10 @@
         %td= event.flapping
       %tr
         %td Check Silenced
-        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : event.check_silenced.to_s)
+        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : Time.at(event.check_silenced["timestamp"]))
       %tr
         %td Client Silenced
-        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : event.client_silenced.to_s)
+        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : Time.at(event.client_silenced["timestamp"]))
   %br
   %br
   %h3 Client Attributes
@@ -37,7 +37,7 @@
       - event.client_attributes.sort.each do |k,v|
         %tr
           %td= k
-          %td= v
+          %td= k == "timestamp" ? Time.at(v) : v
 %div.modal-footer{:style => "width: 100%; height: 10%; margin-left: -3%;"}
   /
   / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
