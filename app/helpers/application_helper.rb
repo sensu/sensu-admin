@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def downtime_number
-    count = Downtime.active.count
+    count = Downtime.active.not_completed.count
     (count > 0) ? "(#{count})" : ""
   end
 end

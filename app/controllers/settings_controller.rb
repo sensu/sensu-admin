@@ -21,9 +21,7 @@ class SettingsController < ApplicationController
 
   def update
     @setting = Setting.find(params[:id])
-    puts "Setting: #{@setting.name}"
     @setting.value = params[:setting][:value]
-    puts "Setting value: #{@setting.value}"
     if @setting.save!
       Setting.flush_cache
       redirect_to(settings_path, :notice => "Successfully updated")
