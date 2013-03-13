@@ -35,7 +35,7 @@ SensuAdmin::Application.routes.draw do
 
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
 
-  scope 'api' do
+  namespace :api do
     match '/status' => 'api#status', :via => :get
     match '/time' => 'api#time', :via => :get
     match '/setup' => 'api#setup', :via => :get
