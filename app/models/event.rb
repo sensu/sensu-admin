@@ -91,7 +91,11 @@ class Event < Resting
 
   def check_attributes
     Rails.cache.fetch(self.check, :expires_in => 5.minutes, :race_condition_ttl => 10) do
-      JSON.parse(Check.find(self.check).to_json)
+      if Check.find(self.check)
+        JSON.parse(Check.find(self.check).to_json)
+      else
+        {"error" => "could not find check"}
+      end
     end
   end
 
