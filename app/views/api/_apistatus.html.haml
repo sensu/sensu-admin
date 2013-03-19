@@ -1,23 +1,19 @@
 %div.row
-  - api = Api.status
-  - sensu_version = api.sensu['version']
-  - redis_health = api.redis['connected'] ? "ok" : "failed"
-  - rabbitmq_health = api.rabbitmq['connected'] ? "ok" : "failed"
   %span.badge.badge-info{:style => "margin-right: 5px;"}
-    == API Version: #{sensu_version}
-  - if redis_health == "ok"
+    == API Version: #{@sensu_version}
+  - if @redis_health == "ok"
     %span.badge.badge-success{:style => "margin-right: 5px;"}
-      == Redis: #{redis_health.upcase}
+      == Redis: #{@redis_health.upcase}
   - else
     %span.badge.badge-important{:style => "margin-right: 5px;"}
-      == Redis: #{redis_health.upcase}.
-  - if rabbitmq_health == "ok"
+      == Redis: #{@redis_health.upcase}.
+  - if @rabbitmq_health == "ok"
     %span.badge.badge-success{:style => "margin-right: 5px;"}
-      == RabbitMQ: #{rabbitmq_health.upcase}
+      == RabbitMQ: #{@rabbitmq_health.upcase}
   - else
     %span.badge.badge-important{:style => "margin-right: 5px;"}
-      == RabbitMQ: #{rabbitmq_health.upcase}.
+      == RabbitMQ: #{@rabbitmq_health.upcase}.
   %span.badge.badge-info{:style => "margin-right: 5px;"}
-    == Keep Alives: Messages - #{api.rabbitmq['keepalives']['messages']} | Consumers - #{api.rabbitmq['keepalives']['consumers']}
+    == Keep Alives: Messages - #{@api.rabbitmq['keepalives']['messages']} | Consumers - #{@api.rabbitmq['keepalives']['consumers']}
   %span.badge.badge-info{:style => "margin-right: 5px;"}
-    == Results: Messages - #{api.rabbitmq['results']['messages']} | Consumers - #{api.rabbitmq['results']['consumers']}
+    == Results: Messages - #{@api.rabbitmq['results']['messages']} | Consumers - #{@api.rabbitmq['results']['consumers']}
