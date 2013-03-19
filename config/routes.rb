@@ -36,10 +36,10 @@ SensuAdmin::Application.routes.draw do
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
 
   namespace :api do
-    match '/status' => 'api#status', :via => :get
-    match '/time' => 'api#time', :via => :get
-    match '/setup' => 'api#setup', :via => :get
-    match '/test_api' => 'api#test_api', :via => :post
+    get 'api/status'
+    get 'api/time'
+    get 'api/setup'
+    get 'api/test_api'
   end
 
   match "settings/missing" => "settings#missing", :via => :get
