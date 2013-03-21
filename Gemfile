@@ -50,7 +50,9 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
-  gem 'minitest-rails'
+  gem 'rspec-rails'
+  gem "factory_girl_rails"
+  gem "capybara"
 end
 
 #debug
