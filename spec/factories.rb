@@ -7,13 +7,13 @@ FactoryGirl.define do
     sequence :email do |n|
       "test_user#{n}@example.com"
     end
-    password '123'
-    password_confirmation '123'
-    role
-  end
+    password '123456'
+    password_confirmation '123456'
 
-  factory :role do
-    name "admin"
+    factory :roles do
+      name "admin"
+      user
+    end
   end
 
   ## Downtimes
@@ -23,18 +23,25 @@ FactoryGirl.define do
     start_time { Time.now + 1.hour }
     stop_time { Time.now + 2.hours }
     user_id 1
-    association :downtime_client
+  end
+  
+  factory :downtime_client do
+    name "test_downtime_client"
+    downtime
+  end
+
+  factory :client do
+    name "test_client"
   end
 
   factory :downtime_in_past do
   end
 
-  factory :downtime_client do
-    name "test_downtime_client"
-  end
 
-  factory :client do
-    name "test_client"
+  ## Setting
+  factory :setting do
+    name "test_configure_server"
+    value true
   end
 
 end

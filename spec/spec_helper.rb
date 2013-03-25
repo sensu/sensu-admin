@@ -9,6 +9,8 @@ require 'capybara/rspec'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# seed database
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -37,8 +39,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  def log_in_user(user)
-    user.confirm!
-    controller.sign_in(user)
-  end
+  # include controller test helpers
+  config.include Devise::TestHelpers, :type => :controller
+  config.extend ControllerMacros, :type => :controller
+
 end
