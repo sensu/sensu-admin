@@ -16,29 +16,44 @@ class Stash < Resting
   end
 
   def self.stashes
+    api = Api.status
+    sensu_version = api.sensu['version']
     Rails.cache.fetch("all_stashes", :expires_in => 30.seconds, :race_condition_ttl => 10) do
-      stash_keys = Stash.all
-      return [] if stash_keys.empty?
+      stashes = Stash.all
+      return [] if stashes.empty?
       #
       # API Blows up with a few thousand objects so lets chunk it
       #
-        if stash_keys.count > 201
-          stash_response = {}
-          while !stash_keys.empty?
-            stash_post = stash_keys.slice!(0..200)
+      if Gem::Version.new(sensu_version) < Gem::Version.new("0.9.12")
+        stash_response = {}
+        if stashes.count > 201
+          while !stashes.empty?
+            stash_post = stashes.slice!(0..200)
             stsh = post("stashes", stash_post)
             stash_response.merge!(JSON.parse(stsh.body).to_hash)
           end
         else
-          stsh = post("stashes", stash_keys)
+          stsh = post("stashes", stashes)
           stash_response = JSON.parse(stsh.body).to_hash
         end
         stash_response
+      else
+        stashes
+      end
     end
   end
 
   def self.create_stash(key, attributes)
-    post("stash/#{key}", attributes)
+    api = Api.status
+    sensu_version = api.sensu['version'] 
+    if Gem::Version.new(sensu_version) < Gem::Version.new("0.9.12") 
+      post("stash/#{key}", attributes)
+    else
+      post("stashes", {
+        :path => key,
+        :content => attributes
+      })
+    end
   end
 
   def self.delete_stash(key)
