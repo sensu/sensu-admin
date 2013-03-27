@@ -47,7 +47,7 @@
       Create Stash
 %br
 %br
-      
+
 
 %h2== Stashes (<span id='stash_count'>#{@stashes.count}</span>)
 %table.table.table-striped
@@ -60,15 +60,10 @@
     %th Action
       
   %tbody
-    - @stashes.each_with_index do |(k,v), i|
-      %tr{:id => "stash-#{i}"}
-        %td.span5= k
-        %td.span4= v['description']
-        %td= v['owner']
-        - if v['expire_at']
-          %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
-        - else
-          %td Never
-        %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"
-        %td
-          %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
+    - if Gem::Version.new(@sensu_version) <= Gem::Version.new("0.9.11")
+      - @stashes.each_with_index do |(k,v), i|
+        = render "stash_row_legacy"
+    - else
+      - @stashes.each do |stash|
+        - stash['content'].each_with_index do |content_item, i|
+          = render "stash_row", :path => stash['path'], :content_item => Hash[*content_item], :i => i

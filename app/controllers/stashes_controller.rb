@@ -2,6 +2,8 @@ class StashesController < ApplicationController
   before_filter :prepare_for_mobile
 
   def index
+    api = Api.status
+    @sensu_version  =  api.sensu['version']
     @stashes = Stash.stashes
   end
 
