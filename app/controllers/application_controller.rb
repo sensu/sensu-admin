@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   def check_for_settings
     REQUIRED_SETTINGS.each do |setting|
       unless Setting.find_by_name(setting)
-        redirect_to(settings_missing_path, :notice => "Settings missing #{setting}")
+        redirect_to(settings_missing_path, :notice => "Settings missing #{setting}") and return 
       end
     end
   end
