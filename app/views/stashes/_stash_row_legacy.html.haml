@@ -1,0 +1,11 @@
+%tr{:id => "stash-#{i}"}
+  %td.span5= k
+  %td.span4= v['description'] unless v['description'].nil?
+  %td= v['owner']
+ - if v['expire_at']
+    %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
+  - else
+    %td Never
+  %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago" || ''
+  %td
+    %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
