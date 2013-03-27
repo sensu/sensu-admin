@@ -63,12 +63,12 @@
     - @stashes.each_with_index do |(k,v), i|
       %tr{:id => "stash-#{i}"}
         %td.span5= k
-        %td.span4= v['description']
-        %td= v['owner']
-        - if v['expire_at']
-          %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
+        %td.span4= v['description'] || ''
+        %td= v['owner'] unless v.nil?
+        - if v['expire_at']  unless v.nil?
+          %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at'])) unless v.nil?
         - else
           %td Never
-        %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago"
+        %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago" unless v.nil?
         %td
           %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
