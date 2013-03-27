@@ -24,7 +24,7 @@ class Stash < Resting
       #
       # API Blows up with a few thousand objects so lets chunk it
       #
-      if Gem::Version.new(sensu_version) < Gem::Version.new("0.9.12")
+      if Gem::Version.new(sensu_version) <= Gem::Version.new("0.9.12")
         stash_response = {}
         if stashes.count > 201
           while !stashes.empty?
@@ -46,7 +46,7 @@ class Stash < Resting
   def self.create_stash(key, attributes)
     api = Api.status
     sensu_version = api.sensu['version'] 
-    if Gem::Version.new(sensu_version) < Gem::Version.new("0.9.12") 
+    if Gem::Version.new(sensu_version) <= Gem::Version.new("0.9.12") 
       post("stash/#{key}", attributes)
     else
       post("stashes", {
