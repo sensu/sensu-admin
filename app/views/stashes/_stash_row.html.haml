@@ -1,11 +1,15 @@
 %tr{:id => "stash-#{i}"}
-  %td.span5= k
-  %td.span4= v['description'] || ''
-  %td= v['owner']
-  - if v['expire_at']
-    %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
+  %td.span5= path
+  %td.span4= content_item['description'] || ''
+  %td= content_item['owner'] || ''
+  - if content_item['expire_at']
+    %td= distance_of_time_in_words(Time.now, Time.parse(content_item['expire_at']))
   - else
     %td Never
-  %td= time_ago_in_words(Time.at(v['timestamp'].to_i)) + " ago" || ''
   %td
-    %a.delete-stash{:key => k, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
+    - if content_item['timestamp'].to_i
+      = time_ago_in_words(Time.at(content_item['timestamp'].to_i)) + " ago"
+    - else
+      = 'Not set'
+  %td
+    %a.delete-stash{:key => path, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
