@@ -41,6 +41,8 @@ RSpec.configure do |config|
 
   # include controller test helpers
   config.include Devise::TestHelpers, :type => :controller
+  config.include DeviseMacros, :type => :feature
+  config.include ApiStubs, :type => :feature
   config.extend ControllerMacros, :type => :controller
 
 end
