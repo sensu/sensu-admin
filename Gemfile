@@ -55,6 +55,8 @@ group :test, :development do
   gem "capybara"
   gem "vcr"
   gem "webmock", '>= 1.8.0', '< 1.10.0'
+  gem "phantomjs"
+  gem "poltergeist"
   # gem "capybara-mechanize"
 end
 
