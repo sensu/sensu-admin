@@ -15,8 +15,9 @@ describe "Events" do
     end
 
     it "should show the events page" do
-      visit '/events'
-      # puts page.body.inspect
+      VCR.use_cassette('events') do 
+        visit '/events'
+      end
     end
   end
 

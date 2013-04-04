@@ -50,9 +50,12 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
-  gem 'rspec-rails'
+  gem "rspec-rails"
   gem "factory_girl_rails"
   gem "capybara"
+  gem "vcr"
+  gem "webmock", '>= 1.8.0', '< 1.10.0'
+  # gem "capybara-mechanize"
 end
 
 #debug

@@ -16,6 +16,9 @@ FactoryGirl.define do
     end
   end
 
+  factory :role do
+  end
+
   ## Downtimes
   factory :downtime do
     name "maintenance"
@@ -28,15 +31,21 @@ FactoryGirl.define do
   factory :downtime_client do
     name "test_downtime_client"
     downtime
+
+    factory :downtime_in_past do
+    end
+  end
+
+  factory :downtime_check do 
+    # belongs_to :downtime
+    sequence :name do |n|
+      "test_downtime_check_#{n}"
+    end
   end
 
   factory :client do
     name "test_client"
   end
-
-  factory :downtime_in_past do
-  end
-
 
   ## Setting
   factory :setting do
