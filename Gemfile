@@ -53,11 +53,15 @@ group :test, :development do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "capybara"
+  # gem "capybara-mechanize"
+end
+
+group :test do
   gem "vcr"
   gem "webmock", '>= 1.8.0', '< 1.10.0'
   gem "phantomjs"
   gem "poltergeist"
-  # gem "capybara-mechanize"
+  gem "sinatra"
 end
 
 #debug

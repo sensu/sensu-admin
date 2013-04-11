@@ -14,10 +14,15 @@ describe "Events" do
       mock_api
     end
 
-    it "should show the events page" do
-      VCR.use_cassette('events') do 
-        visit '/events'
+    it "should successfully connect to the api" do
+      VCR.use_cassette('api') do
+        visit '/api/setup'
+        page.should have_content("Test API")
+        click_button "Test API"
       end
+    end
+
+    it "should show the events page" do
     end
   end
 
