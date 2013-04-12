@@ -6,14 +6,14 @@ describe Api::ApiController do
   describe "GET 'status'" do
     it "returns http success" do
       get 'status'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
   describe "GET 'time'" do
     it "returns http success" do
       get 'time'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 

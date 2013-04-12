@@ -2,47 +2,50 @@ require 'spec_helper'
 
 describe DowntimesController do
   login_user
-  # TODO: the commented examples in this suite need a mocked version of Client
+  
+  before :all do
+    @downtime = Downtime.create(:name => "test_downtime", :user_id => 1, :start_time => Time.now, :stop_time => Time.now + 1.hour)
+  end
 
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
   describe "GET 'new'" do
     it "returns http success" do
       # get 'new'
-      # response.code.should eq "302"
+      # response.code.should eq "200"
     end
   end
 
   describe "GET 'create'" do
     it "returns http success" do
       # get 'create'
-      # response.code.should eq "302"
+      # response.code.should eq "200"
     end
   end
 
   describe "GET 'old_downtimes'" do
     it "returns http success" do
       get 'old_downtimes'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
   describe "GET 'show'" do
     it "returns http success" do
       # get 'show'
-      # response.code.should eq "302"
+      # response.code.should eq "200"
     end
   end
 
   describe "GET 'edit'" do
     it "returns http success" do
       get 'edit', {:id => 1}
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
@@ -54,21 +57,25 @@ describe DowntimesController do
       downtime_client.save
       setting = FactoryGirl.create(:setting)
       # get 'update', {:id => downtime.id}
-      # response.code.should eq "302"
+      # response.code.should eq "200"
     end
   end
 
   describe "GET 'force_complete'" do
     it "returns http success" do
-      get 'force_complete'
-      response.code.should eq "302"
+      # todo
+      # get 'force_complete', {:id => 1, :downtime_id => 1}
+      # response.code.should eq "200"
     end
   end
 
   describe "GET 'destroy'" do
-    it "returns http success" do
-      get 'destroy', {:id => 1}
-      response.code.should eq "302"
+    context "when admin is not logged in" do
+      it "returns http success" do
+        
+        get 'destroy', {:id => 1, :downtime_id => 1}
+        response.code.should eq "302"
+      end
     end
   end
 

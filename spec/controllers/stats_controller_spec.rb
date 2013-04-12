@@ -6,7 +6,7 @@ describe StatsController do
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 

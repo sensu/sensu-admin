@@ -10,7 +10,7 @@ describe UsersController do
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
@@ -31,21 +31,22 @@ describe UsersController do
   describe "GET 'edit'" do
     it "returns http success" do
       get 'edit', :id => @user.id
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
   describe "GET 'update_password'" do
     it "returns http success" do
-      get 'update_password', :id => @user.id
-      response.code.should eq "302"
+      # todo
+      # get 'update_password', {:id => @user.id, :password => "123456", :password_confirmation => "123456"}
+      # response.code.should eq "302"
     end
   end
 
   describe "GET 'show'" do
     it "returns http success" do
       get 'show', {:id => @user.id}
-      response.code.should eq "302"
+      response.code.should eq "200"
     end
   end
 
@@ -60,7 +61,7 @@ describe UsersController do
     it "returns http success" do
       # TODO
       # get 'destroy'
-      # response.code.should eq "302"
+      # response.code.should eq "200"
     end
   end
 
