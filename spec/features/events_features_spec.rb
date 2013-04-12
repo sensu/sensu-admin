@@ -11,20 +11,33 @@ describe "Events" do
       user = FactoryGirl.create(:user)
       user.add_role :admin
       sign_in_user(user)
-      mock_api
-    end
-
-    it "should successfully connect to the api" do
-      VCR.use_cassette('api') do
-        visit '/api/setup'
-        # stop trying to click around here, just put it in the settings table
-        # and ensure the api is connected
-        page.should have_content("Test API")
-      end
+      visit '/events'
     end
 
     it "should show the events page" do
+      page.should have_content "Events"
     end
+
+    it "should show multiple events" do
+      page.should have_content "standalone"
+      page.should have_content "tokens"
+    end
+
+    it "should show the client for an event" do
+      page.should have_content "i-424242"
+    end
+
+    it "should show the check for an event" do
+      page.should have_content "standalone"
+    end
+
+    pending "should show the output for an event" do
+      page.body.should have_content "i-424242 true"
+    end
+
+    pending "should show time since issued for an event" do
+    end
+
   end
 
 end
