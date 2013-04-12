@@ -28,7 +28,6 @@ GEM
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    addressable (2.3.3)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.1.1.0)
@@ -53,7 +52,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
-    crack (0.3.2)
     daemons (1.1.9)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
@@ -70,8 +68,6 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
-    faye-websocket (0.4.7)
-      eventmachine (>= 0.12.0)
     ffi (1.6.0)
     font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
@@ -86,7 +82,6 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hike (1.2.1)
-    http_parser.rb (0.5.3)
     i18n (0.6.4)
     journey (1.0.4)
     jquery-datatables-rails (1.11.2)
@@ -106,12 +101,6 @@ GEM
     mysql2 (0.3.11)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
-    phantomjs (1.8.1.1)
-      poltergeist
-    poltergeist (1.1.0)
-      capybara (~> 2.0, >= 2.0.1)
-      faye-websocket (~> 0.4, >= 0.4.4)
-      http_parser.rb (~> 0.5.3)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -197,12 +186,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    vcr (2.4.0)
     warden (1.2.1)
       rack (>= 1.0)
-    webmock (1.9.3)
-      addressable (>= 2.2.7)
-      crack (>= 0.3.2)
     websocket (1.0.7)
     whenever (0.8.2)
       activesupport (>= 2.3.4)
@@ -229,8 +214,6 @@ DEPENDENCIES
   jquery-rails
   json
   mysql2 (~> 0.3.11)
-  phantomjs
-  poltergeist
   rails (= 3.2.12)
   rest-client
   rolify (= 3.1)
@@ -242,6 +225,4 @@ DEPENDENCIES
   thin
   uglifier (>= 1.0.3)
   unicorn
-  vcr
-  webmock (>= 1.8.0, < 1.10.0)
   whenever

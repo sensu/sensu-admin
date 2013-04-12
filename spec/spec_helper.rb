@@ -4,7 +4,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
-require 'webmock/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -23,13 +22,11 @@ RSpec.configure do |config|
 
   config.before :suite do
     puts "starting fake sensu api!"
+    setting = Setting.find_or_create_by_name("api_server")
+    setting.value = "localhost:4567"
+    setting.save
     $fake_sensu_pid = Process.spawn("ruby #{Rails.root}/spec/fake_sensu/api.rb", :out => "/dev/null")
     sleep 2.5
-  end
-
-  config.before do 
-    WebMock.enable!
-    WebMock.disable_net_connect! allow_localhost: true
   end
 
   config.after :suite do
