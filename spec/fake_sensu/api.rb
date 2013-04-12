@@ -67,6 +67,15 @@ class FakeSensu < Sinatra::Base
     @body ? "#{@body}" : ""
   end
 
+  get %r{/events?/([\w\.-]+)/([\w\.-]+)$} do |client_name, check_name|
+    event_json = @events[client_name]
+    unless event_json.nil?
+      event_json[:client_name] = check
+      event_json[:check_name] = check_name 
+      @body = event_json
+    end
+  end
+
   get '/stashes' do
     content_type :json
     @stashes
