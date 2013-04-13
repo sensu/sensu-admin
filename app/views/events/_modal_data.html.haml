@@ -25,10 +25,10 @@
         %td= event.flapping
       %tr
         %td Check Silenced
-        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : Time.at(event.check_silenced["timestamp"]))
+        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : Time.at(event.check_silenced["content"]["timestamp"]))
       %tr
         %td Client Silenced
-        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : Time.at(event.client_silenced["timestamp"]))
+        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : Time.at(event.client_silenced["content"]["timestamp"]))
   %br
   %br
   %h3 Check Attributes
