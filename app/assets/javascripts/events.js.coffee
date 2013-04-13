@@ -12,23 +12,18 @@ $ ->
       $('#primary_events_table').dataTable().fnReloadAjax()
       setTimeout (() -> $('#updating_event_list').hide()), 2500
 
-    runPermanentHooks = ()->
+    setPickers = ()->
       $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
       $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'm/d/yy', 'format': 'mm/dd/yyyy' })
 
+    runPermanentHooks = ()->
       $(document).on 'keydown', '.silence-input', ->
-        self = $(this)
-        misc = $(self).attr("misc")
-        $('#no_input_' + $(self).attr("misc")).hide()
-        if $(self).val().length > 12
-          $('[control="silence_grey_submit_' + misc + '"]').hide()
-          $('[control="silence_submit_' + misc + '"]').show()
+        misc = $(this).attr("misc")
+        $('#no_input_' + $(this).attr("misc")).hide()
+        if $(this).val().length >= $(this).data("min")
+          $('[control="silence_submit_' + misc + '"]').addClass('btn-success').removeClass('btn-inverse')
         else
-          $('[control="silence_grey_submit_' + misc + '"]').show()
-          $('[control="silence_submit_' + misc + '"]').hide()
-
-      $(document).on 'click', '[control^=silence_grey_submit_]', ->
-        $('#no_input_' + $(this).attr("misc")).show()
+          $('[control="silence_submit_' + misc + '"]').addClass('btn-inverse').removeClass('btn-success')
 
       $(document).on 'click', 'div.moreinfo', ->
         $.get "/events/modal_data", { 'event_query': $(this).attr('misc'), 'i': $(this).attr('index_id') },
@@ -52,45 +47,61 @@ $ ->
               $(self).text("Failed to resolve")
               $(self).css("color", "red")
 
-      $(document).on 'click', '.silence-event', ->
-        self = $(this)
+      $(document).on 'click', '.silence-client', ->
         $("#event-data-modal").modal("hide")
-        $("#modal_" + $(self).attr("misc")).modal("show")
-
-      $(document).on 'click', '.silence-submit-event', ->
-        self = $(this)
-        misc = $(self).attr("misc")
-        $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + misc).val(), 'expire_at_date': $('#silence_expire_at_date_' + misc).val(), 'description': $('#text_input_' + misc).val()},
+        $.get "/events/modal_silence", { 'event_query': $(this).attr('misc'), 'i': $(this).attr('index_id'), 't':'client' },
           (data) ->
             if data
-              $("#modal_" + misc).modal("hide")
+              $('#event-data-modal').html(data['data'])
+              $('#event-data-modal').modal("show")
+              setPickers()
+            else
+              alert("Could not get modal info")
+
+      $(document).on 'click', '.silence-check', ->
+        $("#event-data-modal").modal("hide")
+        $.get "/events/modal_silence", { 'event_query': $(this).attr('misc'), 'i': $(this).attr('index_id'), 't':'check' },
+          (data) ->
+            if data
+              $('#event-data-modal').html(data['data'])
+              $('#event-data-modal').modal("show")
+              setPickers()
+            else
+              alert("Could not get modal info")
+
+      $(document).on 'click', '.silence-submit-event', ->
+        misc = $(this).attr("misc")
+        if $('#text_input_' + misc).val().length < $('#text_input_' + misc).data("min")
+          alert('Comment must be at least ' + $('#text_input_' + misc).data("min") + ' characters long')
+          return false
+        $.post $(this).attr("rel"), { 'expire_at_time': $('#silence_expire_at_time_' + misc).val(), 'expire_at_date': $('#silence_expire_at_date_' + misc).val(), 'description': $('#text_input_' + misc).val()},
+          (data) ->
+            if data.code == 0
+              $("#event-data-modal").modal("hide")
+              $('i[event="' + misc + '"]').removeClass("icon-volume-up").addClass("icon-volume-off")
               updateEventTable()
             else
-              alert("Failed to silence...")
+              alert(data)
 
       $(document).on 'click', '.unsilence-submit-event', ->
-        self = $(this)
-        misc = $(self).attr("misc")
+        misc = $(this).attr("misc")
         $.post $(this).attr("rel"),
           (data) ->
             if data
-              $('[control="unsilence_' + misc + '"]').hide()
-              $('[control="silence_' + misc + '"]').show()
               $('td[rel="' + misc + '_popup_info"]').attr('data-content', "No")
               $('td[rel="' + misc + '_column_silenced"]').text("No")
+              $('i[event="' + misc + '"]').removeClass("icon-volume-off").addClass("icon-volume-up")
             else
               alert("Failed to unsilence...")
 
-      $(document).on 'click', '.delete-client', ->
-       self = $(this)
-       if (confirm('Are you sure?'))
-         $.ajax $(this).attr("rel"),
-           type: 'DELETE'
-           success: (data) ->
-             if data
-               updateEventTable()
-             else
-               alert("Could not delete client")
+      $(document).on 'click', 'a.delete-client', ->
+        if (confirm('Are you sure?'))
+          $.post "/clients/delete_client", { 'key': $(this).attr('key') },
+            (data) ->
+              if data
+                $("td:contains('" + this.data.split("=")[1] + "')").parent().hide()
+              else
+                alert("Could not delete client")
 
       use_environments = $("#use_environments").attr("rel")
       if use_environments == "true"

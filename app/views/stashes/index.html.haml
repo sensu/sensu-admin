@@ -62,7 +62,7 @@
   %tbody
     - if Gem::Version.new(@sensu_version) <= Gem::Version.new("0.9.11")
       - @stashes.each_with_index do |(k,v), i|
-        = render "stash_row_legacy"
+        = render "stash_row_legacy", :k => k, :v => v, :i => i 
     - else
       - @stashes.each do |stash|
         - stash['content'].each_with_index do |content_item, i|

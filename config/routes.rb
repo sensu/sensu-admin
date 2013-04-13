@@ -11,7 +11,8 @@ SensuAdmin::Application.routes.draw do
   scope 'events' do
     match 'events_table' => 'events#events_table', :via => :get
     match 'modal_data' => 'events#modal_data', :via => :get
-    scope '/:client', :constraints => { :client => /[\w.]+/ } do
+    match 'modal_silence' => 'events#modal_silence', :via => :get
+    scope '/:client', :constraints => { :client => /[\w.-]+/ } do
       match '/silence' => 'events#silence_client', :via => :post
       match '/unsilence' => 'events#unsilence_client', :via => :post
       scope '/:check' do
@@ -34,6 +35,11 @@ SensuAdmin::Application.routes.draw do
   end
 
   match 'checks/:check/submit' => 'checks#submit_check', :via => :post
+  
+  scope 'clients' do
+    match '/delete_client' => 'clients#delete_client', :via => :post
+    match '/modal_data' => 'clients#modal_data', :via => :get
+  end
 
   namespace :api do
     match '/status' => 'api#status', :via => :get
