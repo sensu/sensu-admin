@@ -1,0 +1,20 @@
+%li{'data-theme' => 'a', :id => "stash_#{i}"}
+  %h2= k
+  %p== Description: #{v['description']}
+  %p== Owner: #{v['owner']}
+  - if v['expire_at']
+    %p== Expires at: #{distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))}
+  - else
+    %p Expires at: Never
+  %p== Set at: #{time_ago_in_words(Time.at(v['timestamp'].to_i))} ago
+  %ul
+    %li
+      %h2= k
+      %p== Attributes:
+      - v.each do |k,v|
+        %p== #{k} -> #{v}
+    %li{'data-theme' => 'b'}
+      %div{:id => "delete_#{i}"}
+        %button.delete-stash{:index => i, 'data-theme' => 'b', :key => k, :rel => "/stashes/delete_stash"} Delete Stash
+      %div{:id => "deleted_#{i}", :style => "display: none;"}
+        %button{'data-theme' => 'c'} Deleted!
