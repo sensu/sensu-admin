@@ -13,6 +13,12 @@ class Setting < ActiveRecord::Base
       find_by_name("use_environments").value == "true"
     end
   end
+  
+  def self.min_desc_length
+    Rails.cache.fetch("min_desc_length", :expires_in => 15.minutes, :race_condition_ttl => 10) do
+      find_by_name("min_desc_length").value 
+    end
+  end
 
   def self.configure_server?
     Rails.cache.fetch("configure_server", :expires_in => 15.minutes, :race_condition_ttl => 10) do

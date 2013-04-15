@@ -5,10 +5,7 @@ gem 'rails', '3.2.12'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-
-# bundle --without mysql if using sqlite
-gem 'mysql2', "~> 0.3.11", :group => :mysql
+gem 'pg'
 
 #Authentication Gems
 gem 'devise'

@@ -6,24 +6,9 @@
     %ul{'data-theme' => 'a', 'data-count-theme' => 'a', 'data-role' => 'listview', 'data-inset' => 'true'}
       - if @stashes.empty?
         %button{'data-theme' => 'c'} No Stashes
-      - @stashes.each_with_index do |(k,v), i|
-        %li{'data-theme' => 'a', :id => "stash_#{i}"}
-          %h2= k
-          %p== Description: #{v['description']}
-          %p== Owner: #{v['owner']}
-          - if v['expire_at']
-            %p== Expires at: #{distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))}
-          - else
-            %p Expires at: Never
-          %p== Set at: #{time_ago_in_words(Time.at(v['timestamp'].to_i))} ago
-          %ul
-            %li 
-              %h2= k
-              %p== Attributes:
-              - v.each do |k,v|
-                %p== #{k} -> #{v}
-            %li{'data-theme' => 'b'}
-              %div{:id => "delete_#{i}"}
-                %button.delete-stash{:index => i, 'data-theme' => 'b', :key => k, :rel => "/stashes/delete_stash"} Delete Stash
-              %div{:id => "deleted_#{i}", :style => "display: none;"}
-                %button{'data-theme' => 'c'} Deleted!
+      - if Gem::Version.new(@sensu_version) <= Gem::Version.new("0.9.11")
+        - @stashes.each_with_index do |(k,v), i|
+          = render "stash_row", :k => k, :v => v, :i => i
+      - else
+        - @stashes.each_with_index do |stash, i|
+          = render "stash_row", :k => stash['path'], :v => stash['content'], :i => i

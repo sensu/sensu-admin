@@ -23,4 +23,7 @@ end
 
 unless Setting.find_by_name("configure_server")
   Setting.create(:name => "configure_server", :value => "true")
+
+unless Setting.find_by_name("min_desc_length")
+  Setting.create(:name => "min_desc_length", :value => "0")
 end
