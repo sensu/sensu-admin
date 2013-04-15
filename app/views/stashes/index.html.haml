@@ -65,5 +65,4 @@
         = render "stash_row_legacy", :k => k, :v => v, :i => i 
     - else
       - @stashes.each do |stash|
-        - stash['content'].each_with_index do |content_item, i|
-          = render "stash_row", :path => stash['path'], :content_item => Hash[*content_item], :i => i
+        = render "stash_row", :path => stash['path'], :content => stash['content']
