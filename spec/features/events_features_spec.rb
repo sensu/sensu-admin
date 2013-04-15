@@ -36,6 +36,7 @@ describe "Events" do
     end
 
     pending "should show time since issued for an event" do
+      page.should have_content time_ago_in_words(Time.at(1364343741))
     end
 
   end

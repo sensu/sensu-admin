@@ -53,7 +53,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "capybara"
-  # gem "capybara-mechanize"
+  gem "poltergeist"
 end
 
 group :test do
