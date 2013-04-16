@@ -10,6 +10,7 @@ class FakeSensu < Sinatra::Base
     @checks = '[{"command":"echo -n OK","subscribers":["test"],"interval":60,"name":"test"}]'
     @events = '[{"output":"i-424242 true","status":2,"issued":1364343741,"handlers":["default"],"flapping":false,"occurrences":11828,"client":"i-424242","check":"tokens"},{"output":"foobar","status":1,"issued":1364343741,"handlers":["default"],"flapping":false,"occurrences":11828,"client":"i-424242","check":"standalone"}]'
     @stashes = '[{"path":"silence/i-424242/tokens","content":{"timestamp":1364332102}},{"path":"silence/i-424242/standalone","content":{"timestamp":1364332111}}]'
+    @stashes_post = '{"path":"silence/i-424242/tokens","content":{"timestamp":1364332102}},{"path":"silence/i-424242/standalone","content":{"timestamp":1364332111}}'
   end
 
   get '/info' do
@@ -90,6 +91,11 @@ class FakeSensu < Sinatra::Base
       end
     end
     @body ? "#{@body}" : ""
+  end
+  
+  post '/stashes' do
+    content_type :json
+    body @stash
   end
 
 end
