@@ -52,7 +52,7 @@ gem 'thin', :group => :development
 group :test, :development do
   gem "rspec-rails"
   gem "factory_girl_rails"
-  gem "capybara"
+  gem "capybara", '2.1.0'
   gem "poltergeist"
 end
 

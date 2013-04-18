@@ -5,9 +5,15 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
-Capybara.ignore_hidden_elements = true
 include ActionView::Helpers::DateHelper
+
+Capybara.configure do |config|
+  config.match = :one
+  config.exact_options = true
+  config.ignore_hidden_elements = true
+  config.visible_text_only = true
+  Capybara.javascript_driver = :poltergeist
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
