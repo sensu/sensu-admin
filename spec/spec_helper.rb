@@ -30,7 +30,7 @@ RSpec.configure do |config|
     setting.value = "localhost:4567"
     setting.save
     $fake_sensu_pid = Process.spawn("ruby #{Rails.root}/spec/fake_sensu/api.rb", :out => "/dev/null")
-    sleep 2.5
+    sleep 1
   end
 
   config.after :suite do
