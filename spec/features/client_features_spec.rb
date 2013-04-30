@@ -28,7 +28,7 @@ describe "Clients" do
     page.should have_content "test"
   end
 
-  it "should show a time" do
+  it "should show a client time" do
     page.should have_content time_ago_in_words(Time.at(1364343737))
   end
 
