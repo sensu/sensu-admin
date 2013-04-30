@@ -21,13 +21,19 @@ describe "Stashes" do
   end
 
   it "should show stashes and correct data" do
-    page.should have_content "i-424242"
+    page.should have_content "silence/i-424242/tokens"
     page.should have_content "Never"
     page.should have_content time_ago_in_words(Time.at(1364332102))
   end
 
   it "should have a delete link" do
     page.should have_button "Delete"
+  end
+
+  pending "should allow deletion of a stash", :js => true do
+    page.should have_selector("#silence-i-424242-tokens", :text => "Delete")
+    find("#silence-i-424242-tokens", :text => "Delete").click
+    page.should_not have_selector("#silence-i-424242-tokens", :text => "Delete")
   end
 
 end
