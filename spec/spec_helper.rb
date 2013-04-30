@@ -27,15 +27,6 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
-  # config.treat_symbols_as_metadata_keys_with_true_values = true
-  # config.around(:each, :vcr) do |example|
-  #   name = example.metadata[:full_description].split(/\s+/, 2).join("/").underscore.gsub(/[^\w\/]+/, "_")
-  #   options = example.metadata.slice(:record).except(:example_group)
-  #   options[:match_requests_on] = [:method, :uri, :host, :path]
-  #   options[:record] = :new_episodes
-  #   VCR.use_cassette(name, options) { example.call }
-  # end
-
   config.before :suite do
     puts "starting fake sensu api!"
     setting = Setting.find_or_create_by_name("api_server")
