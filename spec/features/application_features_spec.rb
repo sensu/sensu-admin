@@ -12,7 +12,7 @@ describe "Applicaiton" do
     sign_in_user(user)
   end
 
-  it "should redirect to the settings page if the api does not connect" do
+  pending "should redirect to the settings page if the api does not connect" do
     visit '/settings'
     fill_in "setting_value", :with => "::55467"
     within("#api_url") do
