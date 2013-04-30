@@ -11,5 +11,5 @@
       = time_ago_in_words(Time.at(content_item['timestamp'].to_i)) + " ago"
     - else
       = 'Not set'
-  %td
-    %a.delete-stash{:key => path, :misc => "#stash-#{i}", :rel => "/stashes/delete_stash"} Delete
+  %td{:id => "delete-#{path}"}
+    %a.delete-stash{:id => path.gsub(/\//, "-"), :misc => "#stash-#{path}", :rel => "/stashes/delete_stash", :key => "#{path}"} Delete
