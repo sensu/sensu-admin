@@ -31,11 +31,11 @@ describe "Events" do
       page.should have_content "standalone"
     end
 
-    pending "should show the output for an event" do
+    it "should show the output for an event", :js => true do
       page.body.should have_content "i-424242 true"
     end
 
-    pending "should show time since issued for an event" do
+    it "should show time since issued for an event", :js => true do
       page.should have_content time_ago_in_words(Time.at(1364343741))
     end
 
