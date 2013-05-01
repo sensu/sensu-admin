@@ -117,15 +117,27 @@ class FakeSensu < Sinatra::Base
     stashes = JSON.parse(settings.stashes)
     stashes = stashes + [{"path" => path, "content" => {"timestamp" => Time.now.to_i}}]
     settings.stashes = stashes.to_json
+    body ''
+  end
+
+  post '/stashes' do 
+    content_type :json
+    post_body = JSON.parse(request.body.read)
+    path = post_body["path"]
+    content = post_body["content"]
+    stashes = JSON.parse(settings.stashes)
+    stashes = stashes + [{"path" => path, "content" => content}]
+    settings.stashes = stashes.to_json
+    puts settings.stashes
   end
 
   delete %r{/stash(?:es)?/(.*)} do |path|
     content_type :json
-    @stashes = JSON.parse(settings.stashes) 
-    @stashes.each do |stash|
+    stashes = JSON.parse(settings.stashes) 
+    stashes.each do |stash|
       if stash.has_value? path
-        @stashes.delete_if {|stash| stash.has_value? "silence/i-424242/tokens"}
-        settings.stashes = @stashes.to_json
+        stashes.delete_if {|stash| stash.has_value? path}
+        settings.stashes = stashes.to_json
         body = ''
       else
         body = 'not found'
