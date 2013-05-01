@@ -58,6 +58,20 @@ class FakeSensu < Sinatra::Base
     @body ? "#{@body}" : ""
   end
 
+  post %r{/(?:check/)?request$} do
+    post_body = JSON.parse(request.body.read)
+    check_name = post_body["check"]
+    check = post_body["check"]
+    subscribers = check["subscribers"].to_a 
+    command = check["command"]
+    payload = {
+      :name => check_name,
+      :command => command,
+      :issued => Time.now.to_i
+    }
+    body payload
+  end
+
   get '/events' do
     content_type :json
     body settings.events
@@ -128,7 +142,6 @@ class FakeSensu < Sinatra::Base
     stashes = JSON.parse(settings.stashes)
     stashes = stashes + [{"path" => path, "content" => content}]
     settings.stashes = stashes.to_json
-    puts settings.stashes
   end
 
   delete %r{/stash(?:es)?/(.*)} do |path|
