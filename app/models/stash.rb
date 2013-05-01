@@ -62,7 +62,8 @@ class Stash < Resting
 
   def self.delete_all_stashes
     Stash.all.each do |key|
-      destroy(key)
+      path = key["path"]
+      destroy(path)
     end
     true
   end
