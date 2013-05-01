@@ -56,6 +56,7 @@ describe Event do
     user = User.first
     silenced_client = Event.silence_client(client, description, user, nil, false, nil)
     silenced_client.should be_a String
+    reset_fake_sensu!
   end
 
   it "should allow a check to be silenced" do
@@ -66,6 +67,7 @@ describe Event do
     user = User.last
     silenced_check = Event.silence_check(client, check, description, user)
     silenced_check.should be_a String
+    reset_fake_sensu!
   end
 
   it "should allow a client to be unsilenced" do
