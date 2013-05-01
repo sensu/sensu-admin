@@ -12,9 +12,8 @@ describe EventsController do
 
   describe "GET 'events_table'" do
     it "returns http success" do
-      pending
       get 'events_table', {:client => 1}
-      response.code.should eq "200"
+      response.code.should eq "406"
     end
   end
 
