@@ -1,7 +1,12 @@
 require 'spec_helper'
 
-class DowntimeTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+describe Downtime do
+
+  before :each do
+    load "#{Rails.root}/db/seeds.rb"
+  end
+
+  it "should process downtimes" do
+  end
+
 end
