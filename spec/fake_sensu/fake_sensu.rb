@@ -3,7 +3,7 @@ require 'json'
 
 class FakeSensu < Sinatra::Base
 
-  configure do 
+  configure do
     set :logging, true
     set :info, "{\"sensu\":{\"version\":\"0.9.12.beta.6\"},\"rabbitmq\":{\"keepalives\":{\"messages\":null,\"consumers\":null},\"results\":{\"messages\":null,\"consumers\":null},\"connected\":false},\"redis\":{\"connected\":true}}"
     set :clients, "[{\"name\":\"i-424242\",\"address\":\"127.0.0.1\",\"subscriptions\":[\"test\"],\"nested\":{\"attribute\":true},\"timestamp\":1364343737}]"
