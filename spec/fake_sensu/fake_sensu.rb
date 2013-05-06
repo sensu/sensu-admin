@@ -169,5 +169,3 @@ class FakeSensu < Sinatra::Base
   end
 
 end
-
-# FakeSensu.run!
