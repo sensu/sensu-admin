@@ -9,13 +9,11 @@ class FakeSensu < Sinatra::Base
     set :checks, "[{\"command\":\"echo -n OK\",\"subscribers\":[\"test\"],\"interval\":60,\"name\":\"test\"},{\"command\":\"echo -n OK\",\"subscribers\":[\"tokens\"],\"interval\":60,\"name\":\"tokens\"}]"
     set :events, "[{\"output\":\"i-424242 true\",\"status\":2,\"issued\":1364343741,\"handlers\":[\"default\"],\"flapping\":false,\"occurrences\":11828,\"client\":\"i-424242\",\"check\":\"tokens\"},{\"output\":\"foobar\",\"status\":1,\"issued\":1364343741,\"handlers\":[\"default\"],\"flapping\":false,\"occurrences\":11828,\"client\":\"i-424242\",\"check\":\"standalone\"}]"
     set :stashes, "[{\"path\":\"silence/i-424242/tokens\",\"content\":{\"timestamp\":1364332102}},{\"path\":\"silence/i-424242/standalone\",\"content\":{\"timestamp\":1364332111}}]"
-    # the content of the immutable settings should be identical to the settings
-    # above. they are used for the reset action
-    set :immutable_info, "{\"sensu\":{\"version\":\"0.9.12.beta.6\"},\"rabbitmq\":{\"keepalives\":{\"messages\":null,\"consumers\":null},\"results\":{\"messages\":null,\"consumers\":null},\"connected\":false},\"redis\":{\"connected\":true}}".freeze
-    set :immutable_clients, "[{\"name\":\"i-424242\",\"address\":\"127.0.0.1\",\"subscriptions\":[\"test\"],\"nested\":{\"attribute\":true},\"timestamp\":1364343737}]".freeze
-    set :immutable_checks, "[{\"command\":\"echo -n OK\",\"subscribers\":[\"test\"],\"interval\":60,\"name\":\"test\"},{\"command\":\"echo -n OK\",\"subscribers\":[\"tokens\"],\"interval\":60,\"name\":\"tokens\"}]".freeze
-    set :immutable_events, "[{\"output\":\"i-424242 true\",\"status\":2,\"issued\":1364343741,\"handlers\":[\"default\"],\"flapping\":false,\"occurrences\":11828,\"client\":\"i-424242\",\"check\":\"tokens\"},{\"output\":\"foobar\",\"status\":1,\"issued\":1364343741,\"handlers\":[\"default\"],\"flapping\":false,\"occurrences\":11828,\"client\":\"i-424242\",\"check\":\"standalone\"}]".freeze
-    set :immutable_stashes, "[{\"path\":\"silence/i-424242/tokens\",\"content\":{\"timestamp\":1364332102}},{\"path\":\"silence/i-424242/standalone\",\"content\":{\"timestamp\":1364332111}}]".freeze
+    set :immutable_info, info.freeze 
+    set :immutable_clients, clients.freeze 
+    set :immutable_checks, checks.freeze 
+    set :immutable_events, events.freeze 
+    set :immutable_stashes, stashes.freeze 
   end
 
   get '/info' do
