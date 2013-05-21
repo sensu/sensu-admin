@@ -28,7 +28,7 @@
             %td= downtime.description
           %tr
             %td Start time
-            - if Time.at(downtime.start_time) > Time.now
+            - if Time.at(downtime.start_time.to_i) > Time.now
               %td== #{downtime.start_time} -- in about #{distance_of_time_in_words(Time.now, downtime.start_time)}
             - else
               %td== #{downtime.start_time} -- #{time_ago_in_words(downtime.start_time)} ago
