@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'fake_sensu'
 include ActionView::Helpers::DateHelper
 
 Capybara.configure do |config|
@@ -28,19 +29,11 @@ RSpec.configure do |config|
   # config.mock_with :rr
 
   config.before :suite do
-    puts "starting fake sensu api!"
     setting = Setting.find_or_create_by_name("api_server")
     setting.value = "localhost:9292"
     setting.save
-    $fake_sensu_pid = Process.spawn("rackup --env production #{Rails.root}/spec/fake_sensu/config.ru", :out => "/dev/stdout")
-    sleep 1
+    FakeSensu.start!
   end
-
-  config.after :suite do
-    puts "\nstopping fake sensu api @ #{$fake_sensu_pid}!"
-    Process.kill 9, $fake_sensu_pid
-  end
-
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
