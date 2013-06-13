@@ -55,6 +55,7 @@ group :test, :development do
   gem "capybara"
   gem "poltergeist"
   gem "fake_sensu"
+  gem "timecop"
 end
 
 group :test do

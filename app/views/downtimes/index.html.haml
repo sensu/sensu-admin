@@ -34,7 +34,7 @@
               %td== #{downtime.start_time} -- #{time_ago_in_words(downtime.start_time)} ago
           %tr
             %td Stop time
-            - if Time.at(downtime.stop_time) > Time.now
+            - if Time.at(downtime.stop_time.to_i) > Time.now
               %td== #{downtime.stop_time} -- in about #{distance_of_time_in_words(Time.now, downtime.stop_time)}
             - else
               %td== #{downtime.stop_time} -- #{time_ago_in_words(downtime.stop_time)} ago
