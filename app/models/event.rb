@@ -12,7 +12,7 @@ class Event < Resting
   end
 
   def resolve
-    self.delete("#{self.client}/#{self.check}")
+    self.delete("#{self.class.to_s.downcase}/#{self.client}/#{self.check}")
   end
 
   def self.single(query)
@@ -30,8 +30,14 @@ class Event < Resting
 
   def check_silenced
     stashes = Stash.stashes
-    if stashes.include?("silence/#{self.client}/#{self.check}")
-      stashes["silence/#{self.client}/#{self.check}"]
+    path = "silence/#{self.client}/#{self.check}"
+    stashes.each do |stash|
+      if stash.has_value? path
+       @check_silenced = stash
+      end 
+    end
+    if @check_silenced
+      @check_silenced
     else
       nil
     end

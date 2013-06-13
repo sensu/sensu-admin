@@ -8,7 +8,7 @@ class Downtime < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :user_id
-  validates_presence_of :downtime_clients
+  # validates_presence_of :downtime_clients
 
   validate :validates_stop_time_of, :on => :create
 

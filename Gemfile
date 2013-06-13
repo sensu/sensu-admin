@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -50,7 +50,16 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
-  gem 'minitest-rails'
+  gem "rspec-rails"
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "poltergeist"
+  gem "fake_sensu"
+  gem "timecop"
+end
+
+group :test do
+  gem "sinatra"
 end
 
 #debug

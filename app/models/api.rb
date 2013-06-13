@@ -9,10 +9,10 @@ class Api < Resting
   end
 
   def self.redis_health
-    self.status.health['redis']
+    self.status.redis['connected']
   end
 
   def self.rabbitmq_health
-    self.status.health['rabbitmq']
+    self.status.rabbitmq['connected']
   end
 end
