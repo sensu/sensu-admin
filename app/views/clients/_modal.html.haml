@@ -1,0 +1,9 @@
+%div.modal-header
+  %h3== Client: #{client.name}
+%div.modal-body
+  %table.table.table-striped.table-bordered
+    %tbody
+      - client.attributes.each do |k,v|
+        %tr
+          %td= k
+          %td= v

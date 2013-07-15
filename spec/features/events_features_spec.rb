@@ -18,16 +18,16 @@ describe "Events" do
       page.should have_content "Events"
     end
 
-    it "should show multiple events" do
+    it "should show multiple events", :js => true do
       page.should have_content "standalone"
       page.should have_content "tokens"
     end
 
-    it "should show the client for an event" do
+    it "should show the client for an event", :js => true do
       page.should have_content "i-424242"
     end
 
-    it "should show the check for an event" do
+    it "should show the check for an event", :js => true do
       page.should have_content "standalone"
     end
 

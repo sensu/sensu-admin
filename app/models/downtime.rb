@@ -56,11 +56,11 @@ class Downtime < ActiveRecord::Base
 
   def self.force_complete(id)
     downtime = Downtime.find(id)
-    Stash.stashes.each do |k,v|
+    Stash.stashes.each do |v|
       unless v['downtime_id'].nil?
         if v['downtime_id'].to_i == id.to_i
-          puts "Force completing downtime (#{downtime.name}, #{downtime.id}) - Deleting stash #{k}"
-          Stash.delete_stash(k)
+          puts "Force completing downtime (#{downtime.name}, #{downtime.id}) - Deleting stash #{v['path']}"
+          Stash.delete_stash(v['path'])
         end
       end
     end

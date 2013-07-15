@@ -61,19 +61,18 @@ class Stash < Resting
   end
 
   def self.delete_all_stashes
-    Stash.all.each do |key|
-      path = key["path"]
-      destroy(path)
+    Stash.all.each do |v|
+      destroy(v['path'])
     end
     true
   end
 
   def self.clear_expired_stashes
-    Stash.stashes.each do |k,v|
+    Stash.stashes.each do |v|
       unless v['expire_at'].nil?
         if Time.parse(v['expire_at']) < Time.now
-          puts "Clearing stash #{k} due to expiration."
-          destroy(k)
+          puts "Clearing stash #{v['path']} due to expiration."
+          destroy(v['path'])
         end
       end
     end and true

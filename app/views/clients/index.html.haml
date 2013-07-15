@@ -1,14 +1,5 @@
-- @clients.each do |client|
-  %div{:class => "modal hide", :id => "client_modal_#{client.name}"}
-    %div.modal-header
-      %h3== Client: #{client.name}
-    %div.modal-body
-      %table.table.table-striped.table-bordered
-        %tbody
-          - client.attributes.each do |k,v|
-            %tr
-              %td= k
-              %td= v
+%div{:class => "modal small-modal hide", :id => "client-data-modal"}
+%div{:style => "display: none;", :id => "use_environments", :rel => "#{use_environments?}"}
 
 %table.table-striped.dataTable.clients_table.table{:id => "clients_table"}
   %thead
@@ -17,13 +8,13 @@
     %th Name
     %th Address
     %th Subscriptions
-    %th Last checkin
-    %th
+    %th Role
+    %th Last Checkin
     %th
       
   %tbody
     - @clients.each do |client|
-      %tr{:id => "client_row_#{client.name}", :rel => "#client_modal_#{client.name}"}
+      %tr{:id => "client_row_#{client.name}", :rel => client.name}
         - if use_environments?
           %td.moreinfo= client.environment
         %td.moreinfo= client.name
