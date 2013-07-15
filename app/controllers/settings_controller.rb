@@ -12,7 +12,6 @@ class SettingsController < ApplicationController
   end
 
   def create
-    puts params.inspect
     @setting = Setting.new(:name => params[:name], :value => params[:value])
     if @setting.save!
       redirect_to(settings_path, :notice => "Successfully created")

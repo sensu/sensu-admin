@@ -18,32 +18,42 @@ body {
   top: 3%;
   right: 3%;
   left: 3%;
-  bottom: 3%;
   width: auto;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .small-modal {
-  height: 60%;
-  width: 60%;
+  width: 30%;
   left: 8%;
-  top: 5%;
+  top: 20%;
  }
  
 .large-modal {
- height: 65%;
- width: 75%;
- left: 8%;
- top: 5%;
+  width: 50%;
+  left: 8%;
+  top: 5%;
+}
+
+.silence-reason {
+  float: left;
+}
+ 
+.silence-time {
+  float: left;
+  padding-left: 50px;
 }
 
 div.modal-body {
-  max-height: 60%;
+  padding-bottom: 80px;
+  max-height: 500px;
   max-width: 95%;
 }
 
 div.modal-footer {
-  min-height: 20%;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
 }
 
 table.events_table {
@@ -86,7 +96,8 @@ only screen and (max-width: 480px) {
   .modal-footer {
     min-height: 45px;
   }
- 
+
+
   /* Force table to not be like tables anymore */
   .events_table thead,.events_table tbody,.events_table th,.events_table td,.events_table tr { 
     display: block; 

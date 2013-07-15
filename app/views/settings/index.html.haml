@@ -1,7 +1,7 @@
 %div
   = semantic_form_for @sensu_api_server do |f|
     .row
-      %div.span8
+      %div.span8#api_url
         = f.input :value, :label => "Sensu API Server url"
         = f.actions
       %div.span4
