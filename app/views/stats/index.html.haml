@@ -5,7 +5,7 @@
 .row
   .span3
     %p By Subscriptions:
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#clients-by-subscriptions
       %thead
         %th Name
         %th Count
@@ -16,7 +16,7 @@
             %td= v
   .span3
     %p By Environment:
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#clients-by-environment
       %thead
         %th Name
         %th Count
@@ -32,7 +32,7 @@
           %td= value_total
   .span5
     %p Misc stats
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#clients-misc
       %thead
         %th Name
         %th Count
@@ -54,7 +54,7 @@
 .row
   .span3
     %p By Check:
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#events-by-check
       %thead
         %th Name
         %th Count
@@ -65,7 +65,7 @@
             %td= v
   .span2
     %p By Environment:
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#events-by-environment
       %thead
         %th Name
         %th Count
@@ -81,7 +81,7 @@
           %td= total_events
   .span4
     %p Events per client
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#events-per-client
       %thead
         %th Client
         %th Count
@@ -92,7 +92,7 @@
             %td= v
   .span3
     %p Misc stats
-    %table.table.table-striped.table-bordered
+    %table.table.table-striped.table-bordered#events-misc
       %thead
         %th Name
         %th Count

@@ -2,7 +2,7 @@
   %td.span5= k
   %td.span4= v['description'] unless v['description'].nil?
   %td= v['owner']
- - if v['expire_at']
+  - if v['expire_at']
     %td= distance_of_time_in_words(Time.now, Time.parse(v['expire_at']))
   - else
     %td Never

@@ -6,9 +6,8 @@ gem 'rails', '3.2.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
 # bundle --without mysql if using sqlite
-gem 'mysql2', "~> 0.3.11", :group => :mysql
+gem 'mysql2', "~> 0.3.11", :group => :mysql 
 
 #Authentication Gems
 gem 'devise'
@@ -50,7 +49,14 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
-  gem 'minitest-rails'
+  gem "rspec-rails"
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "poltergeist"
+end
+
+group :test do
+  gem "sinatra"
 end
 
 #debug

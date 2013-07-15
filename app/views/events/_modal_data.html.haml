@@ -25,10 +25,10 @@
         %td= event.flapping
       %tr
         %td Check Silenced
-        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : Time.at(event.check_silenced["timestamp"]))
+        %td{:rel => "#{event.client}_#{event.check}_column_silenced"}= ((event.check_silenced.nil?) ? "No" : Time.at(event.check_silenced["content"]["timestamp"]))
       %tr
         %td Client Silenced
-        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : Time.at(event.client_silenced["timestamp"]))
+        %td{:rel => "#{event.client}_column_silenced"}= ((event.client_silenced.nil?) ? "No" : Time.at(event.client_silenced["content"]["timestamp"]))
   %br
   %br
   %h3 Check Attributes
@@ -52,11 +52,11 @@
   / TODO: This needs to be moved into partials probably and remove a disturbing number of attribs
   /
   - if event.check_silenced.nil?
-    %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Silence Check
+    %a.silence-check.btn.btn-primary{:control => "silence_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Silence Check
   - else
     %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}_#{event.check}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence"} Unsilence Check
   - if event.client_silenced.nil?
-    %a.silence-event.btn.btn-primary{:control => "silence_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}"} Silence Client
+    %a.silence-client.btn.btn-primary{:control => "silence_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}"} Silence Client
   - else
     %a.unsilence-submit-event.btn.btn-primary{:control => "unsilence_#{event.client}", :index_id => "#{i}", :misc => "#{event.client}", :rel => "/events/#{event.client}/unsilence"} Unsilence Client
   %a.resolve-event.btn.btn-success{:rel => "/events/#{event.client}/#{event.check}/resolve"} Resolve
