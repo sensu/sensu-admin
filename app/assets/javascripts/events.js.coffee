@@ -14,7 +14,7 @@ $ ->
 
     setPickers = ()->
       $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
-      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'm/d/yy', 'format': 'mm/dd/yyyy' })
+      $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
 
     runPermanentHooks = ()->
       $(document).on 'keydown', '.silence-input', ->
