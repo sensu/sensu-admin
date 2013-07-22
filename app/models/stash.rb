@@ -69,8 +69,8 @@ class Stash < Resting
 
   def self.clear_expired_stashes
     Stash.stashes.each do |v|
-      unless v['expire_at'].nil?
-        if Time.parse(v['expire_at']) < Time.now
+      unless v['content']['expire_at'].nil?
+        if Time.parse(v['content']['expire_at']) < Time.now
           puts "Clearing stash #{v['path']} due to expiration."
           destroy(v['path'])
         end
