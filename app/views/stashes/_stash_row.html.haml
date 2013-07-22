@@ -1,5 +1,5 @@
 %tr{:id => "#{path}"}
-  %td.span5= path
+  %td.span5{:title => path}= truncate(path, :length => 50)
   %td.span4= content['description'] || ''
   %td= content['owner'] || ''
   - if content['expire_at']
