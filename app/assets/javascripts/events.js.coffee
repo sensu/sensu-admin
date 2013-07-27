@@ -13,7 +13,7 @@ $ ->
       setTimeout (() -> $('#updating_event_list').hide()), 2500
 
     setPickers = ()->
-      $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true })
+      $('.timepicker').timepicker({  'step': 15, 'showDuration': true, 'timeFormat': 'G:i', 'scrollDefaultNow': true })
       $('.datepicker').datepicker({ 'autoclose': true, 'dateFormat': 'd/m/yy', 'format': 'dd/mm/yyyy' })
 
     runPermanentHooks = ()->
