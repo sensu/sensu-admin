@@ -45,8 +45,13 @@ body {
 
 div.modal-body {
   padding-bottom: 80px;
-  max-height: 500px;
+  max-height: 400px;
   max-width: 95%;
+}
+
+.modal-data {
+  margin-bottom: 100px;
+  padding-bottom: 80px;
 }
 
 div.modal-footer {
