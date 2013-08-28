@@ -1,5 +1,5 @@
 %p Note: You can expand a check and submit it by expanding the check and clicking "Request Check"
-- @checks.each do |check|
+- @checks.sort_by { |c| c.name }.each do |check|
   %div.modal{:id => "check_modal_#{check.name}", :style => "display: none;"}
     %div.modal-header
       %h3== Submit #{check.name}
@@ -10,7 +10,7 @@
       %a.submit-individual-check.btn.btn-success{:id => "submit_check_#{check.name}", :misc => "#{check.name}", :rel => "/checks/#{check.name}/submit", :href => "#"} Submit
 
 %div.accordion{:id => 'check_accordion'}
-  - @checks.each do |check|
+  - @checks.sort_by { |c| c.name }.each do |check|
     %div.row
       %div.span12
         %div.accordion-group
