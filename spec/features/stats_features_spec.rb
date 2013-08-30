@@ -33,13 +33,13 @@ describe "Stats" do
 
   it "should show events by check" do
     within("#events-by-check") do
-      page.should have_content "tokens"
+      page.should have_content "test"
     end
   end
 
   it "should show events by environment" do
     within("#events-by-environment") do
-      page.should have_content "2"
+      page.should have_content "1"
     end
   end
 

@@ -1,6 +1,6 @@
 %td{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(check_silenced, client_silenced)}
   %div.btn-group
-    %button.btn.btn-info.dropdown-toggle{'data-toggle' => 'dropdown'}
+    %button.btn.btn-info.dropdown-toggle{:id => "dropdown_toggle_#{i}", 'data-toggle' => 'dropdown'}
       %div{:style => "width: 25px"}
         %div{:style => "float: left;"}
           - display_silenced(event, i, client_silenced, check_silenced)
@@ -9,16 +9,16 @@
     %ul.dropdown-menu
       - if client_silenced.nil?
         %li
-          %a.silence-client{:index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :href => "#"} Silence Client
+          %a.silence-client{:id => "silence_client_#{i}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :href => "#"} Silence Client
       - else
         %li
-          %a.unsilence-submit-event{:index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/unsilence", :href => "#"} UnSilence Client
+          %a.unsilence-submit-event{:id => "unsilence_client_#{i}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/unsilence", :href => "#"} UnSilence Client
       - if check_silenced.nil?
         %li
-          %a.silence-check{:index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :href => "#"} Silence Check
+          %a.silence-check{:id => "silence_check_#{i}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :href => "#"} Silence Check
       - else
         %li
-          %a.unsilence-submit-event{:index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence", :href => "#"} UnSilence Check
+          %a.unsilence-submit-event{:id => "unsilence_check_#{i}", :index_id => "#{i}", :misc => "#{event.client}_#{event.check}", :rel => "/events/#{event.client}/#{event.check}/unsilence", :href => "#"} UnSilence Check
       %li
         %a.resolve-event{:misc => "#row-event-#{i}", :index_id => "#{i}", :rel => "/events/#{event.client}/#{event.check}/resolve"} Resolve
       %li

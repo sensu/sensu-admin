@@ -30,7 +30,7 @@ RSpec.configure do |config|
 
   RSpec.configure do |config|
     config.before :suite do
-      FakeSensu.start! "0.9.12"
+      FakeSensu.start! "0.10.2"
     end
   end
 

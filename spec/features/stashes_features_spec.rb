@@ -21,9 +21,9 @@ describe "Stashes" do
   end
 
   it "should show stashes and correct data" do
-    page.should have_content "silence/i-424242/tokens"
+    page.should have_content "tester"
     page.should have_content "Never"
-    page.should have_content time_ago_in_words(Time.at(1364332102))
+    page.should have_content "43 years ago"
   end
 
   it "should have a delete link" do
