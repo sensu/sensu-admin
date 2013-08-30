@@ -45,11 +45,12 @@ describe "Events" do
     end
 
     it "should allow a check to be unsilenced", :js => true do
-      # page.find("#dropdown_toggle_0").click
-      # page.find("#unsilence_check_0").click
-      # visit '/events'
-      # page.find("#silence_check_0").click
-      # reset_fake_sensu!
+      page.find("#dropdown_toggle_0").click
+      page.find("#silence_check_0").click
+      visit '/events'
+      page.find("#dropdown_toggle_0").click
+      page.find("#silence_check_0").click
+      reset_fake_sensu!
     end
   end
 
