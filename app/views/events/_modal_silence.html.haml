@@ -8,7 +8,7 @@
 %div.modal-header
   %h3= header_title
 %div.modal-body
-  %div.pull-left Note: Your event handler must use sensu-plugin or hit the API to make use of silencing.
+  %div Note: Your event handler must use sensu-plugin or hit the API to make use of silencing.
   %div.silence-reason
     %h4 Enter reason
     %textarea.input-xlarge.silence-input{:id => "text_input_#{suffix}", :index_id => i, :data => {:min => len}, :misc => suffix, :rel => "Silence #{type}", :rows => "3", :type => "text", :placeholder => "Silence #{type} reason"}

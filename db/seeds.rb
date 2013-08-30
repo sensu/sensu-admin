@@ -14,7 +14,11 @@ end
 
 unless Setting.find_by_name("api_server")
   # Sensu API supports http basic auth, so if your using that -- just do http://user:pass@localhost:4567, no trailing /
-  Setting.create(:name => "api_server", :value => "http://localhost:4567")
+  if Rails.env == "test"
+    Setting.create(:name => "api_server", :value => "http://localhost:9292")
+  else
+    Setting.create(:name => "api_server", :value => "http://localhost:4567")
+  end
 end
 
 unless Setting.find_by_name("use_environments")
