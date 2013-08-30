@@ -4,19 +4,16 @@ describe Event do
 
   before :each do
     load "#{Rails.root}/db/seeds.rb"
-    # user = FactoryGirl.create(:user)
-    # user.add_role :admin
-    # sign_in_user(user)
   end
 
   it "should return all checks through cache" do
     events = Event.all_with_cache
-    events.count.should eq 2
+    events.count.should eq 1
   end
 
   it "should resolve an event" do
     events = Event.all
-    events.count.should eq 2
+    events.count.should eq 1
     event = events[rand(events.length)]
     event.resolve.should be_true
     # TODO: would be nice if fake_sensu would delete, then switch back after one
@@ -36,9 +33,10 @@ describe Event do
     client = event.client
     check = event.check
     description = "This is a test description, it is long enough"
-    event.check_silenced.should_not eq nil
-    # Event.silence_check(client, check, description, User.first, nil, false, nil)
-    # event.check_silenced.should eq 
+    event.check_silenced.should eq nil
+    Event.silence_check(client, check, description, User.first, nil, false, nil)
+    event.check_silenced.should eq nil
+    reset_fake_sensu!
   end
 
   it "should allow manual resolution of an event" do
