@@ -49,6 +49,7 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
+  gem "fake_sensu", "0.1.1"
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "capybara"

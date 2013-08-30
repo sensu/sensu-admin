@@ -65,6 +65,10 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    fake_sensu (0.1.1)
+      rest-client
+      sinatra
+      thin
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
     font-awesome-sass-rails (3.0.2.2)
@@ -204,6 +208,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   factory_girl_rails
+  fake_sensu (= 0.1.1)
   font-awesome-sass-rails
   formtastic
   haml-rails
