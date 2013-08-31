@@ -49,11 +49,12 @@ gem 'thin', :group => :development
 
 #testing
 group :test, :development do
-  gem "fake_sensu", "0.1.2"
+  gem "fake_sensu", "0.1.3"
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "capybara"
   gem "poltergeist"
+  gem "launchy"
 end
 
 group :test do
