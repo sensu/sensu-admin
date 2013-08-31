@@ -4,9 +4,6 @@ describe Stash do
 
   before :each do
     load "#{Rails.root}/db/seeds.rb"
-    # user = FactoryGirl.create(:user)
-    # user.add_role :admin
-    # sign_in_user(user)
   end
 
   it "should return all stashes raw" do

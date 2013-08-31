@@ -38,19 +38,43 @@ describe "Events" do
       page.should have_content time_ago_in_words(Time.at(1377979235))
     end
 
-    it "should allow a check to be silenced", :js => true do
-      page.find("#dropdown_toggle_0").click
-      page.find("#silence_check_0").click
+    it "should allow a check with fqdn in client name to be silenced", :js => true do
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='silence-check'][@misc='www.fqdn.com_test']").click
+      page.should have_css ".modal-footer"
+      within ".modal-body" do
+        fill_in "text_input_www.fqdn.com_test", :with => "test comment..."
+      end
+      within ".modal-footer" do
+        page.should have_css ".silence-submit-event"
+        find(:xpath, "//a[@control='silence_submit_www.fqdn.com_test']").click
+      end
+      visit "/events"
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//i[@class='icon-volume-off']")
       reset_fake_sensu!
+      Stash.refresh_cache
     end
 
-    it "should allow a check to be unsilenced", :js => true do
-      page.find("#dropdown_toggle_0").click
-      page.find("#silence_check_0").click
-      visit '/events'
-      page.find("#dropdown_toggle_0").click
-      page.find("#silence_check_0").click
+    it "should allow a check with fqdn in client name to be unsilenced", :js => true do
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='silence-check'][@misc='www.fqdn.com_test']").click
+      page.should have_css ".modal-footer"
+      within ".modal-body" do
+        fill_in "text_input_www.fqdn.com_test", :with => "test comment..."
+      end
+      within ".modal-footer" do
+        page.should have_css ".silence-submit-event"
+        find(:xpath, "//a[@control='silence_submit_www.fqdn.com_test']").click
+      end
+      visit "/events"
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='unsilence-submit-event'][@misc='www.fqdn.com_test']").click
+      visit "/events"
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='silence-check'][@misc='www.fqdn.com_test']").click
       reset_fake_sensu!
+      Stash.refresh_cache
     end
   end
 
