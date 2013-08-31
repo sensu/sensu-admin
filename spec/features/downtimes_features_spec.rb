@@ -28,7 +28,7 @@ describe "Downtimes" do
     t2 = Time.at(time_now.to_i/(15*60)*(15*60)) + 13.hours
     fill_in "downtime[begin_time]", :with => t1.strftime("%-l:%M%P")
     fill_in "downtime[end_time]", :with => t2.strftime("%-l:%M%P")
-    check "downtime[client_ids][]"
+    check "www.fqdn.com"
     click_button "Create Downtime"
     page.should have_content "Test Downtime"
     page.should have_content "This is a test description"

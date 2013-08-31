@@ -65,7 +65,7 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
-    fake_sensu (0.1.2)
+    fake_sensu (0.1.3)
       rest-client
       sinatra
       thin
@@ -208,7 +208,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   factory_girl_rails
-  fake_sensu (= 0.1.2)
+  fake_sensu (= 0.1.3)
   font-awesome-sass-rails
   formtastic
   haml-rails

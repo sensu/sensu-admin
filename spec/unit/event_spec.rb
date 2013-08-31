@@ -8,12 +8,12 @@ describe Event do
 
   it "should return all checks through cache" do
     events = Event.all_with_cache
-    events.count.should eq 1
+    events.count.should eq 4
   end
 
   it "should resolve an event" do
     events = Event.all
-    events.count.should eq 1
+    events.count.should eq 4
     event = events[rand(events.length)]
     event.resolve.should be_true
     # TODO: would be nice if fake_sensu would delete, then switch back after one

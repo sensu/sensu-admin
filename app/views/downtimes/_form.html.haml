@@ -63,9 +63,9 @@
               %td.toggle_box= client.subscriptions.join(',')[0..100]
               %td.check_box{:filter => "false"}
                 - if client_checked
-                  %input{:name => 'downtime[client_ids][]', :value => "#{client.name}", :type => "checkbox", :checked => "true"}
+                  %input{:name => 'downtime[client_ids][]', :value => "#{client.name}", :id => "#{client.name}", :type => "checkbox", :checked => "true"}
                 -else
-                  %input{:name => 'downtime[client_ids][]', :value => "#{client.name}", :type => "checkbox"}
+                  %input{:name => 'downtime[client_ids][]', :value => "#{client.name}", :id => "#{client.name}", :type => "checkbox"}
       %br
       %br
       %h3 Checks 

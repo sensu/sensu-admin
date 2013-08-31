@@ -35,7 +35,7 @@ describe "Events" do
     end
 
     it "should show time since issued for an event", :js => true do
-      page.should have_content time_ago_in_words(Time.at(1377890282))
+      page.should have_content time_ago_in_words(Time.at(1377979235))
     end
 
     it "should allow a check to be silenced", :js => true do
