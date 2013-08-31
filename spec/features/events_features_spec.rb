@@ -76,6 +76,47 @@ describe "Events" do
       reset_fake_sensu!
       Stash.refresh_cache
     end
+
+    it "should allow a client with an fqdn client-name to be silenced", :js => true do
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='silence-client'][@misc='www.fqdn.com_test']").click
+      page.should have_css ".modal-footer"
+      within ".modal-body" do
+        fill_in "text_input_www.fqdn.com", :with => "test comment..."
+      end
+      within ".modal-footer" do
+        page.should have_css ".silence-submit-event"
+        find(:xpath, "//a[@control='silence_submit_www.fqdn.com']").click
+      end
+      visit "/events"
+      silenced_events = page.all(:xpath, "//i[@class='icon-volume-off']").count
+      silenced_events.should eq 2
+      reset_fake_sensu!
+      Stash.refresh_cache
+    end
+
+    it "should allow a client with an fqdn client-name to be unsilenced", :js => true do
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='silence-client'][@misc='www.fqdn.com_test']").click
+      page.should have_css ".modal-footer"
+      within ".modal-body" do
+        fill_in "text_input_www.fqdn.com", :with => "test comment..."
+      end
+      within ".modal-footer" do
+        page.should have_css ".silence-submit-event"
+        find(:xpath, "//a[@control='silence_submit_www.fqdn.com']").click
+      end
+      visit "/events"
+      silenced_events = page.all(:xpath, "//i[@class='icon-volume-off']").count
+      silenced_events.should eq 2
+      page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
+      page.find(:xpath, "//a[@class='unsilence-submit-event'][@misc='www.fqdn.com_test']").click
+      visit "/events"
+      silenced_events = page.all(:xpath, "//i[@class='icon-volume-off']").count
+      silenced_events.should eq 0
+      reset_fake_sensu!
+      Stash.refresh_cache
+    end
   end
 
 end
