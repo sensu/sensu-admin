@@ -39,7 +39,7 @@ describe "Stats" do
 
   it "should show events by environment" do
     within("#events-by-environment") do
-      page.should have_content "1"
+      page.should have_content "4"
     end
   end
 

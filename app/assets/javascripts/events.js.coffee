@@ -7,6 +7,10 @@ $ ->
   $('div.modal').attr("tabindex", "-1")
 
   if $('#primary_events_table').length > 0
+
+    escapeString = (str)->
+      str.replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1')
+
     updateEventTable = ()->
       $('#updating_event_list').show()
       $('#primary_events_table').dataTable().fnReloadAjax()
@@ -18,7 +22,7 @@ $ ->
 
     runPermanentHooks = ()->
       $(document).on 'keydown', '.silence-input', ->
-        misc = $(this).attr("misc")
+        misc = escapeString($(this).attr("misc"))
         $('#no_input_' + $(this).attr("misc")).hide()
         if $(this).val().length >= $(this).data("min")
           $('[control="silence_submit_' + misc + '"]').addClass('btn-success').removeClass('btn-inverse')
@@ -70,7 +74,7 @@ $ ->
               alert("Could not get modal info")
 
       $(document).on 'click', '.silence-submit-event', ->
-        misc = $(this).attr("misc")
+        misc = escapeString($(this).attr("misc"))
         if $('#text_input_' + misc).val().length < $('#text_input_' + misc).data("min")
           alert('Comment must be at least ' + $('#text_input_' + misc).data("min") + ' characters long')
           return false
@@ -84,7 +88,7 @@ $ ->
               alert(data)
 
       $(document).on 'click', '.unsilence-submit-event', ->
-        misc = $(this).attr("misc")
+        misc = escapeString($(this).attr("misc"))
         $.post $(this).attr("rel"),
           (data) ->
             if data

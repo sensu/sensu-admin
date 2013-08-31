@@ -1,6 +1,6 @@
 %td{:rel => "#{event.client}_popup_info", :title => "Check Silence", 'data-content' => silenced_output(check_silenced, client_silenced)}
   %div.btn-group
-    %button.btn.btn-info.dropdown-toggle{:id => "dropdown_toggle_#{i}", 'data-toggle' => 'dropdown'}
+    %button.btn.btn-info.dropdown-toggle{:id => "#{event.client}_#{event.check}", 'data-toggle' => 'dropdown'}
       %div{:style => "width: 25px"}
         %div{:style => "float: left;"}
           - display_silenced(event, i, client_silenced, check_silenced)

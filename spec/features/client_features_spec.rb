@@ -29,7 +29,7 @@ describe "Clients" do
   end
 
   it "should show a client time" do
-    page.should have_content time_ago_in_words(Time.at(1377890282))
+    page.should have_content time_ago_in_words(Time.at(1377979075))
   end
 
 end
