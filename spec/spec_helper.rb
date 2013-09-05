@@ -32,6 +32,9 @@ RSpec.configure do |config|
     config.before :suite do
       FakeSensu.start! "0.10.2"
     end
+    config.before :all do
+      load "#{Rails.root}/db/seeds.rb"
+    end
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

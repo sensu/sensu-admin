@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Api do
 
-  before :each do
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
   it "should return a status" do
     status = Api.status
     status.should be_a Api

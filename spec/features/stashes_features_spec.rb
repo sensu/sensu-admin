@@ -1,15 +1,17 @@
 require 'spec_helper'
 
 describe "Stashes" do
-  before :all do
-    load "#{Rails.root}/db/seeds.rb"
-  end
 
   before :each do
     user = FactoryGirl.create(:user)
     user.add_role :admin
+    Stash.refresh_cache
     sign_in_user(user)
     visit '/stashes'
+  end
+
+  after :each do
+    reset_fake_sensu!
   end
 
   it "should show the stashes page" do
@@ -34,7 +36,6 @@ describe "Stashes" do
     page.should have_selector("#silence-i-424242-tokens", :text => "Delete")
     find("#silence-i-424242-tokens", :text => "Delete").click
     page.should_not have_selector("#silence-i-424242-tokens", :text => "Delete")
-    reset_fake_sensu
   end
 
 end
