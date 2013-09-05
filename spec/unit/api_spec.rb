@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Api do
 
-  before :each do
+  before :all do
     load "#{Rails.root}/db/seeds.rb"
   end
 

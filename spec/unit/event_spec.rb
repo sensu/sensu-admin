@@ -4,6 +4,11 @@ describe Event do
 
   before :each do
     load "#{Rails.root}/db/seeds.rb"
+    Event.refresh_cache
+  end
+
+  after :each do
+    reset_fake_sensu!
   end
 
   it "should return all checks through cache" do
@@ -36,7 +41,6 @@ describe Event do
     event.check_silenced.should eq nil
     Event.silence_check(client, check, description, User.first, nil, false, nil)
     event.check_silenced.should eq nil
-    reset_fake_sensu!
   end
 
   it "should allow manual resolution of an event" do
@@ -54,7 +58,6 @@ describe Event do
     user = User.first
     silenced_client = Event.silence_client(client, description, user, nil, false, nil)
     silenced_client.should be_a String
-    reset_fake_sensu!
   end
 
   it "should allow a check to be silenced" do
@@ -65,7 +68,6 @@ describe Event do
     user = User.last
     silenced_check = Event.silence_check(client, check, description, user)
     silenced_check.should be_a String
-    reset_fake_sensu!
   end
 
   it "should allow a client to be unsilenced" do

@@ -4,6 +4,11 @@ describe Stash do
 
   before :each do
     load "#{Rails.root}/db/seeds.rb"
+    Stash.refresh_cache
+  end
+
+  after :each do
+    reset_fake_sensu!
   end
 
   it "should return all stashes raw" do
@@ -38,7 +43,6 @@ describe Stash do
     stash.should_not be_false
     stashes = Stash.all
     stashes.count.should eq 3
-    reset_fake_sensu!
   end
 
   it "should delete a stash" do
@@ -49,7 +53,6 @@ describe Stash do
     Stash.delete_stash(key).should_not be_false
     stashes = Stash.all
     stashes.count.should eq 1
-    reset_fake_sensu!
   end
 
   it "should delete all stashes" do
@@ -58,7 +61,6 @@ describe Stash do
     Stash.delete_all_stashes
     stashes = Stash.all
     stashes.count.should eq 0
-    reset_fake_sensu!
   end
 
   pending "should paginate stashes (see Stash.stashes)" do
