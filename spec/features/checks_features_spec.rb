@@ -12,6 +12,10 @@ describe "Checks" do
     visit '/checks'
   end
 
+  after :each do
+    reset_fake_sensu!
+  end
+
   it "should show the checks page" do
     page.should have_content "Checks"
   end

@@ -8,8 +8,13 @@ describe "Clients" do
   before :each do
     user = FactoryGirl.create(:user)
     user.add_role :admin
+    Client.refresh_cache
     sign_in_user(user)
     visit '/clients'
+  end
+
+  after :each do
+    reset_fake_sensu!
   end
 
   it "should show the clients page" do

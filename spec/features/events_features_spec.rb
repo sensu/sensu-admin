@@ -10,8 +10,13 @@ describe "Events" do
     before :each do
       user = FactoryGirl.create(:user)
       user.add_role :admin
+      Event.refresh_cache
       sign_in_user(user)
       visit '/events'
+    end
+
+    after :each do
+      reset_fake_sensu!
     end
 
     it "should show the events page" do
@@ -52,7 +57,6 @@ describe "Events" do
       visit "/events"
       page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
       page.find(:xpath, "//i[@class='icon-volume-off']")
-      reset_fake_sensu!
       Stash.refresh_cache
     end
 
@@ -73,7 +77,6 @@ describe "Events" do
       visit "/events"
       page.find(:xpath, "//button[@id='www.fqdn.com_test']").click
       page.find(:xpath, "//a[@class='silence-check'][@misc='www.fqdn.com_test']").click
-      reset_fake_sensu!
       Stash.refresh_cache
     end
 
@@ -91,7 +94,6 @@ describe "Events" do
       visit "/events"
       silenced_events = page.all(:xpath, "//i[@class='icon-volume-off']").count
       silenced_events.should eq 2
-      reset_fake_sensu!
       Stash.refresh_cache
     end
 
@@ -114,7 +116,6 @@ describe "Events" do
       visit "/events"
       silenced_events = page.all(:xpath, "//i[@class='icon-volume-off']").count
       silenced_events.should eq 0
-      reset_fake_sensu!
       Stash.refresh_cache
     end
   end

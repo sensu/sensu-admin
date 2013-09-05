@@ -12,6 +12,10 @@ describe "Stats" do
     visit '/stats'
   end
 
+  after :each do
+    reset_fake_sensu!
+  end
+
   it "should show the stats page" do
     page.should have_content "Stats"
   end
