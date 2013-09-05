@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Setting do
 
-  before :each do
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
   it "should return the api server" do
     api_server = Setting.api_server
     api_server.should_not be_nil
