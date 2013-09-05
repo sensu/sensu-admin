@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Client do
   
-  before :all do
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
   it "should return all clients through cache" do
     Client.refresh_cache
     clients = Client.all_with_cache

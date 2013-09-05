@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Stash do
 
   before :each do
-    load "#{Rails.root}/db/seeds.rb"
     Stash.refresh_cache
   end
 

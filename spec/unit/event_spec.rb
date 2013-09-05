@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Event do
 
   before :each do
-    load "#{Rails.root}/db/seeds.rb"
     Event.refresh_cache
   end
 

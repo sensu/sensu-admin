@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe "Applicaiton" do
 
-  before :all do
-    load "#{Rails.root}/db/seeds.rb" 
-  end
-
   before :each do
     user = FactoryGirl.create(:user)
     user.add_role :admin
