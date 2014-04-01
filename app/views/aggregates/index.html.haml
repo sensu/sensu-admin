@@ -1,5 +1,7 @@
 - if @aggregates == false
   %p It does not appear that your sensu-api or sensu itself supports Aggregates. Please run sensu > 0.9.8.beta if you want Aggregate support.
+- elsif @aggregates.empty?
+  %p No aggregates available for display.
 - else
   - @aggregates.each do |k,v|
     - v.each do |i,iv|
