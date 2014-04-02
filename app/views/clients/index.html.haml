@@ -13,7 +13,7 @@
     %th
       
   %tbody
-    - @clients.each do |client|
+    - @clients.sort_by(&:name).each do |client|
       %tr{:id => "client_row_#{client.name}", :rel => client.name}
         - if use_environments?
           %td.moreinfo= client.environment
