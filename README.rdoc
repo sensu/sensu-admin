@@ -1,3 +1,5 @@
+<b>ATTENTION: The sensu-admin project is no longer maintained. Please consider using Uchiwa or Sensu Enterprise Dashboard instead. @amdprophet 2015-12-17</b>
+
 == Sensu Admin
 
 Sensu-admin is a web application to interface with the sensu-api, it displays
